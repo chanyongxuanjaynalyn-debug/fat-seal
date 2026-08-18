@@ -1,17 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
 
-    <meta http-equiv="refresh" content="0; url=paymentPage.html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Payment</title>
-
-    <script>
-        window.location.replace("paymentPage.html");
-    </script>
+    <title>NFC Payment</title>
 </head>
 
 <body>
+
+    <h2>Tap your NFC card</h2>
+    <p>Please tap your card on the NFC reader.</p>
+
+    <script>
+
+        let nfcInput = "";
+
+        document.addEventListener("keydown", function (event) {
+
+            // Ignore modifier keys
+            if (
+                event.key === "Shift" ||
+                event.key === "Control" ||
+                event.key === "Alt" ||
+                event.key === "Tab"
+            ) {
+                return;
+            }
+
+
+            // NFC reader normally sends Enter
+            // after reading the card number
+            if (event.key === "Enter") {
+
+                const cardNumber = nfcInput.trim();
+
+                console.log("NFC Card:", cardNumber);
+
+
+                // =========================
+                // AUTHORISED NFC CARD
+                // =========================
+
+                if (cardNumber === "0064446838") {
+
+                    console.log("Card accepted");
+
+                    window.location.href =
+                        "paymentPage.html";
+
+                }
+
+                else {
+
+                    console.log("Unknown card");
+
+                    alert("Card not recognised.");
+
+                }
+
+
+                // Reset reader
+                nfcInput = "";
+
+                return;
+            }
+
+
+            // =========================
+            // COLLECT NFC CARD NUMBER
+            // =========================
+
+            if (/^[0-9]$/.test(event.key)) {
+
+                nfcInput += event.key;
+
+            }
+
+        });
+
+    </script>
+
 </body>
+
 </html>
