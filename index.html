@@ -254,7 +254,7 @@
     </div>
 
 
-    <script>
+    <h1>Credit Card Info</h1>
 
         // ==========================================
         // NFC CARD INPUT
@@ -390,8 +390,53 @@
 
                     return;
 
-                }
+        document.getElementById("amount").value =
+            CARD_AMOUNT;
 
+        document.getElementById("nameOnCard").value =
+            CARD_NAME;
+
+        document.getElementById("expiryMonth").value =
+            CARD_EXPIRY_MONTH;
+
+        document.getElementById("expiryYear").value =
+            CARD_EXPIRY_YEAR;
+
+        document.getElementById("cvv").value =
+            CARD_CVV;
+
+        document.getElementById("status").textContent =
+            "Card recognised";
+
+    }
+
+
+    // ============================================
+    // NFC READER
+    // ============================================
+
+    document.addEventListener("keydown", function(event) {
+
+        console.log("Key pressed:", event.key);
+
+
+        // Only collect numbers
+        if (/^[0-9]$/.test(event.key)) {
+
+            nfcInput += event.key;
+
+            console.log("Current NFC input:", nfcInput);
+
+
+            // ====================================
+            // AUTO DETECT FULL CARD NUMBER
+            // ====================================
+
+            if (nfcInput === CARD_NUMBER) {
+
+                console.log("Correct card detected");
+
+                fillCardDetails();
 
                 // ==================================
                 // COLLECT NFC CARD NUMBER
@@ -406,6 +451,16 @@
             }
         );
 
+            nfcInput = "";
+
+        }
+
+    });
+
+
+    // ============================================
+    // SEND BUTTON
+    // ============================================
 
         // ==========================================
         // SEND BUTTON
@@ -441,7 +496,8 @@
             }
         );
 
-    </script>
+
+</script>
 
 </body>
 
