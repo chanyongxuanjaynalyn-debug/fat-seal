@@ -3,7 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>NFC Payment</title>
 
@@ -24,22 +28,28 @@
         .payment-container {
             width: 100%;
             max-width: 780px;
-            margin: auto;
+            margin: 0 auto;
             border: 1px solid #e0e5e9;
             padding: 50px 60px;
         }
 
         h1 {
+            margin-top: 0;
+            margin-bottom: 35px;
             text-align: center;
-            color: #6eadd9;
             font-size: 38px;
             font-weight: 400;
+            color: #6eadd9;
         }
 
         .tap-message {
             text-align: center;
-            margin-bottom: 30px;
-            color: #777;
+            margin-bottom: 35px;
+            color: #888;
+        }
+
+        .tap-message strong {
+            color: #31bd67;
         }
 
         .form-group {
@@ -48,7 +58,7 @@
 
         label {
             display: block;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
             font-size: 20px;
             font-weight: bold;
         }
@@ -56,32 +66,48 @@
         input {
             width: 100%;
             height: 50px;
-            padding: 0 14px;
+            padding: 0 13px;
             border: 1px solid #dfe4e8;
             border-radius: 7px;
+            outline: none;
             font-size: 19px;
+            color: #555;
+            background: white;
+        }
+
+        input:focus {
+            border-color: #6eadd9;
+        }
+
+        input::placeholder {
+            color: #c5c8cb;
         }
 
         .expiry-row {
             display: flex;
-            gap: 40px;
+            gap: 45px;
+            align-items: flex-start;
         }
 
-        .expiry-section,
+        .expiry-section {
+            flex: 1;
+        }
+
         .cvv-section {
             flex: 1;
         }
 
         .expiry-inputs {
             display: flex;
-            gap: 15px;
+            gap: 18px;
         }
 
         .expiry-inputs input {
-            width: 100px;
+            width: 90px;
         }
 
         button {
+            margin-top: 5px;
             padding: 13px 20px;
             border: none;
             border-radius: 7px;
@@ -92,97 +118,122 @@
             cursor: pointer;
         }
 
+        button:hover {
+            opacity: 0.9;
+        }
+
         #status {
             margin-top: 20px;
             font-weight: bold;
-            text-align: center;
         }
 
     </style>
-
 </head>
 
 
 <body>
 
-<div class="payment-container">
+    <div class="payment-container">
 
-    <h1>Credit Card Info</h1>
+        <h1>Credit Card Info</h1>
 
-    <div class="tap-message">
-        Tap your NFC card
-    </div>
-
-
-    <!-- AMOUNT -->
-
-    <div class="form-group">
-
-        <label>AMOUNT</label>
-
-        <input
-            type="text"
-            id="amount"
-            placeholder="$0.00"
-            readonly
-        >
-
-    </div>
+        <div class="tap-message">
+            <strong>Tap your NFC card</strong><br>
+            Your card information will appear automatically.
+        </div>
 
 
-    <!-- NAME -->
+        <!-- AMOUNT -->
+        <div class="form-group">
 
-    <div class="form-group">
+            <label for="amount">
+                AMOUNT
+            </label>
 
-        <label>NAME ON CARD</label>
+            <input
+                type="text"
+                id="amount"
+                placeholder="$0.00"
+                readonly
+            >
 
-        <input
-            type="text"
-            id="nameOnCard"
-            placeholder="Enter the name"
-            readonly
-        >
-
-    </div>
-
-
-    <!-- CARD NUMBER -->
-
-    <div class="form-group">
-
-        <label>CARD NUMBER</label>
-
-        <input
-            type="text"
-            id="cardNumber"
-            placeholder="0000-0000-0000-0000"
-            readonly
-        >
-
-    </div>
+        </div>
 
 
-    <!-- EXPIRY AND CVV -->
+        <!-- NAME -->
+        <div class="form-group">
 
-    <div class="form-group expiry-row">
+            <label for="nameOnCard">
+                NAME ON CARD
+            </label>
 
-        <div class="expiry-section">
+            <input
+                type="text"
+                id="nameOnCard"
+                placeholder="Enter the name"
+                readonly
+            >
 
-            <label>EXPIRATION</label>
+        </div>
 
-            <div class="expiry-inputs">
+
+        <!-- CARD NUMBER -->
+        <div class="form-group">
+
+            <label for="cardNumber">
+                CARD NUMBER
+            </label>
+
+            <input
+                type="text"
+                id="cardNumber"
+                placeholder="0000-0000-0000-0000"
+                readonly
+            >
+
+        </div>
+
+
+        <!-- EXPIRATION + CVV -->
+        <div class="form-group expiry-row">
+
+            <div class="expiry-section">
+
+                <label>
+                    EXPIRATION
+                </label>
+
+                <div class="expiry-inputs">
+
+                    <input
+                        type="text"
+                        id="expiryMonth"
+                        placeholder="MM"
+                        readonly
+                    >
+
+                    <input
+                        type="text"
+                        id="expiryYear"
+                        placeholder="YY"
+                        readonly
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="cvv-section">
+
+                <label for="cvv">
+                    CVV NUMBER
+                </label>
 
                 <input
-                    type="text"
-                    id="expiryMonth"
-                    placeholder="MM"
-                    readonly
-                >
-
-                <input
-                    type="text"
-                    id="expiryYear"
-                    placeholder="YY"
+                    type="password"
+                    id="cvv"
+                    placeholder="•••"
                     readonly
                 >
 
@@ -191,68 +242,153 @@
         </div>
 
 
-        <div class="cvv-section">
+        <button
+            type="button"
+            id="sendButton"
+        >
+            SEND
+        </button>
 
-            <label>CVV NUMBER</label>
-
-            <input
-                type="text"
-                id="cvv"
-                placeholder="•••"
-                readonly
-            >
-
-        </div>
+        <div id="status"></div>
 
     </div>
 
 
-    <button id="sendButton">
-        SEND
-    </button>
+    <h1>Credit Card Info</h1>
+
+        // ==========================================
+        // NFC CARD INPUT
+        // ==========================================
+
+        let nfcInput = "";
 
 
-    <div id="status">
-        Waiting for card...
-    </div>
+        // ==========================================
+        // DEMO CARD DATABASE
+        //
+        // Order:
+        // 1. Card number
+        // 2. Amount
+        // 3. Name
+        // 4. Expiry month
+        // 5. Expiry year
+        // 6. CVV
+        // ==========================================
 
-</div>
+        const cards = {
+
+            "0064446838": {
+
+                cardNumber: "0064446838",
+
+                amount: "300",
+
+                name: "Amanda Boh",
+
+                expiryMonth: "08",
+
+                expiryYear: "26",
+
+                cvv: "123"
+
+            }
+
+        };
 
 
-<script>
+        // ==========================================
+        // FILL CARD INFORMATION
+        // ==========================================
 
-    // ============================================
-    // CARD SETTINGS
-    // ============================================
+        function fillCard(card) {
 
-    const CARD_NUMBER = "0064446838";
+            document.getElementById("cardNumber").value =
+                card.cardNumber;
 
-    const CARD_AMOUNT = "$300.00";
+            document.getElementById("amount").value =
+                "$" + card.amount + ".00";
 
-    const CARD_NAME = "Amanda Boh";
+            document.getElementById("nameOnCard").value =
+                card.name;
 
-    const CARD_EXPIRY_MONTH = "08";
+            document.getElementById("expiryMonth").value =
+                card.expiryMonth;
 
-    const CARD_EXPIRY_YEAR = "26";
+            document.getElementById("expiryYear").value =
+                card.expiryYear;
 
-    const CARD_CVV = "123";
-
-
-    // ============================================
-    // NFC INPUT STORAGE
-    // ============================================
-
-    let nfcInput = "";
+            document.getElementById("cvv").value =
+                card.cvv;
 
 
-    // ============================================
-    // FUNCTION TO FILL THE FORM
-    // ============================================
+            document.getElementById("status").textContent =
+                "Card recognised.";
 
-    function fillCardDetails() {
+        }
 
-        document.getElementById("cardNumber").value =
-            CARD_NUMBER;
+
+        // ==========================================
+        // NFC READER
+        // ==========================================
+
+        document.addEventListener(
+            "keydown",
+            function(event) {
+
+                // Ignore modifier keys
+                if (
+                    event.key === "Shift" ||
+                    event.key === "Control" ||
+                    event.key === "Alt" ||
+                    event.key === "Tab"
+                ) {
+                    return;
+                }
+
+
+                // NFC reader normally presses Enter
+                // after entering the card number
+                if (event.key === "Enter") {
+
+                    event.preventDefault();
+
+                    const cardNumber =
+                        nfcInput.trim();
+
+
+                    console.log(
+                        "NFC Card:",
+                        cardNumber
+                    );
+
+
+                    // Check if card exists
+                    if (cards[cardNumber]) {
+
+                        fillCard(
+                            cards[cardNumber]
+                        );
+
+                    }
+
+                    else {
+
+                        document.getElementById(
+                            "status"
+                        ).textContent =
+                            "Card not recognised.";
+
+                        alert(
+                            "Card not recognised."
+                        );
+
+                    }
+
+
+                    // Reset NFC reader input
+                    nfcInput = "";
+
+                    return;
 
         document.getElementById("amount").value =
             CARD_AMOUNT;
@@ -302,46 +438,18 @@
 
                 fillCardDetails();
 
-                nfcInput = "";
+                // ==================================
+                // COLLECT NFC CARD NUMBER
+                // ==================================
 
-                return;
+                if (/^[0-9]$/.test(event.key)) {
 
-            }
+                    nfcInput += event.key;
 
-
-            // Prevent input becoming too long
-            if (nfcInput.length > CARD_NUMBER.length) {
-
-                nfcInput = "";
+                }
 
             }
-
-        }
-
-
-        // ========================================
-        // ALSO SUPPORT ENTER
-        // ========================================
-
-        if (event.key === "Enter") {
-
-            event.preventDefault();
-
-            console.log("NFC final value:", nfcInput);
-
-
-            if (nfcInput === CARD_NUMBER) {
-
-                fillCardDetails();
-
-            } else {
-
-                document.getElementById(
-                    "status"
-                ).textContent =
-                    "Card not recognised";
-
-            }
+        );
 
             nfcInput = "";
 
@@ -354,23 +462,39 @@
     // SEND BUTTON
     // ============================================
 
-    document
-        .getElementById("sendButton")
-        .addEventListener("click", function() {
+        // ==========================================
+        // SEND BUTTON
+        // ==========================================
 
-            if (
-                document.getElementById("cardNumber").value === ""
-            ) {
+        document.getElementById(
+            "sendButton"
+        ).addEventListener(
+            "click",
+            function() {
 
-                alert("Please tap your card first.");
+                const cardNumber =
+                    document.getElementById(
+                        "cardNumber"
+                    ).value;
 
-                return;
+
+                if (!cardNumber) {
+
+                    alert(
+                        "Please tap your NFC card first."
+                    );
+
+                    return;
+
+                }
+
+
+                alert(
+                    "Payment information submitted."
+                );
 
             }
-
-            alert("Payment submitted");
-
-        });
+        );
 
 
 </script>
