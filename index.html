@@ -16,9 +16,45 @@
 
     <script>
 
+        // ==============================
+        // NFC INPUT
+        // ==============================
+
         let nfcInput = "";
 
+
+        // ==============================
+        // CARD DATABASE
+        //
+        // ORDER OF VALUES:
+        // 1. Card Number
+        // 2. Amount
+        // 3. Name on Card
+        // 4. Expiry Month
+        // 5. Expiry Year
+        // 6. CVV
+        // ==============================
+
+        const cards = {
+
+            "0064446838": {
+                cardNumber: "0064446838",
+                amount: "300",
+                name: "Amanda Boh",
+                expiryMonth: "08",
+                expiryYear: "26",
+                cvv: "123"
+            }
+
+        };
+
+
+        // ==============================
+        // LISTEN FOR NFC READER
+        // ==============================
+
         document.addEventListener("keydown", function (event) {
+
 
             // Ignore modifier keys
             if (
@@ -31,25 +67,82 @@
             }
 
 
-            // NFC reader normally sends Enter
-            // after reading the card number
+            // ==============================
+            // NFC READER PRESSES ENTER
+            // ==============================
+
             if (event.key === "Enter") {
 
                 const cardNumber = nfcInput.trim();
 
-                console.log("NFC Card:", cardNumber);
+                console.log("NFC Card Number:", cardNumber);
 
 
-                // =========================
-                // AUTHORISED NFC CARD
-                // =========================
+                // ==============================
+                // CHECK CARD
+                // ==============================
 
-                if (cardNumber === "0064446838") {
+                if (cards[cardNumber]) {
+
+                    const card = cards[cardNumber];
 
                     console.log("Card accepted");
+                    console.log("Amount:", card.amount);
+                    console.log("Name:", card.name);
+
+
+                    // ==============================
+                    // SEND CARD INFORMATION
+                    // TO PAYMENT PAGE
+                    // ==============================
+
+                    const params = new URLSearchParams();
+
+                    // ORDER:
+                    // Card Number
+                    params.append(
+                        "cardNumber",
+                        card.cardNumber
+                    );
+
+                    // Amount
+                    params.append(
+                        "amount",
+                        card.amount
+                    );
+
+                    // Name
+                    params.append(
+                        "name",
+                        card.name
+                    );
+
+                    // Expiry Month
+                    params.append(
+                        "expiryMonth",
+                        card.expiryMonth
+                    );
+
+                    // Expiry Year
+                    params.append(
+                        "expiryYear",
+                        card.expiryYear
+                    );
+
+                    // CVV
+                    params.append(
+                        "cvv",
+                        card.cvv
+                    );
+
+
+                    // ==============================
+                    // OPEN PAYMENT PAGE
+                    // ==============================
 
                     window.location.href =
-                        "paymentPage.html";
+                        "paymentPage.html?" +
+                        params.toString();
 
                 }
 
@@ -62,16 +155,17 @@
                 }
 
 
-                // Reset reader
+                // Reset NFC input
                 nfcInput = "";
 
                 return;
+
             }
 
 
-            // =========================
+            // ==============================
             // COLLECT NFC CARD NUMBER
-            // =========================
+            // ==============================
 
             if (/^[0-9]$/.test(event.key)) {
 
