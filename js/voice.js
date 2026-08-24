@@ -1,98 +1,89 @@
 // =====================================================
 // VOICE.JS
-// MULTILINGUAL VOICE ASSISTANT
+// AUTOMATIC MULTILINGUAL VOICE PROMPTS
 //
-// Every announcement speaks:
+// Every prompt speaks:
 // 1. English
 // 2. Chinese
 // 3. Malay
 // =====================================================
 
 
-// =====================================================
-// MAIN MULTILINGUAL SPEAK FUNCTION
-// =====================================================
-
-function speakAll(english, chinese, malay) {
+function speakAll(english, chinese, malay, onComplete = null) {
 
     if (!("speechSynthesis" in window)) {
-        alert("Speech is not supported by this browser.");
+        console.log("Speech synthesis not supported.");
+
+        if (onComplete) {
+            onComplete();
+        }
+
         return;
     }
 
-    // Stop anything already speaking
+
+    // Stop previous announcement
     window.speechSynthesis.cancel();
 
 
-    // ==============================
     // ENGLISH
-    // ==============================
-
-    const englishVoice =
+    const en =
         new SpeechSynthesisUtterance(english);
 
-    englishVoice.lang = "en-SG";
-    englishVoice.rate = 0.9;
-    englishVoice.pitch = 1;
-    englishVoice.volume = 1;
+    en.lang = "en-SG";
+    en.rate = 0.9;
+    en.pitch = 1;
+    en.volume = 1;
 
 
-    // ==============================
     // CHINESE
-    // ==============================
-
-    const chineseVoice =
+    const zh =
         new SpeechSynthesisUtterance(chinese);
 
-    chineseVoice.lang = "zh-CN";
-    chineseVoice.rate = 0.85;
-    chineseVoice.pitch = 1;
-    chineseVoice.volume = 1;
+    zh.lang = "zh-CN";
+    zh.rate = 0.85;
+    zh.pitch = 1;
+    zh.volume = 1;
 
 
-    // ==============================
     // MALAY
-    // ==============================
-
-    const malayVoice =
+    const ms =
         new SpeechSynthesisUtterance(malay);
 
-    malayVoice.lang = "ms-MY";
-    malayVoice.rate = 0.9;
-    malayVoice.pitch = 1;
-    malayVoice.volume = 1;
+    ms.lang = "ms-MY";
+    ms.rate = 0.9;
+    ms.pitch = 1;
+    ms.volume = 1;
 
 
-    // ==============================
-    // SPEAK IN THIS ORDER
-    //
-    // English
-    // ↓
-    // Chinese
-    // ↓
-    // Malay
-    // ==============================
+    // When Malay finishes, run next action
+    ms.onend = function () {
 
-    window.speechSynthesis.speak(
-        englishVoice
-    );
+        if (onComplete) {
+            onComplete();
+        }
 
-    window.speechSynthesis.speak(
-        chineseVoice
-    );
+    };
 
-    window.speechSynthesis.speak(
-        malayVoice
-    );
+
+    // Speak:
+    // English → Chinese → Malay
+
+    window.speechSynthesis.speak(en);
+
+    window.speechSynthesis.speak(zh);
+
+    window.speechSynthesis.speak(ms);
 
 }
 
 
+
 // =====================================================
-// PLEASE TAP YOUR CARD
+// PLEASE TAP CARD
 // =====================================================
 
-function voiceTapCard() {
+function voiceTapCard(onComplete = null) {
 
     speakAll(
 
@@ -100,37 +91,43 @@ function voiceTapCard() {
 
         "请轻触您的卡。",
 
-        "Sila sentuh kad anda."
+        "Sila sentuh kad anda.",
+
+        onComplete
 
     );
 
 }
+
 
 
 // =====================================================
 // READING CARD
 // =====================================================
 
-function voiceReadingCard() {
+function voiceReadingCard(onComplete = null) {
 
     speakAll(
 
-        "Reading your card.",
+        "Reading your card. Please wait.",
 
-        "正在读取您的卡。",
+        "正在读取您的卡。请稍候。",
 
-        "Kad anda sedang dibaca."
+        "Kad anda sedang dibaca. Sila tunggu.",
+
+        onComplete
 
     );
 
 }
 
 
+
 // =====================================================
 // CARD ACCEPTED
 // =====================================================
 
-function voiceCardAccepted() {
+function voiceCardAccepted(onComplete = null) {
 
     speakAll(
 
@@ -138,18 +135,21 @@ function voiceCardAccepted() {
 
         "卡已接受。请选择付款方式。",
 
-        "Kad diterima. Sila pilih kaedah pembayaran."
+        "Kad diterima. Sila pilih kaedah pembayaran.",
+
+        onComplete
 
     );
 
 }
 
 
+
 // =====================================================
-// CARD NOT RECOGNISED
+// CARD REJECTED
 // =====================================================
 
-function voiceCardRejected() {
+function voiceCardRejected(onComplete = null) {
 
     speakAll(
 
@@ -157,18 +157,21 @@ function voiceCardRejected() {
 
         "抱歉，无法识别此卡。请再试一次。",
 
-        "Maaf, kad tidak dikenali. Sila cuba lagi."
+        "Maaf, kad tidak dikenali. Sila cuba lagi.",
+
+        onComplete
 
     );
 
 }
 
 
+
 // =====================================================
-// SELECT PAYMENT METHOD
+// SELECT PAYMENT
 // =====================================================
 
-function voiceSelectPayment() {
+function voiceSelectPayment(onComplete = null) {
 
     speakAll(
 
@@ -176,94 +179,21 @@ function voiceSelectPayment() {
 
         "请选择您的付款方式。",
 
-        "Sila pilih kaedah pembayaran anda."
+        "Sila pilih kaedah pembayaran anda.",
+
+        onComplete
 
     );
 
 }
 
-
-// =====================================================
-// CREDIT CARD
-// =====================================================
-
-function voiceCreditCard() {
-
-    speakAll(
-
-        "Credit card selected.",
-
-        "已选择信用卡。",
-
-        "Kad kredit dipilih."
-
-    );
-
-}
-
-
-// =====================================================
-// CDC VOUCHER
-// =====================================================
-
-function voiceCDC() {
-
-    speakAll(
-
-        "CDC voucher selected.",
-
-        "已选择社区发展理事会邻里购物券。",
-
-        "Baucar CDC dipilih."
-
-    );
-
-}
-
-
-// =====================================================
-// PAYPAL
-// =====================================================
-
-function voicePayPal() {
-
-    speakAll(
-
-        "PayPal selected.",
-
-        "已选择 PayPal。",
-
-        "PayPal dipilih."
-
-    );
-
-}
-
-
-// =====================================================
-// CHAS CARD
-// =====================================================
-
-function voiceCHAS() {
-
-    speakAll(
-
-        "CHAS card selected.",
-
-        "已选择 CHAS 卡。",
-
-        "Kad CHAS dipilih."
-
-    );
-
-}
 
 
 // =====================================================
 // PROCESSING PAYMENT
 // =====================================================
 
-function voiceProcessingPayment() {
+function voiceProcessingPayment(onComplete = null) {
 
     speakAll(
 
@@ -271,18 +201,21 @@ function voiceProcessingPayment() {
 
         "正在处理您的付款。请稍候。",
 
-        "Pembayaran anda sedang diproses. Sila tunggu."
+        "Pembayaran anda sedang diproses. Sila tunggu.",
+
+        onComplete
 
     );
 
 }
 
 
+
 // =====================================================
 // PAYMENT SUCCESSFUL
 // =====================================================
 
-function voicePaymentSuccessful() {
+function voicePaymentSuccessful(onComplete = null) {
 
     speakAll(
 
@@ -290,18 +223,21 @@ function voicePaymentSuccessful() {
 
         "付款成功。谢谢。",
 
-        "Pembayaran berjaya. Terima kasih."
+        "Pembayaran berjaya. Terima kasih.",
+
+        onComplete
 
     );
 
 }
 
 
+
 // =====================================================
 // PAYMENT FAILED
 // =====================================================
 
-function voicePaymentFailed() {
+function voicePaymentFailed(onComplete = null) {
 
     speakAll(
 
@@ -309,53 +245,102 @@ function voicePaymentFailed() {
 
         "付款失败。请再试一次。",
 
-        "Pembayaran tidak berjaya. Sila cuba lagi."
+        "Pembayaran tidak berjaya. Sila cuba lagi.",
+
+        onComplete
 
     );
 
 }
 
 
+
 // =====================================================
-// THANK YOU
+// CREDIT CARD SELECTED
 // =====================================================
 
-function voiceThankYou() {
+function voiceCreditCard(onComplete = null) {
 
     speakAll(
 
-        "Thank you. Have a nice day.",
+        "Credit card selected.",
 
-        "谢谢。祝您今天愉快。",
+        "已选择信用卡。",
 
-        "Terima kasih. Semoga hari anda menyenangkan."
+        "Kad kredit dipilih.",
+
+        onComplete
 
     );
 
 }
 
 
+
 // =====================================================
-// TEST VOICE
+// CDC SELECTED
 // =====================================================
 
-function testVoice() {
+function voiceCDC(onComplete = null) {
 
     speakAll(
 
-        "Please tap your card.",
+        "CDC voucher selected.",
 
-        "请轻触您的卡。",
+        "已选择社区发展理事会邻里购物券。",
 
-        "Sila sentuh kad anda."
+        "Baucar CDC dipilih.",
+
+        onComplete
 
     );
 
 }
 
 
+
 // =====================================================
-// DEBUG
+// CHAS SELECTED
 // =====================================================
 
-console.log("voice.js loaded successfully");
+function voiceCHAS(onComplete = null) {
+
+    speakAll(
+
+        "CHAS card selected.",
+
+        "已选择 CHAS 卡。",
+
+        "Kad CHAS dipilih.",
+
+        onComplete
+
+    );
+
+}
+
+
+
+// =====================================================
+// PAYPAL SELECTED
+// =====================================================
+
+function voicePayPal(onComplete = null) {
+
+    speakAll(
+
+        "PayPal selected.",
+
+        "已选择 PayPal。",
+
+        "PayPal dipilih.",
+
+        onComplete
+
+    );
+
+}
+
+
+
+console.log("Automatic multilingual voice system loaded.");
