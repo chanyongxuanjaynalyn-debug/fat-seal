@@ -1,342 +1,108 @@
 // =====================================================
 // VOICE.JS
-// NFC PAYMENT VOICE ASSISTANT
+// MULTILINGUAL VOICE ASSISTANT
 //
-// Languages:
-// English
-// Chinese
-// Malay
+// Every announcement speaks:
+// 1. English
+// 2. Chinese
+// 3. Malay
 // =====================================================
 
 
 // =====================================================
-// CURRENT LANGUAGE
-// =====================================================
-//
-// Available:
-//
-// "en" = English
-// "zh" = Chinese
-// "ms" = Malay
-//
-// Default is English.
+// MAIN MULTILINGUAL SPEAK FUNCTION
 // =====================================================
 
-let currentLanguage = "en";
+function speakAll(english, chinese, malay) {
 
-
-// =====================================================
-// CHECK IF SPEECH IS AVAILABLE
-// =====================================================
-
-function speechSupported() {
-
-    return (
-        "speechSynthesis" in window &&
-        "SpeechSynthesisUtterance" in window
-    );
-
-}
-
-
-// =====================================================
-// GET BEST AVAILABLE VOICE
-// =====================================================
-
-function getVoice(languageCode) {
-
-    const voices =
-        window.speechSynthesis.getVoices();
-
-
-    if (!voices.length) {
-        return null;
-    }
-
-
-    // ---------------------------------------------
-    // English
-    // ---------------------------------------------
-
-    if (languageCode === "en") {
-
-        return (
-            voices.find(
-                voice =>
-                    voice.lang === "en-SG"
-            ) ||
-
-            voices.find(
-                voice =>
-                    voice.lang.startsWith("en")
-            ) ||
-
-            null
-        );
-
-    }
-
-
-    // ---------------------------------------------
-    // Chinese
-    // ---------------------------------------------
-
-    if (languageCode === "zh") {
-
-        return (
-            voices.find(
-                voice =>
-                    voice.lang === "zh-SG"
-            ) ||
-
-            voices.find(
-                voice =>
-                    voice.lang === "zh-CN"
-            ) ||
-
-            voices.find(
-                voice =>
-                    voice.lang.startsWith("zh")
-            ) ||
-
-            null
-        );
-
-    }
-
-
-    // ---------------------------------------------
-    // Malay
-    // ---------------------------------------------
-
-    if (languageCode === "ms") {
-
-        return (
-            voices.find(
-                voice =>
-                    voice.lang === "ms-MY"
-            ) ||
-
-            voices.find(
-                voice =>
-                    voice.lang.startsWith("ms")
-            ) ||
-
-            null
-        );
-
-    }
-
-
-    return null;
-
-}
-
-
-// =====================================================
-// MAIN SPEAK FUNCTION
-// =====================================================
-
-function speak(text, languageCode = currentLanguage) {
-
-    if (!speechSupported()) {
-
-        console.log(
-            "Speech synthesis is not supported."
-        );
-
+    if (!("speechSynthesis" in window)) {
+        alert("Speech is not supported by this browser.");
         return;
-
     }
 
-
-    // Stop anything currently being spoken
-
+    // Stop anything already speaking
     window.speechSynthesis.cancel();
 
 
-    const message =
-        new SpeechSynthesisUtterance(text);
+    // ==============================
+    // ENGLISH
+    // ==============================
+
+    const englishVoice =
+        new SpeechSynthesisUtterance(english);
+
+    englishVoice.lang = "en-SG";
+    englishVoice.rate = 0.9;
+    englishVoice.pitch = 1;
+    englishVoice.volume = 1;
 
 
-    // ---------------------------------------------
-    // Language
-    // ---------------------------------------------
+    // ==============================
+    // CHINESE
+    // ==============================
 
-    if (languageCode === "en") {
+    const chineseVoice =
+        new SpeechSynthesisUtterance(chinese);
 
-        message.lang = "en-SG";
-
-    }
-
-    else if (languageCode === "zh") {
-
-        message.lang = "zh-CN";
-
-    }
-
-    else if (languageCode === "ms") {
-
-        message.lang = "ms-MY";
-
-    }
+    chineseVoice.lang = "zh-CN";
+    chineseVoice.rate = 0.85;
+    chineseVoice.pitch = 1;
+    chineseVoice.volume = 1;
 
 
-    // ---------------------------------------------
-    // Voice settings
-    // ---------------------------------------------
+    // ==============================
+    // MALAY
+    // ==============================
 
-    message.rate = 0.9;
+    const malayVoice =
+        new SpeechSynthesisUtterance(malay);
 
-    message.pitch = 1;
-
-    message.volume = 1;
-
-
-    // ---------------------------------------------
-    // Choose installed voice
-    // ---------------------------------------------
-
-    const selectedVoice =
-        getVoice(languageCode);
+    malayVoice.lang = "ms-MY";
+    malayVoice.rate = 0.9;
+    malayVoice.pitch = 1;
+    malayVoice.volume = 1;
 
 
-    if (selectedVoice) {
-
-        message.voice =
-            selectedVoice;
-
-    }
-
-
-    // ---------------------------------------------
-    // Debugging
-    // ---------------------------------------------
-
-    message.onstart = function() {
-
-        console.log(
-            "Speaking:",
-            text
-        );
-
-    };
-
-
-    message.onerror = function(event) {
-
-        console.error(
-            "Speech error:",
-            event.error
-        );
-
-    };
-
-
-    // ---------------------------------------------
-    // SPEAK
-    // ---------------------------------------------
+    // ==============================
+    // SPEAK IN THIS ORDER
+    //
+    // English
+    // ↓
+    // Chinese
+    // ↓
+    // Malay
+    // ==============================
 
     window.speechSynthesis.speak(
-        message
+        englishVoice
+    );
+
+    window.speechSynthesis.speak(
+        chineseVoice
+    );
+
+    window.speechSynthesis.speak(
+        malayVoice
     );
 
 }
 
 
 // =====================================================
-// CHANGE LANGUAGE
-// =====================================================
-
-function setLanguage(language) {
-
-    currentLanguage =
-        language;
-
-
-    console.log(
-        "Language changed to:",
-        currentLanguage
-    );
-
-
-    voiceLanguageSelected();
-
-}
-
-
-// =====================================================
-// LANGUAGE SELECTED
-// =====================================================
-
-function voiceLanguageSelected() {
-
-    if (currentLanguage === "en") {
-
-        speak(
-            "English selected.",
-            "en"
-        );
-
-    }
-
-
-    else if (currentLanguage === "zh") {
-
-        speak(
-            "已选择中文。",
-            "zh"
-        );
-
-    }
-
-
-    else if (currentLanguage === "ms") {
-
-        speak(
-            "Bahasa Melayu dipilih.",
-            "ms"
-        );
-
-    }
-
-}
-
-
-// =====================================================
-// PLEASE TAP CARD
+// PLEASE TAP YOUR CARD
 // =====================================================
 
 function voiceTapCard() {
 
-    if (currentLanguage === "en") {
+    speakAll(
 
-        speak(
-            "Please tap your card.",
-            "en"
-        );
+        "Please tap your card.",
 
-    }
+        "请轻触您的卡。",
 
+        "Sila sentuh kad anda."
 
-    else if (currentLanguage === "zh") {
-
-        speak(
-            "请轻触您的卡。",
-            "zh"
-        );
-
-    }
-
-
-    else if (currentLanguage === "ms") {
-
-        speak(
-            "Sila sentuh kad anda.",
-            "ms"
-        );
-
-    }
+    );
 
 }
 
@@ -347,34 +113,15 @@ function voiceTapCard() {
 
 function voiceReadingCard() {
 
-    if (currentLanguage === "en") {
+    speakAll(
 
-        speak(
-            "Reading your card.",
-            "en"
-        );
+        "Reading your card.",
 
-    }
+        "正在读取您的卡。",
 
+        "Kad anda sedang dibaca."
 
-    else if (currentLanguage === "zh") {
-
-        speak(
-            "正在读取您的卡。",
-            "zh"
-        );
-
-    }
-
-
-    else if (currentLanguage === "ms") {
-
-        speak(
-            "Kad anda sedang dibaca.",
-            "ms"
-        );
-
-    }
+    );
 
 }
 
@@ -385,34 +132,15 @@ function voiceReadingCard() {
 
 function voiceCardAccepted() {
 
-    if (currentLanguage === "en") {
+    speakAll(
 
-        speak(
-            "Card accepted. Please select your payment method.",
-            "en"
-        );
+        "Card accepted. Please select your payment method.",
 
-    }
+        "卡已接受。请选择付款方式。",
 
+        "Kad diterima. Sila pilih kaedah pembayaran."
 
-    else if (currentLanguage === "zh") {
-
-        speak(
-            "卡已接受。请选择付款方式。",
-            "zh"
-        );
-
-    }
-
-
-    else if (currentLanguage === "ms") {
-
-        speak(
-            "Kad diterima. Sila pilih kaedah pembayaran.",
-            "ms"
-        );
-
-    }
+    );
 
 }
 
@@ -423,34 +151,15 @@ function voiceCardAccepted() {
 
 function voiceCardRejected() {
 
-    if (currentLanguage === "en") {
+    speakAll(
 
-        speak(
-            "Sorry, card not recognised. Please try again.",
-            "en"
-        );
+        "Sorry, card not recognised. Please try again.",
 
-    }
+        "抱歉，无法识别此卡。请再试一次。",
 
+        "Maaf, kad tidak dikenali. Sila cuba lagi."
 
-    else if (currentLanguage === "zh") {
-
-        speak(
-            "抱歉，无法识别此卡。请再试一次。",
-            "zh"
-        );
-
-    }
-
-
-    else if (currentLanguage === "ms") {
-
-        speak(
-            "Maaf, kad tidak dikenali. Sila cuba lagi.",
-            "ms"
-        );
-
-    }
+    );
 
 }
 
@@ -461,34 +170,15 @@ function voiceCardRejected() {
 
 function voiceSelectPayment() {
 
-    if (currentLanguage === "en") {
+    speakAll(
 
-        speak(
-            "Please select your payment method.",
-            "en"
-        );
+        "Please select your payment method.",
 
-    }
+        "请选择您的付款方式。",
 
+        "Sila pilih kaedah pembayaran anda."
 
-    else if (currentLanguage === "zh") {
-
-        speak(
-            "请选择您的付款方式。",
-            "zh"
-        );
-
-    }
-
-
-    else if (currentLanguage === "ms") {
-
-        speak(
-            "Sila pilih kaedah pembayaran anda.",
-            "ms"
-        );
-
-    }
+    );
 
 }
 
@@ -499,34 +189,15 @@ function voiceSelectPayment() {
 
 function voiceCreditCard() {
 
-    if (currentLanguage === "en") {
+    speakAll(
 
-        speak(
-            "Credit card selected.",
-            "en"
-        );
+        "Credit card selected.",
 
-    }
+        "已选择信用卡。",
 
+        "Kad kredit dipilih."
 
-    else if (currentLanguage === "zh") {
-
-        speak(
-            "已选择信用卡。",
-            "zh"
-        );
-
-    }
-
-
-    else if (currentLanguage === "ms") {
-
-        speak(
-            "Kad kredit dipilih.",
-            "ms"
-        );
-
-    }
+    );
 
 }
 
@@ -537,34 +208,15 @@ function voiceCreditCard() {
 
 function voiceCDC() {
 
-    if (currentLanguage === "en") {
+    speakAll(
 
-        speak(
-            "CDC voucher selected.",
-            "en"
-        );
+        "CDC voucher selected.",
 
-    }
+        "已选择社区发展理事会邻里购物券。",
 
+        "Baucar CDC dipilih."
 
-    else if (currentLanguage === "zh") {
-
-        speak(
-            "已选择社区发展理事会邻里购物券。",
-            "zh"
-        );
-
-    }
-
-
-    else if (currentLanguage === "ms") {
-
-        speak(
-            "Baucar CDC dipilih.",
-            "ms"
-        );
-
-    }
+    );
 
 }
 
@@ -575,34 +227,15 @@ function voiceCDC() {
 
 function voicePayPal() {
 
-    if (currentLanguage === "en") {
+    speakAll(
 
-        speak(
-            "PayPal selected.",
-            "en"
-        );
+        "PayPal selected.",
 
-    }
+        "已选择 PayPal。",
 
+        "PayPal dipilih."
 
-    else if (currentLanguage === "zh") {
-
-        speak(
-            "已选择 PayPal。",
-            "zh"
-        );
-
-    }
-
-
-    else if (currentLanguage === "ms") {
-
-        speak(
-            "PayPal dipilih.",
-            "ms"
-        );
-
-    }
+    );
 
 }
 
@@ -613,34 +246,15 @@ function voicePayPal() {
 
 function voiceCHAS() {
 
-    if (currentLanguage === "en") {
+    speakAll(
 
-        speak(
-            "CHAS card selected.",
-            "en"
-        );
+        "CHAS card selected.",
 
-    }
+        "已选择 CHAS 卡。",
 
+        "Kad CHAS dipilih."
 
-    else if (currentLanguage === "zh") {
-
-        speak(
-            "已选择 CHAS 卡。",
-            "zh"
-        );
-
-    }
-
-
-    else if (currentLanguage === "ms") {
-
-        speak(
-            "Kad CHAS dipilih.",
-            "ms"
-        );
-
-    }
+    );
 
 }
 
@@ -651,34 +265,15 @@ function voiceCHAS() {
 
 function voiceProcessingPayment() {
 
-    if (currentLanguage === "en") {
+    speakAll(
 
-        speak(
-            "Processing your payment. Please wait.",
-            "en"
-        );
+        "Processing your payment. Please wait.",
 
-    }
+        "正在处理您的付款。请稍候。",
 
+        "Pembayaran anda sedang diproses. Sila tunggu."
 
-    else if (currentLanguage === "zh") {
-
-        speak(
-            "正在处理您的付款。请稍候。",
-            "zh"
-        );
-
-    }
-
-
-    else if (currentLanguage === "ms") {
-
-        speak(
-            "Pembayaran anda sedang diproses. Sila tunggu.",
-            "ms"
-        );
-
-    }
+    );
 
 }
 
@@ -689,34 +284,15 @@ function voiceProcessingPayment() {
 
 function voicePaymentSuccessful() {
 
-    if (currentLanguage === "en") {
+    speakAll(
 
-        speak(
-            "Payment successful. Thank you.",
-            "en"
-        );
+        "Payment successful. Thank you.",
 
-    }
+        "付款成功。谢谢。",
 
+        "Pembayaran berjaya. Terima kasih."
 
-    else if (currentLanguage === "zh") {
-
-        speak(
-            "付款成功。谢谢。",
-            "zh"
-        );
-
-    }
-
-
-    else if (currentLanguage === "ms") {
-
-        speak(
-            "Pembayaran berjaya. Terima kasih.",
-            "ms"
-        );
-
-    }
+    );
 
 }
 
@@ -727,34 +303,15 @@ function voicePaymentSuccessful() {
 
 function voicePaymentFailed() {
 
-    if (currentLanguage === "en") {
+    speakAll(
 
-        speak(
-            "Payment unsuccessful. Please try again.",
-            "en"
-        );
+        "Payment unsuccessful. Please try again.",
 
-    }
+        "付款失败。请再试一次。",
 
+        "Pembayaran tidak berjaya. Sila cuba lagi."
 
-    else if (currentLanguage === "zh") {
-
-        speak(
-            "付款失败。请再试一次。",
-            "zh"
-        );
-
-    }
-
-
-    else if (currentLanguage === "ms") {
-
-        speak(
-            "Pembayaran tidak berjaya. Sila cuba lagi.",
-            "ms"
-        );
-
-    }
+    );
 
 }
 
@@ -765,34 +322,15 @@ function voicePaymentFailed() {
 
 function voiceThankYou() {
 
-    if (currentLanguage === "en") {
+    speakAll(
 
-        speak(
-            "Thank you. Have a nice day.",
-            "en"
-        );
+        "Thank you. Have a nice day.",
 
-    }
+        "谢谢。祝您今天愉快。",
 
+        "Terima kasih. Semoga hari anda menyenangkan."
 
-    else if (currentLanguage === "zh") {
-
-        speak(
-            "谢谢。祝您今天愉快。",
-            "zh"
-        );
-
-    }
-
-
-    else if (currentLanguage === "ms") {
-
-        speak(
-            "Terima kasih. Semoga hari anda menyenangkan.",
-            "ms"
-        );
-
-    }
+    );
 
 }
 
@@ -803,72 +341,21 @@ function voiceThankYou() {
 
 function testVoice() {
 
-    if (currentLanguage === "en") {
+    speakAll(
 
-        speak(
-            "Voice assistance is working. Please tap your card.",
-            "en"
-        );
+        "Please tap your card.",
 
-    }
+        "请轻触您的卡。",
 
+        "Sila sentuh kad anda."
 
-    else if (currentLanguage === "zh") {
-
-        speak(
-            "语音辅助功能正常。请轻触您的卡。",
-            "zh"
-        );
-
-    }
-
-
-    else if (currentLanguage === "ms") {
-
-        speak(
-            "Bantuan suara sedang berfungsi. Sila sentuh kad anda.",
-            "ms"
-        );
-
-    }
+    );
 
 }
 
 
 // =====================================================
-// LOAD AVAILABLE VOICES
-// =====================================================
-//
-// Chrome sometimes loads the voice list after
-// JavaScript has already started.
+// DEBUG
 // =====================================================
 
-if (speechSupported()) {
-
-    window.speechSynthesis.getVoices();
-
-
-    window.speechSynthesis.onvoiceschanged =
-        function() {
-
-            const voices =
-                window.speechSynthesis.getVoices();
-
-
-            console.log(
-                "Voices loaded:",
-                voices.length
-            );
-
-        };
-
-}
-
-
-// =====================================================
-// VOICE.JS READY
-// =====================================================
-
-console.log(
-    "voice.js loaded successfully"
-);
+console.log("voice.js loaded successfully");
