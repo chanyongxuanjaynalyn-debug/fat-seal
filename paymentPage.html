@@ -1436,7 +1436,37 @@ document
     );
 
 
+// ==========================================
+// RANDOM DEMO CHAS CARD NUMBER
+// ==========================================
 
+function generateCHASCardNumber() {
+
+    let number = "";
+
+    for (let i = 0; i < 10; i++) {
+
+        number += Math.floor(
+            Math.random() * 10
+        );
+
+    }
+
+    return number;
+}
+
+
+// Generate a new demo number when page loads
+
+const chasNumberField =
+    document.getElementById("chasNumber");
+
+if (chasNumberField) {
+
+    chasNumberField.value =
+        generateCHASCardNumber();
+
+}
     // ==========================================
     // CHAS DEMO
     // ==========================================
