@@ -1,282 +1,1088 @@
 <!DOCTYPE html>
-<html>
-<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<html lang="en">
 
 <head>
-    <title>Payment Gateway Integration </title>
-    <link rel="icon" href="images/dollar.png" type="image/png" sizes="16x16">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <script type="application/x-javascript">
-        addEventListener("load", function() {
-            setTimeout(hideURLbar, 0);
-        }, false);
 
-        function hideURLbar() {
-            window.scrollTo(0, 1);
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Payment Gateway</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        * {
+            box-sizing: border-box;
         }
-    </script>
-    <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
-    <link href='http://fonts.googleapis.com/css?family=Fugaz+One' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Alegreya+Sans:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,800,800italic,900,900italic' rel='stylesheet' type='text/css'>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
-    <script type="text/javascript" src="js/jquery.min.js"></script>
+
+        body {
+            margin: 0;
+            padding: 40px 20px;
+            font-family: "Poppins", Arial, sans-serif;
+            background: #f7f8fa;
+            color: #333;
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .payment-box {
+            background: white;
+            border: 1px solid #e3e7eb;
+            padding: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 36px;
+            font-weight: 500;
+            color: #6daedb;
+            margin-top: 0;
+            margin-bottom: 35px;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 25px;
+        }
+
+        h3 {
+            font-size: 30px;
+            font-weight: 500;
+            color: #6daedb;
+            text-align: center;
+            margin-top: 10px;
+            margin-bottom: 35px;
+        }
+
+        h5 {
+            margin: 0 0 10px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .payment-tabs {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            border: 1px solid #e2e6ea;
+            margin-bottom: 45px;
+            background: #fff;
+        }
+
+        .tab-button {
+            padding: 20px 10px;
+            border: none;
+            background: white;
+            font-family: inherit;
+            font-size: 17px;
+            font-weight: 600;
+            color: #aaa;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-button:hover {
+            background: #fafafa;
+        }
+
+        .tab-button.active {
+            color: #32bd68;
+            border-bottom-color: #32bd68;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 27px;
+        }
+
+        input {
+            width: 100%;
+            height: 50px;
+            padding: 0 13px;
+            border: 1px solid #dfe4e8;
+            border-radius: 5px;
+            outline: none;
+            font-family: inherit;
+            font-size: 17px;
+            color: #555;
+            background: white;
+        }
+
+        input:focus {
+            border-color: #6daedb;
+        }
+
+        input::placeholder {
+            color: #bbb;
+        }
+
+        .transaction-row {
+            display: flex;
+            gap: 45px;
+            margin-bottom: 30px;
+        }
+
+        .expiration-section {
+            flex: 1;
+        }
+
+        .cvv-section {
+            flex: 1;
+        }
+
+        .expiration-inputs {
+            display: flex;
+            gap: 15px;
+        }
+
+        .expiration-inputs input {
+            width: 100px;
+        }
+
+        .confirm-btn {
+            display: inline-block;
+            padding: 13px 22px;
+            background: #6daedb;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .confirm-btn:hover {
+            opacity: 0.9;
+        }
+
+        .status {
+            margin-top: 18px;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .success {
+            color: #32bd68;
+        }
+
+        .info-box {
+            padding: 18px;
+            margin-bottom: 25px;
+            background: #f5f7f9;
+            border: 1px solid #e4e8eb;
+            border-radius: 6px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .cdc-box {
+            padding: 25px;
+            border-radius: 8px;
+            background: #fafafa;
+            border: 1px solid #e2e6ea;
+        }
+
+        .cdc-balance {
+            font-size: 32px;
+            font-weight: 600;
+            color: #32bd68;
+            margin-bottom: 25px;
+        }
+
+        .paypal-login {
+            max-width: 520px;
+            margin: 0 auto;
+        }
+
+        .demo-warning {
+            padding: 15px;
+            background: #fff8e5;
+            border: 1px solid #f1dfad;
+            margin-bottom: 25px;
+            border-radius: 6px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 700px) {
+
+            .payment-box {
+                padding: 25px 18px;
+            }
+
+            .payment-tabs {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .transaction-row {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .expiration-inputs input {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
 </head>
 
+
 <body>
-    <script src='../../../../ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
-    <script src="../../../../m.servedby-buysellads.com/monetization.js" type="text/javascript"></script>
-    <script>
-        (function() {
-            if (typeof _bsa !== 'undefined' && _bsa) {
-                // format, zoneKey, segment:value, options
-                _bsa.init('flexbar', 'CKYI627U', 'placement:w3layoutscom');
-            }
-        })();
-    </script>
-    <script>
-        (function() {
-            if (typeof _bsa !== 'undefined' && _bsa) {
-                // format, zoneKey, segment:value, options
-                _bsa.init('fancybar', 'CKYDL2JN', 'placement:demo');
-            }
-        })();
-    </script>
-    <script>
-        (function() {
-            if (typeof _bsa !== 'undefined' && _bsa) {
-                // format, zoneKey, segment:value, options
-                _bsa.init('stickybox', 'CKYI653J', 'placement:w3layoutscom');
-            }
-        })();
-    </script>
-    <script>
-        window.ga = window.ga || function() {
-            (ga.q = ga.q || []).push(arguments)
-        };
-        ga.l = +new Date;
-        ga('create', 'UA-149859901-1', 'demo.w3layouts.com');
-        ga('require', 'eventTracker');
-        ga('require', 'outboundLinkTracker');
-        ga('require', 'urlChangeTracker');
-        ga('send', 'pageview');
-    </script>
-    <script async src='../../../js/autotrack.js'></script>
-    <meta name="robots" content="noindex">
-    <body>
-        <link rel="stylesheet" href="../../../images/demobar_w3_4thDec2019.css">
-        <!-- Demo bar start -->
-        <div id="w3lDemoBar" class="w3l-demo-bar">
-            <div class="main">
-                <div class="content">
-                    <script src="js/easyResponsiveTabs.js" type="text/javascript"></script>
-                    <script type="text/javascript">
-                        $(document).ready(function() {
-                            $('#horizontalTab').easyResponsiveTabs({
-                                type: 'default', //Types: default, vertical, accordion           
-                                width: 'auto', //auto or any width like 600px
-                                fit: true // 100% fit in a container
-                            });
-                        });
-                    </script>
-                    <div class="sap_tabs">
-                        <div id="horizontalTab" style="display: block; width: 100%; margin: 0px;">
-                            <div class="pay-tabs">
-                                <h2>Select Payment Method</h2>
-                                <ul class="resp-tabs-list">
-                                    <li class="resp-tab-item" aria-controls="tab_item-0" role="tab"><span><label class="pic1"></label>Credit Card</span></li>
-                                    <li class="resp-tab-item" aria-controls="tab_item-1" role="tab"><span><label class="pic3"></label>Net Banking</span></li>
-                                    <li class="resp-tab-item" aria-controls="tab_item-2" role="tab"><span><label class="pic4"></label>PayPal</span></li>
-                                    <li class="resp-tab-item" aria-controls="tab_item-3" role="tab"><span><label class="pic2"></label>Debit Card</span></li>
-                                    <div class="clear"></div>
-                                </ul>
-                            </div>
-                            <div class="resp-tabs-container">
-                                <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-0">
-                                    <div class="payment-info">
-                                        <h3 class="pay-title">Credit Card Info</h3>
-                                        <form>
-                                            <div class="tab-for">
-                                                <h5>Amount</h5>
-                                                <input class="pay-logo" type="text" value="$.00" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '₹.00';}" required="">
-                                            </div>
-                                            <div class="tab-for">
-                                                <h5>NAME ON CARD</h5>
-                                                 <input class="pay-logo" type="text" value="Enter the name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter the name';}" required="">
-                                                <h5>CARD NUMBER</h5>
-                                                <input class="pay-logo" type="text" value="0000-0000-0000-0000" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '0000-0000-0000-0000';}" required="">
-                                            </div>
-                                            <div class="transaction">
-                                                <div class="tab-form-left user-form">
-                                                    <h5>EXPIRATION</h5>
-                                                    <ul>
-                                                        <li>
-                                                            <input type="number" class="text_box" type="text" value="0" min="1" />
-                                                        </li>
-                                                        <li>
-                                                            <input type="number" class="text_box" type="text" value="26" min="1" />
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="tab-form-right user-form-rt">
-                                                    <h5>CVV NUMBER</h5>
-                                                    <input type="password" value="xxx" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'xxx';}" required="">
-                                                </div>
-                                                <div class="clear"></div>
-                                            </div>
-                                            <a class="confirm-btn" href="successPage.html">SEND</a>
-                                        </form>
-                                    </div>
-                                </div>
-                                <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-1">
-                                    <div class="payment-info">
-                                        <h3>Net Banking</h3>
-                                        <div class="radio-btns">
-                                            <div class="swit">
-                                                <div class="check_box">
-                                                    <div class="radio"> <label><input type="radio" name="radio" checked=""><i></i>ANZ</label> </div>
-                                                </div>
-                                                <div class="check_box">
-                                                    <div class="radio"> <label><input type="radio" name="radio"><i></i>Bangkok Bank</label> </div>
-                                                </div>
-                                                <div class="check_box">
-                                                    <div class="radio"> <label><input type="radio" name="radio"><i></i>BNI</label> </div>
-                                                </div>
-                                                <div class="check_box">
-                                                    <div class="radio"> <label><input type="radio" name="radio"><i></i>CIMB</label> </div>
-                                                </div>
-                                                <div class="check_box">
-                                                    <div class="radio"> <label><input type="radio" name="radio"><i></i>HSBC</label> </div>
-                                                </div>
-                                                <div class="check_box">
-                                                    <div class="radio"> <label><input type="radio" name="radio"><i></i>JP Morgan</label> </div>
-                                                </div>
-                                                <div class="check_box">
-                                                    <div class="radio"> <label><input type="radio" name="radio"><i></i>RHB Bank</label> </div>
-                                                </div>
-                                                <div class="check_box">
-                                                    <div class="radio"> <label><input type="radio" name="radio"><i></i>ICBC Bank</label> </div>
-                                                </div>
-                                                <div class="check_box">
-                                                    <div class="radio"> <label><input type="radio" name="radio"><i></i>BNP Paribas</label> </div>
-                                                </div>
-                                                <div class="check_box">
-                                                    <div class="radio"> <label><input type="radio" name="radio"><i></i>Deutsche Bank</label> </div>
-                                                </div>
-                                            </div>
-                                            <div class="swit">
-                                                <div class="check_box">
-                                                    <div class="radio"> <label><input type="radio" name="radio" checked=""><i></i>DBS/POSB</label> </div>
-                                                </div>
-                                                <div class="check_box">
-                                                    <div class="radio"> <label><input type="radio" name="radio"><i></i>OCBC Bank</label> </div>
-                                                </div>
-                                                <div class="check_box">
-                                                    <div class="radio"> <label><input type="radio" name="radio"><i></i>UOB Bank</label> </div>
-                                                </div>
-                                                <div class="check_box">
-                                                    <div class="radio"> <label><input type="radio" name="radio"><i></i>Bank of China</label> </div>
-                                                </div>
-                                                <div class="check_box">
-                                                    <div class="radio"> <label><input type="radio" name="radio"><i></i>Maybank</label> </div>
-                                                </div>
-                                                <div class="check_box">
-                                                    <div class="radio"> <label><input type="radio" name="radio"><i></i>Maribank</label> </div>
-                                                </div>
-                                                <div class="check_box">
-                                                    <div class="radio"> <label><input type="radio" name="radio"><i></i>Standard Chartered</label> </div>
-                                                </div>
-                                                <div class="check_box">
-                                                    <div class="radio"> <label><input type="radio" name="radio"><i></i>Citibank</label> </div>
-                                                </div>
-                                                <div class="check_box">
-                                                    <div class="radio"> <label><input type="radio" name="radio"><i></i>AMEX</label> </div>
-                                                </div>
-                                                <div class="check_box">
-                                                    <div class="radio"> <label><input type="radio" name="radio"><i></i>Others</label> </div>
-                                                </div>
-                                            </div>
-                                            <div class="clear"></div>
-                                        </div>
-                                        <a class="confirm-btn" href="successPage.html">CONTINUE</a>
-                                    </div>
-                                </div>
-                                <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-2">
-                                    <div class="payment-info">
-                                        <h3>PayPal</h3>
-                                        <h4>Already Have A PayPal Account?</h4>
-                                        <div class="login-tab">
-                                            <div class="user-login">
-                                                <h2>Login</h2>
 
-                                                <form>
-                                                    <input type="text" value="name@email.com" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'name@email.com';}" required="">
-                                                    <input type="password" value="PASSWORD" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'PASSWORD';}" required="">
-                                                    <div class="user-grids">
-                                                        <div class="user-left">
-                                                            <div class="single-bottom">
-                                                                <ul>
-                                                                    <li>
-                                                                        <input type="checkbox" id="brand1" value="">
-                                                                        <label for="brand1"><span></span>Remember me?</label>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                        <div class="user-right">
-                                                            <input type="submit" value="LOGIN">
-                                                        </div>
-                                                        <div class="clear"></div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-3">
-                                    <div class="payment-info">
+<div class="main-container">
 
-                                        <h3 class="pay-title">Debit Card Info</h3>
-                                        <form>
-                                            <div class="tab-for">
-                                                <div class="tab-for">
-                                                    <h5>Amount</h5>
-                                                    <input class="pay-logo" type="text" value="₹.00" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '$.00';}" required="">
-                                                </div>
-                                                <h5>NAME ON CARD</h5>
-                                                <input class="pay-logo" type="text" value="Enter the name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter the name';}" required="">
-                                                <h5>CARD NUMBER</h5>
-                                                <input class="pay-logo" type="text" value="0000-0000-0000-0000" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '0000-0000-0000-0000';}" required="">
-                                            </div>
-                                            <div class="transaction">
-                                                <div class="tab-form-left user-form">
-                                                    <h5>EXPIRATION</h5>
-                                                    <ul>
-                                                        <li>
-                                                            <input type="number" class="text_box" type="text" value="6" min="1" />
-                                                        </li>
-                                                        <li>
-                                                            <input type="number" class="text_box" type="text" value="26" min="1" />
-                                                        </li>
+    <div class="payment-box">
 
-                                                    </ul>
-                                                </div>
-                                                <div class="tab-form-right user-form-rt">
-                                                    <h5>CVV NUMBER</h5>
-                                                    <input type="password" value="xxx" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'xxx';}" required="">
-                                                </div>
-                                                <div class="clear"></div>
-                                            </div>
-                                            <a class="confirm-btn" href="successPage.html">SEND</a>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <h1>Payment Gateway</h1>
+
+
+        <!-- ====================================== -->
+        <!-- PAYMENT METHOD TABS -->
+        <!-- ====================================== -->
+
+        <div class="payment-tabs">
+
+            <button
+                class="tab-button active"
+                data-tab="credit"
+            >
+                Credit Card
+            </button>
+
+            <button
+                class="tab-button"
+                data-tab="cdc"
+            >
+                CDC Voucher
+            </button>
+
+            <button
+                class="tab-button"
+                data-tab="paypal"
+            >
+                PayPal
+            </button>
+
+            <button
+                class="tab-button"
+                data-tab="chas"
+            >
+                CHAS Card
+            </button>
+
         </div>
-    </body>
+
+
+
+        <!-- ====================================== -->
+        <!-- CREDIT CARD -->
+        <!-- ====================================== -->
+
+        <div
+            id="credit"
+            class="tab-content active"
+        >
+
+            <h3>Credit Card Info</h3>
+
+
+            <div class="form-group">
+
+                <h5>AMOUNT</h5>
+
+                <input
+                    type="text"
+                    id="amount"
+                    placeholder="$0.00"
+                    readonly
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <h5>NAME ON CARD</h5>
+
+                <input
+                    type="text"
+                    id="nameOnCard"
+                    placeholder="Enter the name"
+                    readonly
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <h5>CARD NUMBER</h5>
+
+                <input
+                    type="text"
+                    id="cardNumber"
+                    placeholder="0000-0000-0000-0000"
+                    readonly
+                >
+
+            </div>
+
+
+            <div class="transaction-row">
+
+                <div class="expiration-section">
+
+                    <h5>EXPIRATION</h5>
+
+                    <div class="expiration-inputs">
+
+                        <input
+                            type="text"
+                            id="expiryMonth"
+                            placeholder="MM"
+                            readonly
+                        >
+
+                        <input
+                            type="text"
+                            id="expiryYear"
+                            placeholder="YY"
+                            readonly
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="cvv-section">
+
+                    <h5>CVV NUMBER</h5>
+
+                    <input
+                        type="text"
+                        id="cvv"
+                        placeholder="•••"
+                        readonly
+                    >
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="confirm-btn"
+                id="creditSend"
+            >
+                SEND
+            </button>
+
+
+            <div
+                id="creditStatus"
+                class="status"
+            >
+                Tap NFC card or type card number.
+            </div>
+
+        </div>
+
+
+
+        <!-- ====================================== -->
+        <!-- CDC VOUCHER -->
+        <!-- ====================================== -->
+
+        <div
+            id="cdc"
+            class="tab-content"
+        >
+
+            <h3>CDC Voucher Payment</h3>
+
+
+            <div class="cdc-box">
+
+                <h5>AVAILABLE CDC BALANCE</h5>
+
+                <div class="cdc-balance">
+                    $300.00
+                </div>
+
+
+                <div class="form-group">
+
+                    <h5>PAYMENT AMOUNT</h5>
+
+                    <input
+                        type="text"
+                        id="cdcAmount"
+                        value="$300.00"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <h5>HOUSEHOLD NAME</h5>
+
+                    <input
+                        type="text"
+                        id="cdcName"
+                        value="Amanda Boh"
+                        readonly
+                    >
+
+                </div>
+
+
+                <div class="info-box">
+
+                    Demo CDC voucher payment page.
+
+                    <br><br>
+
+                    Available voucher balance:
+                    <strong>$300.00</strong>
+
+                </div>
+
+
+                <button
+                    class="confirm-btn"
+                    id="cdcPay"
+                >
+                    PAY WITH CDC VOUCHER
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ====================================== -->
+        <!-- PAYPAL -->
+        <!-- ====================================== -->
+
+        <div
+            id="paypal"
+            class="tab-content"
+        >
+
+            <h3>PayPal</h3>
+
+
+            <div class="paypal-login">
+
+                <h2>
+                    PayPal Demo Login
+                </h2>
+
+
+                <div class="demo-warning">
+
+                    This is a demonstration interface only.
+
+                    Do not enter a real PayPal email address or password.
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <h5>EMAIL</h5>
+
+                    <input
+                        type="text"
+                        placeholder="demo@example.com"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <h5>PASSWORD</h5>
+
+                    <input
+                        type="password"
+                        placeholder="Demo password"
+                    >
+
+                </div>
+
+
+                <button
+                    class="confirm-btn"
+                    id="paypalButton"
+                >
+                    CONTINUE
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ====================================== -->
+        <!-- CHAS CARD -->
+        <!-- ====================================== -->
+
+        <div
+            id="chas"
+            class="tab-content"
+        >
+
+            <h3>CHAS Card</h3>
+
+
+            <div class="demo-warning">
+
+                Demo CHAS card verification only.
+
+                Do not enter real CHAS, NRIC, Singpass or other government account credentials.
+
+            </div>
+
+
+            <div class="form-group">
+
+                <h5>NAME ON CHAS CARD</h5>
+
+                <input
+                    type="text"
+                    id="chasName"
+                    value="Amanda Boh"
+                    readonly
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <h5>CHAS CARD NUMBER</h5>
+
+                <input
+                    type="text"
+                    id="chasNumber"
+                    placeholder="Demo CHAS card number"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <h5>PAYMENT AMOUNT</h5>
+
+                <input
+                    type="text"
+                    id="chasAmount"
+                    value="$300.00"
+                    readonly
+                >
+
+            </div>
+
+
+            <button
+                class="confirm-btn"
+                id="chasButton"
+            >
+                VERIFY DEMO CHAS CARD
+            </button>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+    // ==========================================
+    // PAYMENT TABS
+    // ==========================================
+
+    const tabButtons =
+        document.querySelectorAll(
+            ".tab-button"
+        );
+
+    const tabContents =
+        document.querySelectorAll(
+            ".tab-content"
+        );
+
+
+    tabButtons.forEach(
+        function(button) {
+
+            button.addEventListener(
+                "click",
+                function() {
+
+                    tabButtons.forEach(
+                        function(item) {
+
+                            item.classList.remove(
+                                "active"
+                            );
+
+                        }
+                    );
+
+
+                    tabContents.forEach(
+                        function(content) {
+
+                            content.classList.remove(
+                                "active"
+                            );
+
+                        }
+                    );
+
+
+                    button.classList.add(
+                        "active"
+                    );
+
+
+                    const tabName =
+                        button.getAttribute(
+                            "data-tab"
+                        );
+
+
+                    document.getElementById(
+                        tabName
+                    ).classList.add(
+                        "active"
+                    );
+
+                }
+            );
+
+        }
+    );
+
+
+
+    // ==========================================
+    // NFC CARD DATABASE
+    //
+    // ORDER:
+    //
+    // 1. Card Number
+    // 2. Amount
+    // 3. Name
+    // 4. Expiry Month
+    // 5. Expiry Year
+    // 6. CVV
+    // ==========================================
+
+    const cards = {
+
+        "0064446838": {
+
+            cardNumber:
+                "0064446838",
+
+            amount:
+                "300.00",
+
+            name:
+                "Amanda Boh",
+
+            expiryMonth:
+                "08",
+
+            expiryYear:
+                "26",
+
+            cvv:
+                "123"
+
+        }
+
+    };
+
+
+    let nfcInput = "";
+
+
+
+    // ==========================================
+    // FILL CREDIT CARD DETAILS
+    // ==========================================
+
+    function fillCard(card) {
+
+        document.getElementById(
+            "amount"
+        ).value =
+            "$" + card.amount;
+
+
+        document.getElementById(
+            "nameOnCard"
+        ).value =
+            card.name;
+
+
+        document.getElementById(
+            "cardNumber"
+        ).value =
+            card.cardNumber;
+
+
+        document.getElementById(
+            "expiryMonth"
+        ).value =
+            card.expiryMonth;
+
+
+        document.getElementById(
+            "expiryYear"
+        ).value =
+            card.expiryYear;
+
+
+        document.getElementById(
+            "cvv"
+        ).value =
+            card.cvv;
+
+
+        document.getElementById(
+            "creditStatus"
+        ).textContent =
+            "Card recognised";
+
+
+        document.getElementById(
+            "creditStatus"
+        ).classList.add(
+            "success"
+        );
+
+
+        // Automatically return to
+        // Credit Card tab
+
+        tabButtons.forEach(
+            function(item) {
+
+                item.classList.remove(
+                    "active"
+                );
+
+            }
+        );
+
+
+        tabContents.forEach(
+            function(content) {
+
+                content.classList.remove(
+                    "active"
+                );
+
+            }
+        );
+
+
+        document.querySelector(
+            '[data-tab="credit"]'
+        ).classList.add(
+            "active"
+        );
+
+
+        document.getElementById(
+            "credit"
+        ).classList.add(
+            "active"
+        );
+
+    }
+
+
+
+    // ==========================================
+    // NFC READER
+    // ==========================================
+
+    document.addEventListener(
+        "keydown",
+        function(event) {
+
+
+            // Read numbers from NFC reader
+
+            if (
+                /^[0-9]$/.test(
+                    event.key
+                )
+            ) {
+
+                nfcInput +=
+                    event.key;
+
+
+                console.log(
+                    "NFC input:",
+                    nfcInput
+                );
+
+
+                // Immediately recognise card
+
+                if (
+                    cards[nfcInput]
+                ) {
+
+                    fillCard(
+                        cards[nfcInput]
+                    );
+
+                    nfcInput = "";
+
+                    return;
+
+                }
+
+
+                // Reset if input too long
+
+                if (
+                    nfcInput.length > 10
+                ) {
+
+                    nfcInput = "";
+
+                }
+
+            }
+
+
+
+            // Some readers send Enter
+
+            if (
+                event.key === "Enter"
+            ) {
+
+                event.preventDefault();
+
+
+                if (
+                    cards[nfcInput]
+                ) {
+
+                    fillCard(
+                        cards[nfcInput]
+                    );
+
+                }
+
+
+                nfcInput = "";
+
+            }
+
+        }
+    );
+
+
+
+    // ==========================================
+    // URL NFC SUPPORT
+    //
+    // Example:
+    //
+    // payment.html?card=0064446838
+    // ==========================================
+
+    const urlParams =
+        new URLSearchParams(
+            window.location.search
+        );
+
+
+    const urlCard =
+        urlParams.get(
+            "card"
+        );
+
+
+    if (
+        urlCard &&
+        cards[urlCard]
+    ) {
+
+        fillCard(
+            cards[urlCard]
+        );
+
+    }
+
+
+
+    // ==========================================
+    // CREDIT CARD SEND
+    // ==========================================
+
+    document.getElementById(
+        "creditSend"
+    ).addEventListener(
+        "click",
+        function() {
+
+            const cardNumber =
+                document.getElementById(
+                    "cardNumber"
+                ).value;
+
+
+            if (
+                cardNumber === ""
+            ) {
+
+                alert(
+                    "Please tap your NFC card first."
+                );
+
+                return;
+
+            }
+
+
+            window.location.href =
+                "successPage.html";
+
+        }
+    );
+
+
+
+    // ==========================================
+    // CDC PAYMENT
+    // ==========================================
+
+    document.getElementById(
+        "cdcPay"
+    ).addEventListener(
+        "click",
+        function() {
+
+            alert(
+                "Demo CDC voucher payment accepted."
+            );
+
+
+            window.location.href =
+                "successPage.html";
+
+        }
+    );
+
+
+
+    // ==========================================
+    // PAYPAL DEMO
+    // ==========================================
+
+    document.getElementById(
+        "paypalButton"
+    ).addEventListener(
+        "click",
+        function() {
+
+            alert(
+                "Demo PayPal payment."
+            );
+
+        }
+    );
+
+
+
+    // ==========================================
+    // CHAS DEMO
+    // ==========================================
+
+    document.getElementById(
+        "chasButton"
+    ).addEventListener(
+        "click",
+        function() {
+
+            const chasNumber =
+                document.getElementById(
+                    "chasNumber"
+                ).value.trim();
+
+
+            if (
+                chasNumber === ""
+            ) {
+
+                alert(
+                    "Enter a demo CHAS card number."
+                );
+
+                return;
+
+            }
+
+
+            alert(
+                "Demo CHAS card verified."
+            );
+
+
+            window.location.href =
+                "successPage.html";
+
+        }
+    );
+
+
+</script>
+
+
 </body>
+
 </html>
