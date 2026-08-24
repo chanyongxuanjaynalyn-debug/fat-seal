@@ -1263,24 +1263,201 @@
     // ==========================================
     // CDC PAYMENT
     // ==========================================
+// ==========================================
+// CDC VOUCHER DEMO
+// ==========================================
 
+const CDC_BALANCE = 300;
+
+const cdcAmount =
+    document.getElementById("cdcAmount");
+
+const cdcSelectedAmount =
     document.getElementById(
+        "cdcSelectedAmount"
+    );
+
+const cdcRemainingBalance =
+    document.getElementById(
+        "cdcRemainingBalance"
+    );
+
+const cdcQrPanel =
+    document.getElementById(
+        "cdcQrPanel"
+    );
+
+const cdcQrAmount =
+    document.getElementById(
+        "cdcQrAmount"
+    );
+
+
+// ==========================================
+// UPDATE CDC AMOUNT
+// ==========================================
+
+function updateCDCAmount(value) {
+
+    let amount =
+        parseFloat(value);
+
+    if (isNaN(amount)) {
+        amount = 0;
+    }
+
+    if (amount < 0) {
+        amount = 0;
+    }
+
+    if (amount > CDC_BALANCE) {
+        amount = CDC_BALANCE;
+    }
+
+    cdcAmount.value =
+        amount.toFixed(2);
+
+    cdcSelectedAmount.textContent =
+        "$" + amount.toFixed(2);
+
+    cdcRemainingBalance.textContent =
+        "$" +
+        (
+            CDC_BALANCE - amount
+        ).toFixed(2);
+
+
+    document
+        .querySelectorAll(
+            ".redeem-amount-button"
+        )
+        .forEach(
+            function(button) {
+
+                button.classList.remove(
+                    "selected"
+                );
+
+            }
+        );
+
+}
+
+
+// ==========================================
+// DENOMINATION BUTTONS
+// ==========================================
+
+document
+    .querySelectorAll(
+        ".redeem-amount-button"
+    )
+    .forEach(
+        function(button) {
+
+            button.addEventListener(
+                "click",
+                function() {
+
+                    const value =
+                        parseFloat(
+                            button.dataset.value
+                        );
+
+                    updateCDCAmount(
+                        value
+                    );
+
+                    button.classList.add(
+                        "selected"
+                    );
+
+                }
+            );
+
+        }
+    );
+
+
+// ==========================================
+// CUSTOM AMOUNT
+// ==========================================
+
+cdcAmount.addEventListener(
+    "input",
+    function() {
+
+        updateCDCAmount(
+            cdcAmount.value
+        );
+
+    }
+);
+
+
+// ==========================================
+// SHOW VOUCHER QR
+// ==========================================
+
+document
+    .getElementById(
         "cdcPay"
-    ).addEventListener(
+    )
+    .addEventListener(
         "click",
         function() {
 
-            alert(
-                "Demo CDC voucher payment accepted."
+            const amount =
+                parseFloat(
+                    cdcAmount.value
+                );
+
+            if (
+                isNaN(amount) ||
+                amount <= 0
+            ) {
+
+                alert(
+                    "Please select a voucher amount."
+                );
+
+                return;
+            }
+
+            cdcQrAmount.textContent =
+                "$" +
+                amount.toFixed(2);
+
+            cdcQrPanel.classList.add(
+                "show"
             );
 
+            cdcQrPanel.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+
+        }
+    );
+
+
+// ==========================================
+// SIMULATE MERCHANT SCAN
+// ==========================================
+
+document
+    .getElementById(
+        "cdcComplete"
+    )
+    .addEventListener(
+        "click",
+        function() {
 
             window.location.href =
                 "successPage.html";
 
         }
     );
-
 
 
     // ==========================================
