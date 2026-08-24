@@ -288,12 +288,11 @@
         );
 
 
+// ==========================================
+// OPEN PAYMENT PAGE
+// ==========================================
 
-        // ==========================================
-        // OPEN PAYMENT PAGE
-        // ==========================================
-
-       function openPaymentPage(cardNumber) {
+function openPaymentPage(cardNumber) {
 
     if (cardProcessing) {
         return;
@@ -316,54 +315,52 @@
     );
 
 
-    // Prevent redirect from happening twice
-    let redirected = false;
-
-
-    function redirectOnce() {
-
-        if (redirected) {
-            return;
-        }
-
-        redirected = true;
-
-        goToPaymentPage(cardNumber);
-    }
-
-
     // Speak card accepted
     if (
-        typeof voiceCardAccepted ===
-        "function"
+        typeof voiceCardAccepted === "function"
     ) {
 
-        voiceCardAccepted(
-            function () {
-
-                // Redirect when speech finishes
-                redirectOnce();
-
-            }
-        );
+        voiceCardAccepted();
 
     }
 
 
-    // FALLBACK:
-    // Redirect even if speech completion
-    // is not detected by the browser
+    // IMPORTANT:
+    // Always redirect after 3 seconds.
+    // We do NOT wait for speech completion.
+
     setTimeout(
         function () {
 
-            redirectOnce();
+            goToPaymentPage(
+                cardNumber
+            );
 
         },
-        4500
+        3000
     );
 
 }
 
+
+
+// ==========================================
+// GO TO PAYMENT PAGE
+// ==========================================
+
+function goToPaymentPage(cardNumber) {
+
+    console.log(
+        "Redirecting to paymentPage.html"
+    );
+
+    window.location.href =
+        "paymentPage.html?card=" +
+        encodeURIComponent(
+            cardNumber
+        );
+
+}
         // ==========================================
         // NFC READER
         // ==========================================
