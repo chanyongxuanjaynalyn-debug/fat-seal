@@ -530,11 +530,31 @@ function goToPaymentPage(cardNumber) {
                 openPaymentPage(
                     authorisedCard
                 );
-
+//VOICE ON PAGE OPEN
+// ==========================================
+//
 
             }
         );
+let firstInteractionDone = false;
 
+document.addEventListener("click", function () {
+
+    if (firstInteractionDone) {
+        return;
+    }
+
+    firstInteractionDone = true;
+
+    if (
+        typeof voiceTapCard === "function"
+    ) {
+
+        voiceTapCard();
+
+    }
+
+});
 
     </script>
 
