@@ -2310,14 +2310,149 @@ label.checkbox {
 
 
 /* =====================================================
-   HIDE NAME FIELD
-   Not shown in reference design
-===================================================== */
-
-#chas .form-group:nth-of-type(1) {
+NAME FIELD
+ /* Hide the Amanda Boh NAME field completely */
+#chasName {
     display: none !important;
 }
 
+/* Hide the NAME ON CHAS CARD label */
+#chas .form-group:has(#chasName) {
+    display: none !important;
+}
+
+
+/* =====================================================
+   CHAS SUBSIDY
+===================================================== */
+
+#chas .form-group:has(.chas-subsidy-box) {
+    order: 3;
+
+    width: 100%;
+    max-width: 550px;
+
+    margin: 0 0 18px !important;
+}
+
+
+/* Hide old subsidy heading */
+#chas .form-group:has(.chas-subsidy-box) > h5 {
+    display: none;
+}
+
+
+#chas .chas-subsidy-box {
+    width: 100%;
+
+    padding: 18px 20px;
+
+    border: 1px solid #9bcdf0;
+    border-radius: 7px;
+
+    background: #f5fbff;
+
+    text-align: center;
+}
+
+
+#chas .chas-subsidy-box::before {
+    content: "CHAS Subsidy Remaining";
+
+    display: block;
+
+    margin-bottom: 5px;
+
+    font-size: 20px;
+    font-weight: 400;
+
+    color: #333;
+}
+
+
+#chas .chas-subsidy-amount {
+    margin: 0 !important;
+
+    font-size: 44px !important;
+    font-weight: 500 !important;
+
+    color: #16a13a !important;
+}
+
+
+#chas .chas-subsidy-caption {
+    display: none !important;
+}
+
+
+/* =====================================================
+   REAL CHAS CARD NUMBER FIELD
+===================================================== */
+
+#chas .form-group:has(#chasNumber) {
+    order: 4;
+
+    width: 100%;
+    max-width: 550px;
+
+    margin: 0 0 18px !important;
+
+    padding: 16px 20px;
+
+    border: 1.5px dashed #b8c4cc;
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    text-align: center;
+}
+
+
+/* CHAS Card Number heading */
+#chas .form-group:has(#chasNumber) h5 {
+    margin: 0 0 5px;
+
+    font-size: 0;
+
+    font-weight: 400;
+
+    color: #555;
+}
+
+
+#chas .form-group:has(#chasNumber) h5::after {
+    content: "CHAS Card Number";
+
+    font-size: 19px;
+    font-weight: 400;
+
+    color: #555;
+}
+
+
+/* RANDOM NUMBER */
+#chas #chasNumber {
+    display: block !important;
+
+    width: 100% !important;
+    height: auto !important;
+
+    padding: 0 !important;
+
+    border: none !important;
+    outline: none !important;
+
+    background: transparent !important;
+
+    text-align: center;
+
+    font-family: "Poppins", Arial, sans-serif;
+
+    font-size: 28px !important;
+    font-weight: 500;
+
+    color: #16a13a !important;
+}
 
 /* =====================================================
    SUBSIDY BOX
