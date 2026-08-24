@@ -1084,15 +1084,31 @@
 
 <script src="js/voice.js"></script>
 
+   
+<script>
+
+    // ==========================================
+    // PAYMENT PAGE VOICE INSTRUCTIONS
+    // ==========================================
+
     window.addEventListener("load", function () {
 
-    setTimeout(function () {
+        setTimeout(function () {
 
-        voiceSelectPayment();
+            if (
+                typeof voiceSelectPayment === "function"
+            ) {
 
-    }, 500);
+                voiceSelectPayment();
 
-});
+            }
+
+        }, 500);
+
+    });
+
+</script>
+
     
 </body>
 
