@@ -1261,31 +1261,18 @@ label.checkbox {
 }
 
 
-.chas-header-text {
-    flex: 1;
+.chas-header {
+    display: block !important;
+    text-align: center !important;
 }
-
 
 .chas-header-text h3 {
-    margin: 0 !important;
-
-    color: #246a9c !important;
-
-    font-size: 30px !important;
-    font-weight: 600 !important;
-
-    text-align: left !important;
+    text-align: center !important;
 }
-
 
 .chas-header-text p {
-    margin-top: 5px;
-
-    color: #6f7c84;
-
-    font-size: 14px;
+    text-align: center !important;
 }
-
 
 /* =====================================================
    INFORMATION / DEMO NOTICE
