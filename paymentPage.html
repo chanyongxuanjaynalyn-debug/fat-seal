@@ -549,31 +549,106 @@
         </div>
 
 
+<!-- ====================================== -->
+<!-- CHAS CARD -->
+<!-- ====================================== -->
 
-        <!-- ====================================== -->
-        <!-- CHAS CARD -->
-        <!-- ====================================== -->
+<div
+    id="chas"
+    class="tab-content"
+>
 
-        <div
-            id="chas"
-            class="tab-content"
-        >
+    <div class="chas-page">
 
-            <h3>CHAS Card</h3>
+        <!-- CHAS HEADER -->
+
+        <div class="chas-header">
+
+            <img
+                src="images/chas-logo.png"
+                alt="CHAS"
+                class="chas-logo"
+            >
+
+            <div class="chas-header-text">
+
+                <h3>
+                    CHAS Card
+                </h3>
+
+                <p>
+                    Community Health Assist Scheme
+                </p>
+
+            </div>
+
+        </div>
 
 
-            <div class="demo-warning">
+        <!-- DEMO NOTICE -->
 
-                Demo CHAS card verification only.
+        <div class="chas-demo-notice">
 
-                Do not enter real CHAS, NRIC, Singpass or other government account credentials.
+            <strong>
+                Demo CHAS Payment
+            </strong>
+
+            <span>
+                This is a demonstration interface only.
+                Please do not enter real CHAS, NRIC or
+                Singpass information.
+            </span>
+
+        </div>
+
+
+        <!-- CHAS CARD DISPLAY -->
+
+        <div class="chas-card-preview">
+
+            <div class="chas-card-top">
+
+                <img
+                    src="images/chas-logo.png"
+                    alt="CHAS"
+                    class="chas-card-logo"
+                >
+
+                <div class="chas-tier">
+                    BLUE
+                </div>
+
+            </div>
+
+
+            <div class="chas-card-name">
+                Amanda Boh
+            </div>
+
+
+            <div class="chas-card-label">
+                CHAS Cardholder
+            </div>
+
+        </div>
+
+
+        <!-- PAYMENT DETAILS -->
+
+        <div class="chas-payment-panel">
+
+            <div class="chas-section-title">
+
+                Payment Details
 
             </div>
 
 
             <div class="form-group">
 
-                <h5>NAME ON CHAS CARD</h5>
+                <h5>
+                    NAME ON CHAS CARD
+                </h5>
 
                 <input
                     type="text"
@@ -587,12 +662,14 @@
 
             <div class="form-group">
 
-                <h5>CHAS CARD NUMBER</h5>
+                <h5>
+                    DEMO CHAS CARD NUMBER
+                </h5>
 
                 <input
                     type="text"
                     id="chasNumber"
-                    placeholder="Demo CHAS card number"
+                    placeholder="Enter demo card number"
                 >
 
             </div>
@@ -600,32 +677,69 @@
 
             <div class="form-group">
 
-                <h5>PAYMENT AMOUNT</h5>
+                <h5>
+                    PAYMENT AMOUNT
+                </h5>
+
+                <div class="chas-amount">
+
+                    $300.00
+
+                </div>
 
                 <input
-                    type="text"
+                    type="hidden"
                     id="chasAmount"
                     value="$300.00"
-                    readonly
                 >
 
             </div>
 
 
+            <div class="chas-status-box">
+
+                <div class="chas-status-icon">
+                    ✓
+                </div>
+
+                <div>
+
+                    <strong>
+                        CHAS Card Eligible
+                    </strong>
+
+                    <p>
+                        Demo card successfully detected
+                        for this transaction.
+                    </p>
+
+                </div>
+
+            </div>
+
+
             <button
-                class="confirm-btn"
+                type="button"
+                class="chas-confirm-btn"
                 id="chasButton"
             >
-                VERIFY DEMO CHAS CARD
+
+                CONTINUE WITH CHAS
+
             </button>
 
         </div>
 
 
+        <div class="chas-footer">
+
+            Demo interface — not affiliated with or operated by CHAS.
+
+        </div>
+
     </div>
 
 </div>
-
 
 
 <script>
