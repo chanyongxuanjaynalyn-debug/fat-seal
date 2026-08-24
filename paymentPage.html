@@ -724,174 +724,132 @@
 
 
 <!-- ====================================== -->
-<!-- CHAS CARD -->
+<!-- CHAS SUBSIDY DETAILS -->
 <!-- ====================================== -->
 
-<div
-    id="chas"
-    class="tab-content"
->
+<div class="chas-payment-panel">
 
-    <div class="chas-page">
+    <div class="chas-section-title">
+        CHAS Subsidy Details
+    </div>
 
-        <!-- CHAS HEADER -->
 
-      <div class="chas-header">
+    <!-- NAME -->
 
-    <div class="chas-header-text">
+    <div class="form-group">
 
-        <h3>
-            CHAS Card
-        </h3>
+        <h5>
+            NAME ON CHAS CARD
+        </h5>
 
-        <p>
-            Community Health Assist Scheme
-        </p>
+        <input
+            type="text"
+            id="chasName"
+            value="Amanda Boh"
+            readonly
+        >
 
     </div>
 
-</div>
-        <!-- CHAS CARD DISPLAY -->
 
-        <div class="chas-card-preview">
+    <!-- RANDOM DEMO CARD NUMBER -->
 
-            <div class="chas-card-top">
+    <div class="form-group">
 
-                <img
-                    src="images/chas-logo.png"
-                    alt="CHAS"
-                    class="chas-card-logo"
-                >
+        <h5>
+            CHAS CARD NUMBER
+        </h5>
 
-                <div class="chas-tier">
-                    BLUE
-                </div>
+        <input
+            type="text"
+            id="chasNumber"
+            readonly
+        >
 
+    </div>
+
+
+    <!-- SUBSIDY REMAINING -->
+
+    <div class="form-group">
+
+        <h5>
+            SUBSIDY LEFT TO CLAIM
+        </h5>
+
+        <div class="chas-subsidy-box">
+
+            <div class="chas-subsidy-amount">
+                $300.00
             </div>
 
-
-            <div class="chas-card-name">
-                Amanda Boh
+            <div class="chas-subsidy-caption">
+                Remaining annual subsidy limit
             </div>
-
-
-            <div class="chas-card-label">
-                CHAS Cardholder
-            </div>
-
-        </div>
-
-
-        <!-- PAYMENT DETAILS -->
-
-        <div class="chas-payment-panel">
-
-            <div class="chas-section-title">
-
-                Payment Details
-
-            </div>
-
-
-            <div class="form-group">
-
-                <h5>
-                    NAME ON CHAS CARD
-                </h5>
-
-                <input
-                    type="text"
-                    id="chasName"
-                    value="Amanda Boh"
-                    readonly
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <h5>
-                    DEMO CHAS CARD NUMBER
-                </h5>
-
-                <input
-                    type="text"
-                    id="chasNumber"
-                    placeholder="Enter demo card number"
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <h5>
-                    PAYMENT AMOUNT
-                </h5>
-
-                <div class="chas-amount">
-
-                    $300.00
-
-                </div>
-
-                <input
-                    type="hidden"
-                    id="chasAmount"
-                    value="$300.00"
-                >
-
-            </div>
-
-
-            <div class="chas-status-box">
-
-                <div class="chas-status-icon">
-                    ✓
-                </div>
-
-                <div>
-
-                    <strong>
-                        CHAS Card Eligible
-                    </strong>
-
-                    <p>
-                        Demo card successfully detected
-                        for this transaction.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <button
-                type="button"
-                class="chas-confirm-btn"
-                id="chasButton"
-            >
-
-                CONTINUE WITH CHAS
-
-            </button>
-
-        </div>
-
-
-        <div class="chas-footer">
-
-            Demo interface — not affiliated with or operated by CHAS.
 
         </div>
 
     </div>
 
+
+    <!-- INFORMATION -->
+
+    <div class="chas-info-box">
+
+        <div class="chas-info-icon">
+            i
+        </div>
+
+        <div>
+
+            <strong>
+                No cash is stored on your CHAS card
+            </strong>
+
+            <p>
+                CHAS subsidies are not cash balances
+                and cannot be withdrawn.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- MYCHAS INFORMATION -->
+
+    <div class="chas-info-box">
+
+        <div class="chas-info-icon">
+            ✓
+        </div>
+
+        <div>
+
+            <strong>
+                Track your subsidy limits
+            </strong>
+
+            <p>
+                View your remaining annual subsidy
+                limits and claim history through
+                MyCHAS.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <button
+        type="button"
+        class="chas-confirm-btn"
+        id="chasButton"
+    >
+        CLAIM CHAS SUBSIDY
+    </button>
+
 </div>
-
-
-<script>
 
     // ==========================================
     // PAYMENT TABS
