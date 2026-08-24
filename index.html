@@ -31,7 +31,6 @@
             color: #3f3f3f;
         }
 
-
         .container {
             width: 90%;
             max-width: 650px;
@@ -49,6 +48,10 @@
                 0 5px 20px rgba(0, 0, 0, 0.06);
         }
 
+        .card-icon {
+            font-size: 75px;
+            margin-bottom: 20px;
+        }
 
         h1 {
             margin-top: 0;
@@ -60,39 +63,38 @@
             color: #6eadd9;
         }
 
-
-        .nfc-icon {
-            font-size: 70px;
-            margin-bottom: 20px;
-        }
-
-
         .instruction {
-            margin-bottom: 15px;
+            margin-bottom: 12px;
 
-            font-size: 22px;
+            font-size: 23px;
             font-weight: bold;
 
             color: #31bd67;
         }
 
+        .instruction-cn {
+            margin-bottom: 8px;
 
-        .description {
-            margin-bottom: 30px;
+            font-size: 21px;
 
-            font-size: 17px;
-
-            color: #888;
+            color: #555;
         }
 
+        .instruction-ms {
+            margin-bottom: 30px;
+
+            font-size: 18px;
+
+            color: #777;
+        }
 
         #status {
             margin-top: 25px;
             margin-bottom: 25px;
 
-            padding: 15px;
+            padding: 16px;
 
-            border-radius: 7px;
+            border-radius: 8px;
 
             background: #f5f7f9;
 
@@ -102,18 +104,15 @@
             color: #777;
         }
 
-
         #status.success {
             background: #edf9f1;
             color: #31bd67;
         }
 
-
         #status.error {
             background: #fff0f0;
             color: #d9534f;
         }
-
 
         button {
             padding: 14px 28px;
@@ -131,13 +130,11 @@
             cursor: pointer;
         }
 
-
         button:hover {
             opacity: 0.9;
         }
 
-
-        .test-text {
+        .test-note {
             margin-top: 12px;
 
             font-size: 13px;
@@ -145,21 +142,18 @@
             color: #aaa;
         }
 
-
         @media (max-width: 600px) {
 
             .container {
                 padding: 40px 20px;
             }
 
-
             h1 {
                 font-size: 34px;
             }
 
-
             .instruction {
-                font-size: 19px;
+                font-size: 20px;
             }
 
         }
@@ -175,7 +169,7 @@
     <div class="container">
 
 
-        <div class="nfc-icon">
+        <div class="card-icon">
             💳
         </div>
 
@@ -186,13 +180,17 @@
 
 
         <div class="instruction">
-            Tap your NFC card
+            Please tap your card
         </div>
 
 
-        <div class="description">
-            Please tap your card on the NFC reader
-            to continue to payment.
+        <div class="instruction-cn">
+            请轻触您的卡
+        </div>
+
+
+        <div class="instruction-ms">
+            Sila sentuh kad anda
         </div>
 
 
@@ -204,8 +202,8 @@
         <!--
             TEMPORARY TEST BUTTON
 
-            You can remove this button later
-            when your NFC terminal is available.
+            Remove this button when
+            your NFC terminal is available.
         -->
 
         <button
@@ -216,20 +214,27 @@
         </button>
 
 
-       <button onclick="voiceTapCard()">
-    🔊 Test Voice
-</button>
+        <div class="test-note">
+            Test mode: simulates card 0064446838
+        </div>
 
 
     </div>
 
 
 
+    <!-- ==========================================
+         VOICE FUNCTIONS
+         ========================================== -->
+
+    <script src="js/voice.js"></script>
+
+
+
     <script>
 
-
         // ==========================================
-        // AUTHORISED NFC CARD
+        // AUTHORISED CARD
         // ==========================================
 
         const authorisedCard =
@@ -243,12 +248,65 @@
         let nfcInput = "";
 
 
+        let cardProcessing = false;
+
+
+
+        // ==========================================
+        // INITIAL VOICE PROMPT
+        // ==========================================
+        //
+        // Browsers may block automatic speech
+        // until the user first interacts with
+        // the webpage.
+        //
+        // Once interaction is available,
+        // this announces:
+        //
+        // English
+        // Chinese
+        // Malay
+        // ==========================================
+
+        window.addEventListener(
+            "load",
+            function () {
+
+                setTimeout(
+                    function () {
+
+                        if (
+                            typeof voiceTapCard ===
+                            "function"
+                        ) {
+
+                            voiceTapCard();
+
+                        }
+
+                    },
+                    800
+                );
+
+            }
+        );
+
+
 
         // ==========================================
         // OPEN PAYMENT PAGE
         // ==========================================
 
-        function openPaymentPage(cardNumber) {
+        function openPaymentPage(
+            cardNumber
+        ) {
+
+            if (cardProcessing) {
+                return;
+            }
+
+
+            cardProcessing = true;
 
 
             const status =
@@ -258,7 +316,7 @@
 
 
             status.textContent =
-                "Card recognised! Opening payment page...";
+                "Card recognised";
 
 
             status.classList.remove(
@@ -277,24 +335,54 @@
             );
 
 
-            // Small delay so user can see
-            // the success message
+            // ======================================
+            // SPEAK ALL 3 LANGUAGES FIRST
+            //
+            // THEN redirect to payment page
+            // ======================================
 
-            setTimeout(
-                function() {
+            if (
+                typeof voiceCardAccepted ===
+                "function"
+            ) {
 
+                voiceCardAccepted(
+                    function () {
 
-                    window.location.href =
-                        "paymentPage.html?card=" +
-                        encodeURIComponent(
+                        goToPaymentPage(
                             cardNumber
                         );
 
+                    }
+                );
 
-                },
-                600
-            );
+            }
 
+            else {
+
+                goToPaymentPage(
+                    cardNumber
+                );
+
+            }
+
+        }
+
+
+
+        // ==========================================
+        // REDIRECT
+        // ==========================================
+
+        function goToPaymentPage(
+            cardNumber
+        ) {
+
+            window.location.href =
+                "paymentPage.html?card=" +
+                encodeURIComponent(
+                    cardNumber
+                );
 
         }
 
@@ -306,6 +394,8 @@
 
         function invalidCard() {
 
+            cardProcessing = false;
+
 
             const status =
                 document.getElementById(
@@ -314,7 +404,7 @@
 
 
             status.textContent =
-                "Card not recognised.";
+                "Card not recognised. Please try again.";
 
 
             status.classList.remove(
@@ -327,25 +417,56 @@
             );
 
 
+            if (
+                typeof voiceCardRejected ===
+                "function"
+            ) {
+
+                voiceCardRejected(
+                    function () {
+
+                        if (
+                            typeof voiceTapCard ===
+                            "function"
+                        ) {
+
+                            voiceTapCard();
+
+                        }
+
+                    }
+                );
+
+            }
+
         }
 
 
 
         // ==========================================
         // NFC READER
+        // ==========================================
         //
-        // Most USB NFC readers behave like
-        // keyboards and type the card number.
+        // USB NFC readers normally behave
+        // like keyboards.
+        //
+        // They enter digits rapidly and may
+        // press Enter afterwards.
         // ==========================================
 
         document.addEventListener(
             "keydown",
-            function(event) {
+            function (event) {
 
 
-                // ----------------------------------
-                // COLLECT NUMBERS
-                // ----------------------------------
+                if (cardProcessing) {
+                    return;
+                }
+
+
+                // ==================================
+                // READ NUMBERS
+                // ==================================
 
                 if (
                     /^[0-9]$/.test(
@@ -358,21 +479,21 @@
                         event.key;
 
 
-                    console.log(
-                        "Reading NFC:",
-                        nfcInput
-                    );
-
-
                     document.getElementById(
                         "status"
                     ).textContent =
                         "Reading card...";
 
 
-                    // ----------------------------------
-                    // CARD NUMBER COMPLETE
-                    // ----------------------------------
+                    console.log(
+                        "NFC input:",
+                        nfcInput
+                    );
+
+
+                    // ==================================
+                    // CORRECT CARD
+                    // ==================================
 
                     if (
                         nfcInput ===
@@ -380,24 +501,26 @@
                     ) {
 
 
-                        openPaymentPage(
-                            nfcInput
-                        );
+                        const detectedCard =
+                            nfcInput;
 
 
                         nfcInput = "";
 
 
-                        return;
+                        openPaymentPage(
+                            detectedCard
+                        );
 
+
+                        return;
 
                     }
 
 
-
-                    // ----------------------------------
-                    // TOO MANY NUMBERS
-                    // ----------------------------------
+                    // ==================================
+                    // WRONG CARD / TOO MANY DIGITS
+                    // ==================================
 
                     if (
                         nfcInput.length >=
@@ -405,26 +528,26 @@
                     ) {
 
 
-                        invalidCard();
-
-
                         nfcInput = "";
 
 
-                    }
+                        invalidCard();
 
+
+                        return;
+
+                    }
 
                 }
 
 
 
-                // ----------------------------------
-                // SOME NFC READERS SEND ENTER
-                // ----------------------------------
+                // ==================================
+                // NFC READER ENTER KEY
+                // ==================================
 
                 if (
-                    event.key ===
-                    "Enter"
+                    event.key === "Enter"
                 ) {
 
 
@@ -437,8 +560,15 @@
                     ) {
 
 
+                        const detectedCard =
+                            nfcInput;
+
+
+                        nfcInput = "";
+
+
                         openPaymentPage(
-                            nfcInput
+                            detectedCard
                         );
 
 
@@ -449,17 +579,15 @@
                     ) {
 
 
+                        nfcInput = "";
+
+
                         invalidCard();
 
 
                     }
 
-
-                    nfcInput = "";
-
-
                 }
-
 
             }
         );
@@ -467,17 +595,18 @@
 
 
         // ==========================================
-        // TEST BUTTON
+        // TEST CARD BUTTON
+        // ==========================================
         //
-        // Simulates tapping card:
-        // 0064446838
+        // Lets you test everything without
+        // your NFC terminal.
         // ==========================================
 
         document.getElementById(
             "testButton"
         ).addEventListener(
             "click",
-            function() {
+            function () {
 
 
                 openPaymentPage(
@@ -490,7 +619,7 @@
 
 
     </script>
-<script src="js/voice.js"></script>
+
 
 </body>
 
