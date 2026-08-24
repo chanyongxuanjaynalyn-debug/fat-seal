@@ -297,151 +297,76 @@
         // OPEN PAYMENT PAGE
         // ==========================================
 
-        function openPaymentPage(
-            cardNumber
-        ) {
+       function openPaymentPage(cardNumber) {
 
-            if (cardProcessing) {
-                return;
-            }
+    if (cardProcessing) {
+        return;
+    }
 
+    cardProcessing = true;
 
-            cardProcessing = true;
+    const status =
+        document.getElementById("status");
 
+    status.textContent =
+        "Card recognised";
 
-            const status =
-                document.getElementById(
-                    "status"
-                );
+    status.classList.remove("error");
+    status.classList.add("success");
 
-
-            status.textContent =
-                "Card recognised";
-
-
-            status.classList.remove(
-                "error"
-            );
+    console.log(
+        "Card recognised:",
+        cardNumber
+    );
 
 
-            status.classList.add(
-                "success"
-            );
+    // Prevent redirect from happening twice
+    let redirected = false;
 
 
-            console.log(
-                "Card recognised:",
-                cardNumber
-            );
+    function redirectOnce() {
 
-
-            // ======================================
-            // SPEAK ALL 3 LANGUAGES FIRST
-            //
-            // THEN redirect to payment page
-            // ======================================
-
-            if (
-                typeof voiceCardAccepted ===
-                "function"
-            ) {
-
-                voiceCardAccepted(
-                    function () {
-
-                        goToPaymentPage(
-                            cardNumber
-                        );
-
-                    }
-                );
-
-            }
-
-            else {
-
-                goToPaymentPage(
-                    cardNumber
-                );
-
-            }
-
+        if (redirected) {
+            return;
         }
 
+        redirected = true;
+
+        goToPaymentPage(cardNumber);
+    }
 
 
-        // ==========================================
-        // REDIRECT
-        // ==========================================
+    // Speak card accepted
+    if (
+        typeof voiceCardAccepted ===
+        "function"
+    ) {
 
-        function goToPaymentPage(
-            cardNumber
-        ) {
+        voiceCardAccepted(
+            function () {
 
-            window.location.href =
-                "paymentPage.html?card=" +
-                encodeURIComponent(
-                    cardNumber
-                );
-
-        }
-
-
-
-        // ==========================================
-        // INVALID CARD
-        // ==========================================
-
-        function invalidCard() {
-
-            cardProcessing = false;
-
-
-            const status =
-                document.getElementById(
-                    "status"
-                );
-
-
-            status.textContent =
-                "Card not recognised. Please try again.";
-
-
-            status.classList.remove(
-                "success"
-            );
-
-
-            status.classList.add(
-                "error"
-            );
-
-
-            if (
-                typeof voiceCardRejected ===
-                "function"
-            ) {
-
-                voiceCardRejected(
-                    function () {
-
-                        if (
-                            typeof voiceTapCard ===
-                            "function"
-                        ) {
-
-                            voiceTapCard();
-
-                        }
-
-                    }
-                );
+                // Redirect when speech finishes
+                redirectOnce();
 
             }
+        );
 
-        }
+    }
 
 
+    // FALLBACK:
+    // Redirect even if speech completion
+    // is not detected by the browser
+    setTimeout(
+        function () {
+
+            redirectOnce();
+
+        },
+        4500
+    );
+
+}
 
         // ==========================================
         // NFC READER
