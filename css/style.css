@@ -2218,3 +2218,385 @@ label.checkbox {
     }
 
 }
+/* =====================================================
+   CHAS CARD PAGE
+   Reference-style layout
+===================================================== */
+
+
+/* Main CHAS content */
+
+#chas {
+    width: 100%;
+}
+
+#chas .chas-payment-panel {
+    width: 100%;
+    max-width: 600px;
+
+    margin: 0 auto;
+    padding: 20px 20px 30px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    text-align: center;
+
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+
+/* =====================================================
+   CHAS HEADING
+===================================================== */
+
+#chas .chas-section-title {
+    order: 1;
+
+    width: 100%;
+
+    margin: 0 0 18px;
+
+    font-size: 32px;
+    font-weight: 600;
+
+    color: #348bc9;
+
+    text-align: center;
+}
+
+
+/* Change old heading text visually */
+
+#chas .chas-section-title {
+    font-size: 0;
+}
+
+#chas .chas-section-title::after {
+    content: "CHAS Card";
+
+    font-size: 32px;
+    font-weight: 600;
+
+    color: #348bc9;
+}
+
+
+/* =====================================================
+   CHAS LOGO
+===================================================== */
+
+#chas .chas-payment-panel::before {
+    content: "";
+
+    order: 2;
+
+    display: block;
+
+    width: 420px;
+    max-width: 90%;
+    height: 220px;
+
+    margin: 0 auto 20px;
+
+    background-image: url("../images/chas-logo.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+
+/* =====================================================
+   HIDE NAME FIELD
+   Not shown in reference design
+===================================================== */
+
+#chas .form-group:nth-of-type(1) {
+    display: none !important;
+}
+
+
+/* =====================================================
+   SUBSIDY BOX
+   Move this ABOVE card number
+===================================================== */
+
+#chas .form-group:nth-of-type(3) {
+    order: 3;
+
+    width: 100%;
+    max-width: 550px;
+
+    margin: 0 0 18px !important;
+}
+
+
+/* Hide original uppercase label */
+
+#chas .form-group:nth-of-type(3) > h5 {
+    display: none;
+}
+
+
+#chas .chas-subsidy-box {
+    width: 100%;
+
+    padding: 18px 20px;
+
+    border: 1px solid #9bcdf0;
+    border-radius: 7px;
+
+    background: #f5fbff;
+
+    text-align: center;
+
+    box-shadow: none;
+}
+
+
+/* New label */
+
+#chas .chas-subsidy-box::before {
+    content: "CHAS Subsidy Remaining";
+
+    display: block;
+
+    margin-bottom: 5px;
+
+    font-size: 20px;
+    font-weight: 400;
+
+    color: #333333;
+}
+
+
+/* $300 */
+
+#chas .chas-subsidy-amount {
+    margin: 0 !important;
+
+    font-size: 44px !important;
+    line-height: 1.2;
+
+    font-weight: 500 !important;
+
+    color: #16a13a !important;
+}
+
+
+/* Hide old caption */
+
+#chas .chas-subsidy-caption {
+    display: none !important;
+}
+
+
+/* =====================================================
+   CARD NUMBER BOX
+===================================================== */
+
+#chas .form-group:nth-of-type(2) {
+    order: 4;
+
+    width: 100%;
+    max-width: 550px;
+
+    margin: 0 0 18px !important;
+
+    padding: 16px 20px;
+
+    border: 1.5px dashed #b8c4cc;
+    border-radius: 7px;
+
+    background: #ffffff;
+}
+
+
+/* Label */
+
+#chas .form-group:nth-of-type(2) h5 {
+    margin: 0 0 5px;
+
+    font-size: 19px;
+    font-weight: 400;
+
+    color: #555555;
+}
+
+
+/* Change heading visually */
+
+#chas .form-group:nth-of-type(2) h5 {
+    font-size: 0;
+}
+
+#chas .form-group:nth-of-type(2) h5::after {
+    content: "CHAS Card Number";
+
+    font-size: 19px;
+    font-weight: 400;
+
+    color: #555555;
+}
+
+
+/* Random CHAS number */
+
+#chas #chasNumber {
+    width: 100% !important;
+    height: auto !important;
+
+    padding: 0 !important;
+
+    border: none !important;
+    outline: none !important;
+
+    background: transparent !important;
+
+    text-align: center;
+
+    font-family: "Poppins", Arial, sans-serif;
+    font-size: 28px !important;
+    font-weight: 500;
+
+    color: #16a13a !important;
+}
+
+
+/* =====================================================
+   HIDE OLD INFORMATION PANELS
+===================================================== */
+
+#chas .chas-info-box {
+    display: none !important;
+}
+
+
+/* =====================================================
+   CLAIM BUTTON
+===================================================== */
+
+#chas #chasButton {
+    order: 5;
+
+    width: 100%;
+    max-width: 550px;
+
+    min-height: 68px;
+
+    margin: 0;
+
+    padding: 15px 25px;
+
+    border: none;
+    border-radius: 7px;
+
+    background: #3e91cf;
+
+    color: white;
+
+    font-family: "Poppins", Arial, sans-serif;
+
+    font-size: 0;
+
+    font-weight: 500;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 2px 5px rgba(0, 0, 0, 0.08);
+
+    transition:
+        transform 0.12s ease,
+        opacity 0.12s ease,
+        background 0.12s ease;
+}
+
+
+/* Replacement text */
+
+#chas #chasButton::after {
+    content: "CLAIM $50 SUBSIDY";
+
+    font-size: 23px;
+    font-weight: 500;
+
+    color: white;
+}
+
+
+#chas #chasButton:hover {
+    background: #3287c7;
+}
+
+
+#chas #chasButton:active {
+    transform: scale(0.98);
+}
+
+
+/* =====================================================
+   GREEN CONFIRMATION MESSAGE
+===================================================== */
+
+#chas .chas-payment-panel::after {
+    content: "✓  You can use your CHAS subsidy for this purchase.";
+
+    order: 6;
+
+    display: block;
+
+    margin-top: 15px;
+
+    font-size: 15px;
+    font-weight: 400;
+
+    color: #333333;
+}
+
+
+/* =====================================================
+   ACTIVE CHAS TAB
+===================================================== */
+
+.payment-tabs .tab-button[data-tab="chas"].active {
+    color: #139b35 !important;
+    border-bottom-color: #139b35 !important;
+}
+
+
+/* =====================================================
+   TABLET / MOBILE
+===================================================== */
+
+@media (max-width: 700px) {
+
+    #chas .chas-payment-panel {
+        padding: 15px 5px 25px;
+    }
+
+    #chas .chas-section-title::after {
+        font-size: 27px;
+    }
+
+    #chas .chas-payment-panel::before {
+        width: 320px;
+        height: 170px;
+    }
+
+    #chas .chas-subsidy-amount {
+        font-size: 38px !important;
+    }
+
+    #chas #chasNumber {
+        font-size: 23px !important;
+    }
+
+    #chas #chasButton::after {
+        font-size: 19px;
+    }
+
+}
