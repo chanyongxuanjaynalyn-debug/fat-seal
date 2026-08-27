@@ -393,7 +393,7 @@
 
 
             const cardNumber =
-                nfcInput.trim();
+                nfcInput.replace(/\D/g, "").trim();
 
 
             console.log(
@@ -507,8 +507,7 @@
 
 
             status.textContent =
-                card.name +
-                " recognised";
+                card.name + " recognised";
 
 
             status.classList.remove(
@@ -606,9 +605,16 @@
             }
 
             // This URL parameter is the main hand-off to paymentPage.html.
+            const profile =
+                cardNumber === "0064559458"
+                    ? "fatseal"
+                    : "amanda";
+
             window.location.href =
                 "paymentPage.html?card=" +
                 encodeURIComponent(cardNumber) +
+                "&profile=" +
+                encodeURIComponent(profile) +
                 "&v=" +
                 Date.now();
 
