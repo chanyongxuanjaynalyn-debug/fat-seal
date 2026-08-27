@@ -197,29 +197,6 @@
         </div>
 
 
-        <!-- TEST BUTTONS -->
-
-        <button
-            type="button"
-            id="testCard1"
-        >
-            TEST CARD 1
-        </button>
-
-
-        <button
-            type="button"
-            id="testCard2"
-        >
-            TEST FAT SEAL
-        </button>
-
-
-        <div class="test-note">
-            Test mode only
-        </div>
-
-
     </div>
 
 
@@ -616,29 +593,30 @@
             cardNumber
         ) {
 
-
             console.log(
                 "Redirecting card:",
                 cardNumber
             );
 
-
             const card = cardData[cardNumber];
 
-            // Save the complete selected-card record so every later payment
-            // page (Credit Card / CHAS / PayNow / CDC) can retrieve it.
-            localStorage.setItem(
-                "selectedCard",
-                JSON.stringify({
-                    cardNumber: cardNumber,
-                    name: card.name,
-                    balance: card.balance,
-                    expiry: card.expiry,
-                    cvv: card.cvv
-                })
-            );
+            // Optional browser storage. The payment page does NOT depend on this.
+            try {
+                localStorage.setItem(
+                    "selectedCard",
+                    JSON.stringify({
+                        cardNumber: cardNumber,
+                        name: card.name,
+                        balance: card.balance,
+                        expiry: card.expiry,
+                        cvv: card.cvv
+                    })
+                );
+            } catch (error) {
+                console.log("Browser storage unavailable; continuing with URL card ID.");
+            }
 
-            // Keep the card number in the URL as a fallback.
+            // This URL parameter is the main hand-off to paymentPage.html.
             window.location.href =
                 "paymentPage.html?card=" +
                 encodeURIComponent(cardNumber);
@@ -778,46 +756,6 @@
         );
 
 
-
-        // ==========================================
-        // TEST CARD 1
-        // ==========================================
-
-        document.getElementById(
-            "testCard1"
-        ).addEventListener(
-            "click",
-            function () {
-
-
-                openPaymentPage(
-                    "0064559458"
-                );
-
-
-            }
-        );
-
-
-
-        // ==========================================
-        // TEST FAT SEAL
-        // ==========================================
-
-        document.getElementById(
-            "testCard2"
-        ).addEventListener(
-            "click",
-            function () {
-
-
-                openPaymentPage(
-                    "0064446838"
-                );
-
-
-            }
-        );
 
 
 
