@@ -1097,30 +1097,27 @@
 
     const cards = {
 
+        "0064559458": {
+            cardNumber: "0064559458",
+            amount: "300.00",
+            name: "Amanda Boh",
+            expiryMonth: "08",
+            expiryYear: "26",
+            cvv: "123"
+        },
+
         "0064446838": {
-
-            cardNumber:
-                "0064446838",
-
-            amount:
-                "300.00",
-
-            name:
-                "Amanda Boh",
-
-            expiryMonth:
-                "08",
-
-            expiryYear:
-                "26",
-
-            cvv:
-                "123"
-
+            cardNumber: "0064446838",
+            amount: "6700.00",
+            name: "Fat Seal",
+            expiryMonth: "11",
+            expiryYear: "28",
+            cvv: "520"
         }
 
     };
 
+    let activeCard = null;
 
     let nfcInput = "";
 
@@ -1132,95 +1129,147 @@
 
     function fillCard(card) {
 
-        document.getElementById(
-            "amount"
-        ).value =
-            "$" + card.amount;
+        if (!card) {
+            console.log("No matching card record.");
+            return;
+        }
 
+        activeCard = card;
 
-        document.getElementById(
-            "nameOnCard"
-        ).value =
+        // Fill the Credit Card fields FIRST.
+        // This works even if browser storage is blocked.
+        document.getElementById("amount").value =
+            "$" + Number(card.amount).toFixed(2);
+
+        document.getElementById("nameOnCard").value =
             card.name;
 
-
-        document.getElementById(
-            "cardNumber"
-        ).value =
+        document.getElementById("cardNumber").value =
             card.cardNumber;
 
-
-        document.getElementById(
-            "expiryMonth"
-        ).value =
+        document.getElementById("expiryMonth").value =
             card.expiryMonth;
 
-
-        document.getElementById(
-            "expiryYear"
-        ).value =
+        document.getElementById("expiryYear").value =
             card.expiryYear;
 
-
-        document.getElementById(
-            "cvv"
-        ).value =
+        document.getElementById("cvv").value =
             card.cvv;
 
+        const creditStatus =
+            document.getElementById("creditStatus");
 
-        document.getElementById(
-            "creditStatus"
-        ).textContent =
-            "Card recognised";
+        creditStatus.textContent =
+            card.name + " recognised";
 
+        creditStatus.classList.add("success");
 
-        document.getElementById(
-            "creditStatus"
-        ).classList.add(
-            "success"
-        );
+        // Optional storage only; a storage failure must never stop the page.
+        try {
+            localStorage.setItem(
+                "selectedCard",
+                JSON.stringify({
+                    cardNumber: card.cardNumber,
+                    name: card.name,
+                    balance: Number(card.amount),
+                    amount: card.amount,
+                    expiry: card.expiryMonth + "/" + card.expiryYear,
+                    cvv: card.cvv
+                })
+            );
+        } catch (error) {
+            console.log("Browser storage unavailable.");
+        }
 
+        const balance =
+            Number(card.amount) || 0;
 
-        // Automatically return to
-        // Credit Card tab
+        // CDC
+        const cdcBalanceDisplay =
+            document.getElementById("cdcBalanceDisplay");
 
-        tabButtons.forEach(
-            function(item) {
+        const cdcRemainingBalance =
+            document.getElementById("cdcRemainingBalance");
 
-                item.classList.remove(
-                    "active"
-                );
+        const cdcAmountField =
+            document.getElementById("cdcAmount");
 
-            }
-        );
+        const cdcHousehold =
+            document.querySelector(".redeem-household");
 
+        if (cdcBalanceDisplay) {
+            cdcBalanceDisplay.textContent =
+                "$" + balance.toFixed(2);
+        }
 
-        tabContents.forEach(
-            function(content) {
+        if (cdcRemainingBalance) {
+            cdcRemainingBalance.textContent =
+                "$" + balance.toFixed(2);
+        }
 
-                content.classList.remove(
-                    "active"
-                );
+        if (cdcAmountField) {
+            cdcAmountField.max = balance;
+            cdcAmountField.value = "0";
+        }
 
-            }
-        );
+        if (cdcHousehold) {
+            cdcHousehold.textContent =
+                card.name + " Household";
+        }
 
+        // PayNow
+        const paynowAmount =
+            document.getElementById("paynowAmount");
 
-        document.querySelector(
-            '[data-tab="credit"]'
-        ).classList.add(
-            "active"
-        );
+        const paynowButton =
+            document.getElementById("paynowButton");
 
+        if (paynowAmount) {
+            paynowAmount.textContent =
+                "$" + balance.toFixed(2);
+        }
 
-        document.getElementById(
-            "credit"
-        ).classList.add(
-            "active"
-        );
+        if (paynowButton) {
+            paynowButton.textContent =
+                "PAY S$" + balance.toFixed(2);
+        }
 
+        // CHAS
+        const chasName =
+            document.getElementById("chasName");
+
+        const chasSubsidy =
+            document.querySelector(".chas-subsidy-amount");
+
+        if (chasName) {
+            chasName.value =
+                card.name;
+        }
+
+        if (chasSubsidy) {
+            chasSubsidy.textContent =
+                "$" + balance.toFixed(2);
+        }
+
+        // Return to Credit Card tab after a card is loaded.
+        tabButtons.forEach(function(item) {
+            item.classList.remove("active");
+        });
+
+        tabContents.forEach(function(content) {
+            content.classList.remove("active");
+        });
+
+        const creditTab =
+            document.querySelector('[data-tab="credit"]');
+
+        if (creditTab) {
+            creditTab.classList.add("active");
+        }
+
+        document.getElementById("credit")
+            .classList.add("active");
     }
-
 
 
     // ==========================================
@@ -1323,21 +1372,42 @@
             window.location.search
         );
 
-
     const urlCard =
-        urlParams.get(
-            "card"
-        );
+        (urlParams.get("card") || "").trim();
 
+    console.log("Card received from index:", urlCard);
 
-    if (
-        urlCard &&
-        cards[urlCard]
-    ) {
+    if (urlCard && cards[urlCard]) {
 
         fillCard(
             cards[urlCard]
         );
+
+    } else {
+
+        // Fallback only. The normal flow uses ?card= in the URL.
+        try {
+            const savedCard =
+                JSON.parse(
+                    localStorage.getItem(
+                        "selectedCard"
+                    )
+                );
+
+            if (
+                savedCard &&
+                savedCard.cardNumber &&
+                cards[savedCard.cardNumber]
+            ) {
+                fillCard(
+                    cards[savedCard.cardNumber]
+                );
+            }
+        } catch (error) {
+            console.log(
+                "No saved card available."
+            );
+        }
 
     }
 
@@ -1387,7 +1457,11 @@
 // CDC VOUCHER DEMO
 // ==========================================
 
-const CDC_BALANCE = 300;
+function getCDCBalance() {
+    return activeCard
+        ? (Number(activeCard.amount) || 0)
+        : 300;
+}
 
 const cdcAmount =
     document.getElementById("cdcAmount");
@@ -1429,6 +1503,8 @@ function updateCDCAmount(value) {
     if (amount < 0) {
         amount = 0;
     }
+
+    const CDC_BALANCE = getCDCBalance();
 
     if (amount > CDC_BALANCE) {
         amount = CDC_BALANCE;
