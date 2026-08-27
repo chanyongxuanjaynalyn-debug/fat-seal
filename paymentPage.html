@@ -208,10 +208,167 @@
             margin-bottom: 25px;
         }
 
-        .paypal-login {
+        .paynow-shell {
             max-width: 520px;
             margin: 0 auto;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 14px 35px rgba(0,0,0,0.08);
         }
+
+        .paynow-header {
+            background: linear-gradient(135deg, #7b2cbf, #9d4edd);
+            color: white;
+            padding: 22px 24px 18px;
+            text-align: center;
+        }
+
+        .paynow-brand {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: .2px;
+        }
+
+        .paynow-subbrand {
+            margin-top: 4px;
+            font-size: 13px;
+            opacity: .9;
+        }
+
+        .paynow-demo-badge {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: rgba(255,255,255,.18);
+            border: 1px solid rgba(255,255,255,.28);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .6px;
+        }
+
+        .paynow-body {
+            padding: 24px;
+        }
+
+        .paynow-merchant-card {
+            background: #faf7fd;
+            border: 1px solid #eadcf7;
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 18px;
+        }
+
+        .paynow-label {
+            font-size: 12px;
+            color: #7a7a7a;
+            font-weight: 700;
+            letter-spacing: .5px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .paynow-merchant {
+            font-size: 20px;
+            font-weight: 700;
+            color: #2f2f2f;
+        }
+
+        .paynow-uen {
+            margin-top: 5px;
+            font-size: 13px;
+            color: #777;
+        }
+
+        .paynow-amount-card {
+            border: 1px solid #ececf1;
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 18px;
+        }
+
+        .paynow-amount {
+            font-size: 38px;
+            font-weight: 700;
+            color: #242424;
+            margin-top: 4px;
+        }
+
+        .paynow-reference {
+            margin-top: 10px;
+            font-size: 13px;
+            color: #777;
+        }
+
+        .paynow-bank-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 15px 0;
+            border-top: 1px solid #eeeeee;
+            border-bottom: 1px solid #eeeeee;
+            margin-bottom: 18px;
+        }
+
+        .paynow-bank-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .paynow-bank-sub {
+            font-size: 12px;
+            color: #888;
+            margin-top: 3px;
+        }
+
+        .paynow-bank-chip {
+            background: #f3e8ff;
+            color: #7b2cbf;
+            font-weight: 700;
+            font-size: 12px;
+            padding: 7px 10px;
+            border-radius: 999px;
+        }
+
+        .paynow-primary {
+            width: 100%;
+            border: none;
+            border-radius: 10px;
+            background: #7b2cbf;
+            color: #fff;
+            padding: 15px 18px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .paynow-primary:hover {
+            opacity: .94;
+        }
+
+        .paynow-warning {
+            margin-top: 16px;
+            padding: 14px 15px;
+            border-radius: 10px;
+            background: #fff8e5;
+            border: 1px solid #f1dfad;
+            color: #67551e;
+            font-size: 12px;
+            line-height: 1.55;
+        }
+
+        .paynow-footer {
+            text-align: center;
+            font-size: 11px;
+            color: #9a9a9a;
+            padding: 0 24px 22px;
+        }
+
+
 
         .demo-warning {
             padding: 15px;
@@ -280,9 +437,9 @@
 
             <button
                 class="tab-button"
-                data-tab="paypal"
+                data-tab="paynow"
             >
-                PayPal
+                PayNow
             </button>
 
             <button
@@ -660,63 +817,65 @@
 </div>
 
         <!-- ====================================== -->
-        <!-- PAYPAL -->
+        <!-- PAYNOW DEMO -->
         <!-- ====================================== -->
 
         <div
-            id="paypal"
+            id="paynow"
             class="tab-content"
         >
 
-            <h3>PayPal</h3>
+            <h3>PayNow</h3>
 
+            <div class="paynow-shell">
 
-            <div class="paypal-login">
-
-                <h2>
-                    PayPal Demo Login
-                </h2>
-
-
-                <div class="demo-warning">
-
-                    This is a demonstration interface only.
-
-                    Do not enter a real PayPal email address or password.
-
+                <div class="paynow-header">
+                    <div class="paynow-brand">PayNow</div>
+                    <div class="paynow-subbrand">Fast and secure SGD transfer</div>
+                    <div class="paynow-demo-badge">DEMO PAYMENT SCREEN</div>
                 </div>
 
+                <div class="paynow-body">
 
-                <div class="form-group">
+                    <div class="paynow-merchant-card">
+                        <div class="paynow-label">Paying to</div>
+                        <div class="paynow-merchant">TKGS Demo Merchant</div>
+                        <div class="paynow-uen">UEN • 2026DEMO01A</div>
+                    </div>
 
-                    <h5>EMAIL</h5>
+                    <div class="paynow-amount-card">
+                        <div class="paynow-label">Amount</div>
+                        <div class="paynow-amount" id="paynowAmount">$25.00</div>
+                        <div class="paynow-reference">Reference: SCAM-AWARENESS-DEMO</div>
+                    </div>
 
-                    <input
-                        type="text"
-                        placeholder="demo@example.com"
+                    <div class="paynow-bank-row">
+                        <div>
+                            <div class="paynow-bank-name">Bank account</div>
+                            <div class="paynow-bank-sub">Demo account •••• 2486</div>
+                        </div>
+                        <div class="paynow-bank-chip">Selected</div>
+                    </div>
+
+                    <button
+                        type="button"
+                        class="paynow-primary"
+                        id="paynowButton"
                     >
+                        PAY S$25.00
+                    </button>
+
+                    <div class="paynow-warning">
+                        <strong>Scam-awareness simulation:</strong>
+                        this page does not process a real PayNow transfer and should not be used to collect
+                        bank credentials, OTPs, Singpass details, or real payment information.
+                    </div>
 
                 </div>
 
-
-                <div class="form-group">
-
-                    <h5>PASSWORD</h5>
-
-                    <input
-                        type="password"
-                        placeholder="Demo password"
-                    >
-
+                <div class="paynow-footer">
+                    Educational demo interface — not affiliated with PayNow, ABS or any bank.
                 </div>
-
-
-                <button
-                    class="confirm-btn"
-                    id="paypalButton"
-                >
-                    CONTINUE
-                </button>
 
             </div>
 
@@ -1421,19 +1580,19 @@ document
     );
 
 
+
     // ==========================================
-    // PAYPAL DEMO
+    // PAYNOW DEMO
     // ==========================================
 
     document.getElementById(
-        "paypalButton"
+        "paynowButton"
     ).addEventListener(
         "click",
         function() {
 
-            alert(
-                "Demo PayPal payment."
-            );
+            window.location.href =
+                "successPage.html";
 
         }
     );
