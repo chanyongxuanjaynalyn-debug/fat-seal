@@ -19,7 +19,6 @@
         }
 
         body {
-
             margin: 0;
             min-height: 100vh;
 
@@ -34,7 +33,6 @@
         }
 
         .container {
-
             width: 90%;
             max-width: 650px;
 
@@ -57,7 +55,6 @@
         }
 
         h1 {
-
             margin-top: 0;
             margin-bottom: 20px;
 
@@ -68,7 +65,6 @@
         }
 
         .instruction {
-
             margin-bottom: 12px;
 
             font-size: 23px;
@@ -78,7 +74,6 @@
         }
 
         .instruction-cn {
-
             margin-bottom: 8px;
 
             font-size: 21px;
@@ -87,7 +82,6 @@
         }
 
         .instruction-ms {
-
             margin-bottom: 30px;
 
             font-size: 18px;
@@ -96,7 +90,6 @@
         }
 
         #status {
-
             margin-top: 25px;
             margin-bottom: 25px;
 
@@ -123,7 +116,6 @@
         }
 
         button {
-
             padding: 14px 28px;
 
             border: none;
@@ -137,6 +129,8 @@
             font-weight: bold;
 
             cursor: pointer;
+
+            margin: 5px;
         }
 
         button:hover {
@@ -144,14 +138,12 @@
         }
 
         .test-note {
-
             margin-top: 12px;
 
             font-size: 13px;
 
             color: #aaa;
         }
-
 
         @media (max-width: 600px) {
 
@@ -205,16 +197,26 @@
         </div>
 
 
+        <!-- TEST BUTTONS -->
+
         <button
             type="button"
-            id="testButton"
+            id="testCard1"
         >
-            TEST FAT SEAL CARD
+            TEST CARD 1
+        </button>
+
+
+        <button
+            type="button"
+            id="testCard2"
+        >
+            TEST FAT SEAL
         </button>
 
 
         <div class="test-note">
-            Test mode: simulates Fat Seal card 0064446838
+            Test mode only
         </div>
 
 
@@ -229,14 +231,41 @@
     <script src="js/voice.js"></script>
 
 
+
     <script>
 
 
         // ==========================================
         // CARD DATABASE
         // ==========================================
+        //
+        // CARD 1
+        // 0064559458
+        //
+        // FAT SEAL
+        // 0064446838
+        // Balance: $6700
+        // Expiry: 11/28
+        // CVV: 520
+        //
+        // ==========================================
+
 
         const cardData = {
+
+
+            "0064559458": {
+
+                name: "Card 1",
+
+                balance: 0,
+
+                expiry: "",
+
+                cvv: ""
+
+            },
+
 
             "0064446838": {
 
@@ -247,19 +276,9 @@
                 expiry: "11/28",
 
                 cvv: "520"
-            },
 
-
-            "0064559458": {
-
-                name: "Card 2",
-
-                balance: 0,
-
-                expiry: "",
-
-                cvv: ""
             }
+
 
         };
 
@@ -275,25 +294,14 @@
 
 
         // ==========================================
-        // LONGEST CARD NUMBER
-        // ==========================================
-
-        const maxCardLength =
-            Math.max(
-                ...authorisedCards.map(
-                    card => card.length
-                )
-            );
-
-
-
-        // ==========================================
-        // NFC INPUT STORAGE
+        // NFC VARIABLES
         // ==========================================
 
         let nfcInput = "";
 
         let cardProcessing = false;
+
+        let inputTimer = null;
 
 
 
@@ -327,13 +335,41 @@
 
 
         // ==========================================
+        // RESET STATUS
+        // ==========================================
+
+        function resetStatus() {
+
+            const status =
+                document.getElementById(
+                    "status"
+                );
+
+            status.textContent =
+                "Waiting for card...";
+
+            status.classList.remove(
+                "success"
+            );
+
+            status.classList.remove(
+                "error"
+            );
+
+        }
+
+
+
+        // ==========================================
         // INVALID CARD
         // ==========================================
 
         function invalidCard() {
 
             const status =
-                document.getElementById("status");
+                document.getElementById(
+                    "status"
+                );
 
 
             status.textContent =
@@ -350,6 +386,11 @@
             );
 
 
+            console.log(
+                "CARD NOT RECOGNISED"
+            );
+
+
             if (
                 typeof voiceInvalidCard ===
                 "function"
@@ -363,13 +404,7 @@
             setTimeout(
                 function () {
 
-                    status.textContent =
-                        "Waiting for card...";
-
-
-                    status.classList.remove(
-                        "error"
-                    );
+                    resetStatus();
 
                 },
                 2500
@@ -380,28 +415,129 @@
 
 
         // ==========================================
-        // OPEN PAYMENT PAGE
+        // PROCESS COMPLETE CARD
         // ==========================================
 
-        function openPaymentPage(cardNumber) {
+        function processCard() {
 
 
-            if (cardProcessing) {
+            clearTimeout(
+                inputTimer
+            );
+
+
+            const cardNumber =
+                nfcInput.trim();
+
+
+            console.log(
+                "FULL NFC CARD NUMBER:",
+                cardNumber
+            );
+
+
+            // Clear input ready for next scan
+
+            nfcInput = "";
+
+
+            if (
+                cardNumber === ""
+            ) {
+
                 return;
+
             }
 
 
-            cardProcessing = true;
+
+            // ======================================
+            // CHECK AUTHORISED CARDS
+            // ======================================
+
+            if (
+                authorisedCards.includes(
+                    cardNumber
+                )
+            ) {
+
+
+                console.log(
+                    "AUTHORISED CARD:",
+                    cardNumber
+                );
+
+
+                openPaymentPage(
+                    cardNumber
+                );
+
+
+                return;
+
+            }
+
+
+
+            // ======================================
+            // UNKNOWN CARD
+            // ======================================
+
+            console.log(
+                "UNKNOWN CARD:",
+                cardNumber
+            );
+
+
+            invalidCard();
+
+        }
+
+
+
+        // ==========================================
+        // OPEN PAYMENT PAGE
+        // ==========================================
+
+        function openPaymentPage(
+            cardNumber
+        ) {
+
+
+            if (
+                cardProcessing
+            ) {
+
+                return;
+
+            }
+
+
+            const card =
+                cardData[
+                    cardNumber
+                ];
+
+
+            if (
+                !card
+            ) {
+
+                invalidCard();
+
+                return;
+
+            }
+
+
+            cardProcessing =
+                true;
 
 
             const status =
                 document.getElementById(
                     "status"
                 );
-
-
-            const card =
-                cardData[cardNumber];
 
 
             status.textContent =
@@ -435,6 +571,7 @@
                 "Balance:",
                 card.balance
             );
+
 
 
             // ======================================
@@ -475,11 +612,14 @@
         // GO TO PAYMENT PAGE
         // ==========================================
 
-        function goToPaymentPage(cardNumber) {
+        function goToPaymentPage(
+            cardNumber
+        ) {
 
 
             console.log(
-                "Redirecting to paymentPage.html"
+                "Redirecting card:",
+                cardNumber
             );
 
 
@@ -497,26 +637,37 @@
         // NFC READER
         // ==========================================
         //
-        // USB NFC readers usually behave
-        // like keyboards.
+        // The NFC reader behaves like a keyboard.
         //
-        // The reader types the card number
-        // rapidly and may press Enter afterwards.
+        // It sends the card number one character
+        // at a time.
+        //
+        // We wait 150 ms after the final character
+        // before processing the complete card.
+        //
+        // If the NFC reader sends ENTER, the card
+        // is processed immediately.
+        //
         // ==========================================
+
 
         document.addEventListener(
             "keydown",
             function (event) {
 
 
-                if (cardProcessing) {
+                if (
+                    cardProcessing
+                ) {
+
                     return;
+
                 }
 
 
 
                 // ==================================
-                // READ NUMBER KEYS
+                // NUMBER RECEIVED
                 // ==================================
 
                 if (
@@ -530,74 +681,62 @@
                         event.key;
 
 
-                    document.getElementById(
-                        "status"
-                    ).textContent =
-                        "Reading card...";
-
-
                     console.log(
-                        "NFC input:",
+                        "Reading NFC:",
                         nfcInput
                     );
 
 
-
-                    // ==================================
-                    // AUTHORISED CARD FOUND
-                    // ==================================
-
-                    if (
-                        authorisedCards.includes(
-                            nfcInput
-                        )
-                    ) {
-
-
-                        const detectedCard =
-                            nfcInput;
-
-
-                        nfcInput = "";
-
-
-                        openPaymentPage(
-                            detectedCard
+                    const status =
+                        document.getElementById(
+                            "status"
                         );
 
 
-                        return;
-
-                    }
-
+                    status.textContent =
+                        "Reading card...";
 
 
-                    // ==================================
-                    // TOO MANY DIGITS / INVALID CARD
-                    // ==================================
-
-                    if (
-                        nfcInput.length >=
-                        maxCardLength
-                    ) {
+                    status.classList.remove(
+                        "error"
+                    );
 
 
-                        nfcInput = "";
+                    status.classList.remove(
+                        "success"
+                    );
 
 
-                        invalidCard();
+
+                    // Cancel previous timer
+
+                    clearTimeout(
+                        inputTimer
+                    );
 
 
-                        return;
 
-                    }
+                    // Wait for reader to finish
+
+                    inputTimer =
+                        setTimeout(
+                            function () {
+
+                                processCard();
+
+                            },
+                            150
+                        );
+
+
+                    return;
 
                 }
 
 
 
                 // ==================================
-                // NFC READER ENTER KEY
+                // ENTER FROM NFC READER
                 // ==================================
 
                 if (
@@ -609,38 +748,15 @@
                     event.preventDefault();
 
 
-                    if (
-                        authorisedCards.includes(
-                            nfcInput
-                        )
-                    ) {
+                    clearTimeout(
+                        inputTimer
+                    );
 
 
-                        const detectedCard =
-                            nfcInput;
+                    processCard();
 
 
-                        nfcInput = "";
-
-
-                        openPaymentPage(
-                            detectedCard
-                        );
-
-                    }
-
-
-                    else if (
-                        nfcInput !== ""
-                    ) {
-
-
-                        nfcInput = "";
-
-
-                        invalidCard();
-
-                    }
+                    return;
 
                 }
 
@@ -650,11 +766,32 @@
 
 
         // ==========================================
-        // TEST FAT SEAL CARD
+        // TEST CARD 1
         // ==========================================
 
         document.getElementById(
-            "testButton"
+            "testCard1"
+        ).addEventListener(
+            "click",
+            function () {
+
+
+                openPaymentPage(
+                    "0064559458"
+                );
+
+
+            }
+        );
+
+
+
+        // ==========================================
+        // TEST FAT SEAL
+        // ==========================================
+
+        document.getElementById(
+            "testCard2"
         ).addEventListener(
             "click",
             function () {
@@ -664,13 +801,14 @@
                     "0064446838"
                 );
 
+
             }
         );
 
 
 
         // ==========================================
-        // ENABLE VOICE AFTER FIRST CLICK
+        // ENABLE VOICE AFTER FIRST INTERACTION
         // ==========================================
 
         let firstInteractionDone =
@@ -685,7 +823,9 @@
                 if (
                     firstInteractionDone
                 ) {
+
                     return;
+
                 }
 
 
