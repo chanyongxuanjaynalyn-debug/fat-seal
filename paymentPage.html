@@ -564,8 +564,8 @@
             >
                 Tap NFC card or type card number.
             </div>
-            <div id="loadedCardDebug" style="margin-top:12px;font-size:12px;color:#999;"></div>
 
+            <div id="loadedCardDebug" style="margin-top:10px;font-size:12px;color:#999;"></div>
 
         </div>
 
@@ -626,7 +626,7 @@
                 $300.00
             </div>
 
-            <div class="redeem-household" id="cdcHousehold">
+            <div class="redeem-household">
                 Selected Card Household
             </div>
 
@@ -1197,7 +1197,6 @@
             document.getElementById("cdcAmount");
 
         const cdcHousehold =
-            document.getElementById("cdcHousehold") ||
             document.querySelector(".redeem-household");
 
         if (cdcBalanceDisplay) {
@@ -1273,12 +1272,12 @@
         document.getElementById("credit")
             .classList.add("active");
 
-        const debug =
+        const loadedCardDebug =
             document.getElementById("loadedCardDebug");
 
-        if (debug) {
-            debug.textContent =
-                "Loaded NFC card: " + card.cardNumber;
+        if (loadedCardDebug) {
+            loadedCardDebug.textContent =
+                card.name + " • " + card.cardNumber;
         }
     }
 
@@ -1384,17 +1383,36 @@
         );
 
     const urlCard =
-        (urlParams.get("card") || "").trim();
+        (urlParams.get("card") || "")
+            .replace(/\D/g, "")
+            .trim();
+
+    const profile =
+        (urlParams.get("profile") || "")
+            .toLowerCase()
+            .trim();
 
     console.log("Card received from index:", urlCard);
+    console.log("Profile received from index:", profile);
 
-    // URL card ID is authoritative.
-    // Do not fall back to an older saved card, because that can show
-    // Amanda Boh after Fat Seal was tapped.
-    if (urlCard && cards[urlCard]) {
+    // Strict card/profile pairing prevents the two cards from ever
+    // borrowing each other's displayed card number or details.
+    if (
+        profile === "fatseal" ||
+        urlCard === "0064559458"
+    ) {
 
         fillCard(
-            cards[urlCard]
+            cards["0064559458"]
+        );
+
+    } else if (
+        profile === "amanda" ||
+        urlCard === "0064446838"
+    ) {
+
+        fillCard(
+            cards["0064446838"]
         );
 
     } else {
@@ -1772,4 +1790,3 @@ if (chasNumberField) {
 </body>
 
 </html>
-        
