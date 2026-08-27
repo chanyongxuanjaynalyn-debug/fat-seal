@@ -115,6 +115,35 @@
             color: #d9534f;
         }
 
+        .test-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        .test-buttons button {
+            padding: 14px 22px;
+            border: none;
+            border-radius: 7px;
+            background: #6eadd9;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .test-buttons button:hover {
+            opacity: 0.9;
+        }
+
+        .test-note {
+            margin-top: 12px;
+            font-size: 13px;
+            color: #aaa;
+        }
+
         button {
             padding: 14px 28px;
 
@@ -195,6 +224,14 @@
         <div id="status">
             Waiting for card...
         </div>
+
+        <!-- TEST BUTTONS -->
+        <div class="test-buttons">
+            <button type="button" id="testAmanda">TEST AMANDA BOH</button>
+            <button type="button" id="testFatSeal">TEST FAT SEAL</button>
+        </div>
+
+        <div class="test-note">Test mode only</div>
 
 
     </div>
@@ -754,6 +791,25 @@
 
 
 
+
+
+        // ==========================================
+        // TEST BUTTONS
+        // ==========================================
+
+        document.getElementById("testAmanda").addEventListener(
+            "click",
+            function () {
+                openPaymentPage("0064446838");
+            }
+        );
+
+        document.getElementById("testFatSeal").addEventListener(
+            "click",
+            function () {
+                openPaymentPage("0064559458");
+            }
+        );
 
 
         // ==========================================
