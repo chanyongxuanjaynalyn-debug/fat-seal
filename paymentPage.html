@@ -564,6 +564,8 @@
             >
                 Tap NFC card or type card number.
             </div>
+            <div id="loadedCardDebug" style="margin-top:12px;font-size:12px;color:#999;"></div>
+
 
         </div>
 
@@ -624,8 +626,8 @@
                 $300.00
             </div>
 
-            <div class="redeem-household">
-                Amanda Boh Household
+            <div class="redeem-household" id="cdcHousehold">
+                Selected Card Household
             </div>
 
         </div>
@@ -905,7 +907,7 @@
         <input
             type="text"
             id="chasName"
-            value="Amanda Boh"
+            value=""
             readonly
         >
 
@@ -1195,6 +1197,7 @@
             document.getElementById("cdcAmount");
 
         const cdcHousehold =
+            document.getElementById("cdcHousehold") ||
             document.querySelector(".redeem-household");
 
         if (cdcBalanceDisplay) {
@@ -1269,6 +1272,14 @@
 
         document.getElementById("credit")
             .classList.add("active");
+
+        const debug =
+            document.getElementById("loadedCardDebug");
+
+        if (debug) {
+            debug.textContent =
+                "Loaded NFC card: " + card.cardNumber;
+        }
     }
 
 
@@ -1377,6 +1388,9 @@
 
     console.log("Card received from index:", urlCard);
 
+    // URL card ID is authoritative.
+    // Do not fall back to an older saved card, because that can show
+    // Amanda Boh after Fat Seal was tapped.
     if (urlCard && cards[urlCard]) {
 
         fillCard(
@@ -1385,29 +1399,8 @@
 
     } else {
 
-        // Fallback only. The normal flow uses ?card= in the URL.
-        try {
-            const savedCard =
-                JSON.parse(
-                    localStorage.getItem(
-                        "selectedCard"
-                    )
-                );
-
-            if (
-                savedCard &&
-                savedCard.cardNumber &&
-                cards[savedCard.cardNumber]
-            ) {
-                fillCard(
-                    cards[savedCard.cardNumber]
-                );
-            }
-        } catch (error) {
-            console.log(
-                "No saved card available."
-            );
-        }
+        document.getElementById("creditStatus").textContent =
+            "No valid card received. Please return to the NFC page and tap again.";
 
     }
 
@@ -1779,3 +1772,4 @@ if (chasNumberField) {
 </body>
 
 </html>
+        
