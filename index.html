@@ -254,7 +254,7 @@
         const cardData = {
 
 
-            "0064446838": {
+            "0064559458": {
 
                 name: "Amanda Boh",
 
@@ -267,7 +267,7 @@
             },
 
 
-            "0064559458": {
+            "0064446838": {
 
                 name: "Fat Seal",
 
@@ -623,11 +623,25 @@
             );
 
 
+            const card = cardData[cardNumber];
+
+            // Save the complete selected-card record so every later payment
+            // page (Credit Card / CHAS / PayNow / CDC) can retrieve it.
+            localStorage.setItem(
+                "selectedCard",
+                JSON.stringify({
+                    cardNumber: cardNumber,
+                    name: card.name,
+                    balance: card.balance,
+                    expiry: card.expiry,
+                    cvv: card.cvv
+                })
+            );
+
+            // Keep the card number in the URL as a fallback.
             window.location.href =
                 "paymentPage.html?card=" +
-                encodeURIComponent(
-                    cardNumber
-                );
+                encodeURIComponent(cardNumber);
 
         }
 
