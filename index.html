@@ -608,7 +608,9 @@
             // This URL parameter is the main hand-off to paymentPage.html.
             window.location.href =
                 "paymentPage.html?card=" +
-                encodeURIComponent(cardNumber);
+                encodeURIComponent(cardNumber) +
+                "&v=" +
+                Date.now();
 
         }
 
