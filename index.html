@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
 
     <meta
@@ -13,7 +12,6 @@
     <title>NFC Payment</title>
 
     <style>
-
         * {
             box-sizing: border-box;
         }
@@ -81,14 +79,6 @@
             color: #555;
         }
 
-        .instruction-ms {
-            margin-bottom: 30px;
-
-            font-size: 18px;
-
-            color: #777;
-        }
-
         #status {
             margin-top: 25px;
             margin-bottom: 25px;
@@ -144,38 +134,7 @@
             color: #aaa;
         }
 
-        button {
-            padding: 14px 28px;
-
-            border: none;
-            border-radius: 7px;
-
-            background: #6eadd9;
-
-            color: white;
-
-            font-size: 17px;
-            font-weight: bold;
-
-            cursor: pointer;
-
-            margin: 5px;
-        }
-
-        button:hover {
-            opacity: 0.9;
-        }
-
-        .test-note {
-            margin-top: 12px;
-
-            font-size: 13px;
-
-            color: #aaa;
-        }
-
         @media (max-width: 600px) {
-
             .container {
                 padding: 40px 20px;
             }
@@ -187,39 +146,29 @@
             .instruction {
                 font-size: 20px;
             }
-
         }
-
     </style>
-
 </head>
-
 
 <body>
 
-
     <div class="container">
-
 
         <div class="card-icon">
             💳
         </div>
 
-
         <h1>
             NFC Payment
         </h1>
-
 
         <div class="instruction">
             Please tap your card
         </div>
 
-
         <div class="instruction-cn">
             请轻触您的卡
         </div>
-
 
         <div id="status">
             Waiting for card...
@@ -227,46 +176,51 @@
 
         <!-- TEST BUTTONS -->
         <div class="test-buttons">
-            <button type="button" id="testAmanda">TEST AMANDA BOH</button>
-            <button type="button" id="testFatSeal">TEST FAT SEAL</button>
+            <button
+                type="button"
+                id="testAmanda"
+            >
+                TEST AMANDA BOH
+            </button>
+
+            <button
+                type="button"
+                id="testFatSeal"
+            >
+                TEST FAT SEAL
+            </button>
         </div>
 
-        <div class="test-note">Test mode only</div>
-
+        <div class="test-note">
+            Test mode only
+        </div>
 
     </div>
 
 
-
-    <!-- ==========================================
-         VOICE FUNCTIONS
-         ========================================== -->
-
+    <!-- Voice functions -->
     <script src="js/voice.js"></script>
 
 
-
     <script>
-
 
         // ==========================================
         // CARD DATABASE
         // ==========================================
         //
-        // AMANDA BOH
-        // 0064446838
+        // Amanda Boh
+        // NFC: 0064446838
         // Balance: $300
         // Expiry: 08/26
         // CVV: 123
         //
-        // FAT SEAL
-        // 0064559458
+        // Fat Seal
+        // NFC: 0064559458
         // Balance: $6700
         // Expiry: 11/28
         // CVV: 520
         //
         // ==========================================
-
 
         const cardData = {
 
@@ -295,7 +249,6 @@
             Object.keys(cardData);
 
 
-
         // ==========================================
         // NFC VARIABLES
         // ==========================================
@@ -305,7 +258,6 @@
         let cardProcessing = false;
 
         let inputTimer = null;
-
 
 
         // ==========================================
@@ -336,7 +288,6 @@
         );
 
 
-
         // ==========================================
         // RESET STATUS
         // ==========================================
@@ -359,8 +310,8 @@
                 "error"
             );
 
+            cardProcessing = false;
         }
-
 
 
         // ==========================================
@@ -374,25 +325,20 @@
                     "status"
                 );
 
-
             status.textContent =
                 "Card not recognised";
-
 
             status.classList.remove(
                 "success"
             );
 
-
             status.classList.add(
                 "error"
             );
 
-
             console.log(
                 "CARD NOT RECOGNISED"
             );
-
 
             if (
                 typeof voiceInvalidCard ===
@@ -403,7 +349,6 @@
 
             }
 
-
             setTimeout(
                 function () {
 
@@ -412,46 +357,37 @@
                 },
                 2500
             );
-
         }
 
 
-
         // ==========================================
-        // PROCESS COMPLETE CARD
+        // PROCESS COMPLETE NFC CARD
         // ==========================================
 
         function processCard() {
-
 
             clearTimeout(
                 inputTimer
             );
 
-
             const cardNumber =
-                nfcInput.replace(/\D/g, "").trim();
-
+                nfcInput
+                    .replace(/\D/g, "")
+                    .trim();
 
             console.log(
                 "FULL NFC CARD NUMBER:",
                 cardNumber
             );
 
-
-            // Clear input ready for next scan
-
+            // Clear scanner buffer
             nfcInput = "";
-
 
             if (
                 cardNumber === ""
             ) {
-
                 return;
-
             }
-
 
 
             // ======================================
@@ -464,22 +400,17 @@
                 )
             ) {
 
-
                 console.log(
                     "AUTHORISED CARD:",
                     cardNumber
                 );
 
-
                 openPaymentPage(
                     cardNumber
                 );
 
-
                 return;
-
             }
-
 
 
             // ======================================
@@ -491,83 +422,66 @@
                 cardNumber
             );
 
-
             invalidCard();
-
         }
 
 
-
         // ==========================================
-        // OPEN PAYMENT PAGE
+        // CARD RECOGNISED
         // ==========================================
 
         function openPaymentPage(
             cardNumber
         ) {
 
-
             if (
                 cardProcessing
             ) {
-
                 return;
-
             }
-
 
             const card =
                 cardData[
                     cardNumber
                 ];
 
-
             if (
                 !card
             ) {
 
                 invalidCard();
-
                 return;
 
             }
 
-
-            cardProcessing =
-                true;
-
+            cardProcessing = true;
 
             const status =
                 document.getElementById(
                     "status"
                 );
 
-
             status.textContent =
-                card.name + " recognised";
-
+                card.name +
+                " recognised";
 
             status.classList.remove(
                 "error"
             );
 
-
             status.classList.add(
                 "success"
             );
-
 
             console.log(
                 "Card recognised:",
                 cardNumber
             );
 
-
             console.log(
                 "Card name:",
                 card.name
             );
-
 
             console.log(
                 "Balance:",
@@ -575,9 +489,8 @@
             );
 
 
-
             // ======================================
-            // SPEAK CARD ACCEPTED
+            // VOICE
             // ======================================
 
             if (
@@ -590,9 +503,8 @@
             }
 
 
-
             // ======================================
-            // REDIRECT AFTER 3 SECONDS
+            // REDIRECT
             // ======================================
 
             setTimeout(
@@ -605,9 +517,7 @@
                 },
                 3000
             );
-
         }
-
 
 
         // ==========================================
@@ -623,10 +533,24 @@
                 cardNumber
             );
 
-            const card = cardData[cardNumber];
+            const card =
+                cardData[
+                    cardNumber
+                ];
 
-            // Optional browser storage. The payment page does NOT depend on this.
+            if (
+                !card
+            ) {
+
+                invalidCard();
+                return;
+
+            }
+
+
+            // Save as backup
             try {
+
                 localStorage.setItem(
                     "selectedCard",
                     JSON.stringify({
@@ -637,59 +561,49 @@
                         cvv: card.cvv
                     })
                 );
+
             } catch (error) {
-                console.log("Browser storage unavailable; continuing with URL card ID.");
+
+                console.log(
+                    "Browser storage unavailable."
+                );
+
             }
 
-            // This URL parameter is the main hand-off to paymentPage.html.
-            const profile =
-                cardNumber === "0064559458"
-                    ? "fatseal"
-                    : "amanda";
+
+            // ======================================
+            // IMPORTANT
+            //
+            // The NFC number itself determines
+            // which card is loaded.
+            //
+            // Amanda = 0064446838
+            // Fat Seal = 0064559458
+            // ======================================
 
             window.location.href =
                 "paymentPage.html?card=" +
-                encodeURIComponent(cardNumber) +
-                "&profile=" +
-                encodeURIComponent(profile) +
+                encodeURIComponent(
+                    cardNumber
+                ) +
                 "&v=" +
                 Date.now();
-
         }
-
 
 
         // ==========================================
         // NFC READER
         // ==========================================
-        //
-        // The NFC reader behaves like a keyboard.
-        //
-        // It sends the card number one character
-        // at a time.
-        //
-        // We wait 150 ms after the final character
-        // before processing the complete card.
-        //
-        // If the NFC reader sends ENTER, the card
-        // is processed immediately.
-        //
-        // ==========================================
-
 
         document.addEventListener(
             "keydown",
             function (event) {
 
-
                 if (
                     cardProcessing
                 ) {
-
                     return;
-
                 }
-
 
 
                 // ==================================
@@ -702,47 +616,33 @@
                     )
                 ) {
 
-
                     nfcInput +=
                         event.key;
-
 
                     console.log(
                         "Reading NFC:",
                         nfcInput
                     );
 
-
                     const status =
                         document.getElementById(
                             "status"
                         );
 
-
                     status.textContent =
                         "Reading card...";
-
 
                     status.classList.remove(
                         "error"
                     );
 
-
                     status.classList.remove(
                         "success"
                     );
 
-
-
-                    // Cancel previous timer
-
                     clearTimeout(
                         inputTimer
                     );
-
-
-
-                    // Wait for reader to finish
 
                     inputTimer =
                         setTimeout(
@@ -754,11 +654,8 @@
                             150
                         );
 
-
                     return;
-
                 }
-
 
 
                 // ==================================
@@ -770,46 +667,55 @@
                     "Enter"
                 ) {
 
-
                     event.preventDefault();
-
 
                     clearTimeout(
                         inputTimer
                     );
 
-
                     processCard();
 
-
                     return;
-
                 }
 
             }
         );
 
 
-
-
-
         // ==========================================
         // TEST BUTTONS
         // ==========================================
 
-        document.getElementById("testAmanda").addEventListener(
-            "click",
-            function () {
-                openPaymentPage("0064446838");
-            }
-        );
+        document
+            .getElementById(
+                "testAmanda"
+            )
+            .addEventListener(
+                "click",
+                function () {
 
-        document.getElementById("testFatSeal").addEventListener(
-            "click",
-            function () {
-                openPaymentPage("0064559458");
-            }
-        );
+                    openPaymentPage(
+                        "0064446838"
+                    );
+
+                }
+            );
+
+
+        document
+            .getElementById(
+                "testFatSeal"
+            )
+            .addEventListener(
+                "click",
+                function () {
+
+                    openPaymentPage(
+                        "0064559458"
+                    );
+
+                }
+            );
 
 
         // ==========================================
@@ -819,24 +725,18 @@
         let firstInteractionDone =
             false;
 
-
         document.addEventListener(
             "click",
             function () {
 
-
                 if (
                     firstInteractionDone
                 ) {
-
                     return;
-
                 }
-
 
                 firstInteractionDone =
                     true;
-
 
                 if (
                     typeof voiceTapCard ===
@@ -850,9 +750,7 @@
             }
         );
 
-
     </script>
-
 
 </body>
 
