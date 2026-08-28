@@ -16,7 +16,9 @@
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
         rel="stylesheet"
     >
-<link rel="stylesheet" href="css/style.css?v=3">
+
+    <link rel="stylesheet" href="css/style.css?v=3">
+
     <style>
 
         * {
@@ -208,6 +210,11 @@
             margin-bottom: 25px;
         }
 
+
+        /* ====================================== */
+        /* PAYNOW */
+        /* ====================================== */
+
         .paynow-shell {
             max-width: 520px;
             margin: 0 auto;
@@ -219,7 +226,11 @@
         }
 
         .paynow-header {
-            background: linear-gradient(135deg, #7b2cbf, #9d4edd);
+            background: linear-gradient(
+                135deg,
+                #7b2cbf,
+                #9d4edd
+            );
             color: white;
             padding: 22px 24px 18px;
             text-align: center;
@@ -302,6 +313,96 @@
             color: #777;
         }
 
+        .paynow-balance-note {
+            margin-top: 8px;
+            font-size: 13px;
+            color: #777;
+        }
+
+        .paynow-select-section {
+            border: 1px solid #ececf1;
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 18px;
+            background: #fff;
+        }
+
+        .paynow-denominations {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 12px;
+            margin-bottom: 16px;
+        }
+
+        .paynow-amount-button {
+            border: 1px solid #dbc7ed;
+            background: #faf7fd;
+            color: #7b2cbf;
+            border-radius: 9px;
+            padding: 12px 8px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .paynow-amount-button:hover {
+            background: #f3e8ff;
+        }
+
+        .paynow-amount-button.selected {
+            background: #7b2cbf;
+            border-color: #7b2cbf;
+            color: #fff;
+        }
+
+        .paynow-custom-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 12px;
+            color: #7a7a7a;
+            font-weight: 700;
+            letter-spacing: .5px;
+            text-transform: uppercase;
+        }
+
+        .paynow-input-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid #dfe4e8;
+            border-radius: 10px;
+            padding: 0 12px;
+            background: white;
+        }
+
+        .paynow-input-wrap span {
+            font-size: 20px;
+            font-weight: 700;
+            color: #444;
+        }
+
+        .paynow-input-wrap input {
+            border: none;
+            padding: 0;
+            height: 48px;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .paynow-input-wrap input:focus {
+            border: none;
+        }
+
+        .paynow-error {
+            min-height: 20px;
+            margin-top: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #c0392b;
+        }
+
         .paynow-bank-row {
             display: flex;
             align-items: center;
@@ -350,6 +451,11 @@
             opacity: .94;
         }
 
+        .paynow-primary:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
+
         .paynow-warning {
             margin-top: 16px;
             padding: 14px 15px;
@@ -369,7 +475,6 @@
         }
 
 
-
         .demo-warning {
             padding: 15px;
             background: #fff8e5;
@@ -379,6 +484,7 @@
             font-size: 14px;
             line-height: 1.6;
         }
+
 
         @media (max-width: 700px) {
 
@@ -397,6 +503,10 @@
 
             .expiration-inputs input {
                 width: 100%;
+            }
+
+            .paynow-denominations {
+                grid-template-columns: repeat(2, 1fr);
             }
 
         }
@@ -565,261 +675,277 @@
                 Tap NFC card or type card number.
             </div>
 
-            <div id="loadedCardDebug" style="margin-top:10px;font-size:12px;color:#999;"></div>
-
-        </div>
-
-
-
-      <!-- ====================================== -->
-<!-- CDC VOUCHER -->
-<!-- ====================================== -->
-
-<div
-    id="cdc"
-    class="tab-content"
->
-
-    <div class="redeem-demo">
-
-        <div class="redeem-topbar">
-
-            <div class="redeem-brand">
-                RedeemSG
-            </div>
-
-            <div class="redeem-language">
-                English
-            </div>
-
-        </div>
-
-
-        <div class="redeem-demo-tag">
-            DEMO CDC VOUCHER PAYMENT
-        </div>
-
-
-        <div class="redeem-heading">
-
-            <h3>
-                CDC Vouchers
-            </h3>
-
-            <p>
-                Select the amount you would like to spend
-            </p>
-
-        </div>
-
-
-        <div class="redeem-balance-card">
-
-            <div class="redeem-balance-label">
-                Available balance
-            </div>
 
             <div
-                class="redeem-balance"
-                id="cdcBalanceDisplay"
-            >
-                $300.00
-            </div>
-
-            <div class="redeem-household">
-                Selected Card Household
-            </div>
+                id="loadedCardDebug"
+                style="
+                    margin-top:10px;
+                    font-size:12px;
+                    color:#999;
+                "
+            ></div>
 
         </div>
 
 
-        <div class="redeem-section">
 
-            <div class="redeem-section-title">
-                Amount to spend
-            </div>
-
-
-            <div class="redeem-denominations">
-
-                <button
-                    type="button"
-                    class="redeem-amount-button"
-                    data-value="2"
-                >
-                    $2
-                </button>
-
-                <button
-                    type="button"
-                    class="redeem-amount-button"
-                    data-value="5"
-                >
-                    $5
-                </button>
-
-                <button
-                    type="button"
-                    class="redeem-amount-button"
-                    data-value="10"
-                >
-                    $10
-                </button>
-
-                <button
-                    type="button"
-                    class="redeem-amount-button"
-                    data-value="20"
-                >
-                    $20
-                </button>
-
-                <button
-                    type="button"
-                    class="redeem-amount-button"
-                    data-value="50"
-                >
-                    $50
-                </button>
-
-            </div>
-
-
-            <label
-                class="redeem-custom-label"
-                for="cdcAmount"
-            >
-                Or enter another amount
-            </label>
-
-            <div class="redeem-amount-input">
-
-                <span>
-                    $
-                </span>
-
-                <input
-                    type="number"
-                    id="cdcAmount"
-                    min="0"
-                    max="300"
-                    step="0.01"
-                    value="0"
-                >
-
-            </div>
-
-        </div>
-
-
-        <div class="redeem-summary">
-
-            <div>
-                <span>
-                    Amount selected
-                </span>
-
-                <strong
-                    id="cdcSelectedAmount"
-                >
-                    $0.00
-                </strong>
-            </div>
-
-            <div>
-                <span>
-                    Remaining balance
-                </span>
-
-                <strong
-                    id="cdcRemainingBalance"
-                >
-                    $300.00
-                </strong>
-            </div>
-
-        </div>
-
-
-        <button
-            type="button"
-            class="redeem-primary-button"
-            id="cdcPay"
-        >
-            Show voucher QR
-        </button>
-
+        <!-- ====================================== -->
+        <!-- CDC VOUCHER -->
+        <!-- ====================================== -->
 
         <div
-            class="redeem-qr-panel"
-            id="cdcQrPanel"
+            id="cdc"
+            class="tab-content"
         >
 
-            <div class="redeem-qr-title">
-                Present this voucher to the merchant
-            </div>
+            <div class="redeem-demo">
+
+                <div class="redeem-topbar">
+
+                    <div class="redeem-brand">
+                        RedeemSG
+                    </div>
+
+                    <div class="redeem-language">
+                        English
+                    </div>
+
+                </div>
 
 
-            <div class="fake-qr">
+                <div class="redeem-demo-tag">
+                    DEMO CDC VOUCHER PAYMENT
+                </div>
 
-                <div class="qr-grid">
-                    █ ▄ █▀█ ▄ █<br>
-                    ▀ █ ▄ █▀ ▀█<br>
-                    █▀█ █ ▄ █ █<br>
-                    ▄ █▀▄ █▀ ▄█<br>
-                    █ ▄█ █ ▀█ █
+
+                <div class="redeem-heading">
+
+                    <h3>
+                        CDC Vouchers
+                    </h3>
+
+                    <p>
+                        Select the amount you would like to spend
+                    </p>
+
+                </div>
+
+
+                <div class="redeem-balance-card">
+
+                    <div class="redeem-balance-label">
+                        Available balance
+                    </div>
+
+                    <div
+                        class="redeem-balance"
+                        id="cdcBalanceDisplay"
+                    >
+                        $300.00
+                    </div>
+
+                    <div class="redeem-household">
+                        Selected Card Household
+                    </div>
+
+                </div>
+
+
+                <div class="redeem-section">
+
+                    <div class="redeem-section-title">
+                        Amount to spend
+                    </div>
+
+
+                    <div class="redeem-denominations">
+
+                        <button
+                            type="button"
+                            class="redeem-amount-button"
+                            data-value="2"
+                        >
+                            $2
+                        </button>
+
+                        <button
+                            type="button"
+                            class="redeem-amount-button"
+                            data-value="5"
+                        >
+                            $5
+                        </button>
+
+                        <button
+                            type="button"
+                            class="redeem-amount-button"
+                            data-value="10"
+                        >
+                            $10
+                        </button>
+
+                        <button
+                            type="button"
+                            class="redeem-amount-button"
+                            data-value="20"
+                        >
+                            $20
+                        </button>
+
+                        <button
+                            type="button"
+                            class="redeem-amount-button"
+                            data-value="50"
+                        >
+                            $50
+                        </button>
+
+                    </div>
+
+
+                    <label
+                        class="redeem-custom-label"
+                        for="cdcAmount"
+                    >
+                        Or enter another amount
+                    </label>
+
+
+                    <div class="redeem-amount-input">
+
+                        <span>
+                            $
+                        </span>
+
+                        <input
+                            type="number"
+                            id="cdcAmount"
+                            min="0"
+                            max="300"
+                            step="0.01"
+                            value="0"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="redeem-summary">
+
+                    <div>
+
+                        <span>
+                            Amount selected
+                        </span>
+
+                        <strong
+                            id="cdcSelectedAmount"
+                        >
+                            $0.00
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Remaining balance
+                        </span>
+
+                        <strong
+                            id="cdcRemainingBalance"
+                        >
+                            $300.00
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="redeem-primary-button"
+                    id="cdcPay"
+                >
+                    Show voucher QR
+                </button>
+
+
+                <div
+                    class="redeem-qr-panel"
+                    id="cdcQrPanel"
+                >
+
+                    <div class="redeem-qr-title">
+                        Present this voucher to the merchant
+                    </div>
+
+
+                    <div class="fake-qr">
+
+                        <div class="qr-grid">
+                            █ ▄ █▀█ ▄ █<br>
+                            ▀ █ ▄ █▀ ▀█<br>
+                            █▀█ █ ▄ █ █<br>
+                            ▄ █▀▄ █▀ ▄█<br>
+                            █ ▄█ █ ▀█ █
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="redeem-qr-amount"
+                        id="cdcQrAmount"
+                    >
+                        $0.00
+                    </div>
+
+
+                    <div class="redeem-expiry">
+                        Demo voucher — not valid for actual payment
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="redeem-confirm-payment"
+                        id="cdcComplete"
+                    >
+                        Simulate merchant scan
+                    </button>
+
+                </div>
+
+
+                <div class="redeem-scam-note">
+
+                    <strong>
+                        Stay alert
+                    </strong>
+
+                    Government officials will never ask for your
+                    banking password or personal payment credentials.
+
+                </div>
+
+
+                <div class="redeem-footer">
+                    Demo interface inspired by digital voucher services.
+                    Not an official RedeemSG or CDC website.
                 </div>
 
             </div>
 
-
-            <div
-                class="redeem-qr-amount"
-                id="cdcQrAmount"
-            >
-                $0.00
-            </div>
-
-
-            <div class="redeem-expiry">
-                Demo voucher — not valid for actual payment
-            </div>
-
-
-            <button
-                type="button"
-                class="redeem-confirm-payment"
-                id="cdcComplete"
-            >
-                Simulate merchant scan
-            </button>
-
         </div>
 
 
-        <div class="redeem-scam-note">
-
-            <strong>
-                Stay alert
-            </strong>
-
-            Government officials will never ask for your
-            banking password or personal payment credentials.
-
-        </div>
-
-
-        <div class="redeem-footer">
-            Demo interface inspired by digital voucher services.
-            Not an official RedeemSG or CDC website.
-        </div>
-
-    </div>
-
-</div>
 
         <!-- ====================================== -->
-        <!-- PAYNOW DEMO -->
+        <!-- PAYNOW -->
         <!-- ====================================== -->
 
         <div
@@ -829,54 +955,236 @@
 
             <h3>PayNow</h3>
 
+
             <div class="paynow-shell">
 
+
                 <div class="paynow-header">
-                    <div class="paynow-brand">PayNow</div>
-                    <div class="paynow-subbrand">Fast and secure SGD transfer</div>
-                    <div class="paynow-demo-badge">DEMO PAYMENT SCREEN</div>
+
+                    <div class="paynow-brand">
+                        PayNow
+                    </div>
+
+                    <div class="paynow-subbrand">
+                        Fast and secure SGD transfer
+                    </div>
+
+                    <div class="paynow-demo-badge">
+                        DEMO PAYMENT SCREEN
+                    </div>
+
                 </div>
+
 
                 <div class="paynow-body">
 
+
+                    <!-- MERCHANT -->
+
                     <div class="paynow-merchant-card">
-                        <div class="paynow-label">Paying to</div>
-                        <div class="paynow-merchant">TKGS Demo Merchant</div>
-                        <div class="paynow-uen">UEN • 2026DEMO01A</div>
+
+                        <div class="paynow-label">
+                            Paying to
+                        </div>
+
+                        <div class="paynow-merchant">
+                            TKGS Demo Merchant
+                        </div>
+
+                        <div class="paynow-uen">
+                            UEN • 2026DEMO01A
+                        </div>
+
                     </div>
+
+
+
+                    <!-- AMOUNT DISPLAY -->
 
                     <div class="paynow-amount-card">
-                        <div class="paynow-label">Amount</div>
-                        <div class="paynow-amount" id="paynowAmount">$25.00</div>
-                        <div class="paynow-reference">Reference: SCAM-AWARENESS-DEMO</div>
+
+                        <div class="paynow-label">
+                            Amount to pay
+                        </div>
+
+                        <div
+                            class="paynow-amount"
+                            id="paynowAmount"
+                        >
+                            $0.00
+                        </div>
+
+
+                        <div class="paynow-reference">
+                            Reference:
+                            SCAM-AWARENESS-DEMO
+                        </div>
+
+
+                        <div class="paynow-balance-note">
+
+                            Available demo balance:
+
+                            <strong
+                                id="paynowAvailableBalance"
+                            >
+                                $0.00
+                            </strong>
+
+                        </div>
+
                     </div>
 
-                    <div class="paynow-bank-row">
-                        <div>
-                            <div class="paynow-bank-name">Bank account</div>
-                            <div class="paynow-bank-sub">Demo account •••• 2486</div>
+
+
+                    <!-- SELECT AMOUNT -->
+
+                    <div class="paynow-select-section">
+
+                        <div class="paynow-label">
+                            Select amount
                         </div>
-                        <div class="paynow-bank-chip">Selected</div>
+
+
+                        <div class="paynow-denominations">
+
+                            <button
+                                type="button"
+                                class="paynow-amount-button"
+                                data-value="5"
+                            >
+                                $5
+                            </button>
+
+
+                            <button
+                                type="button"
+                                class="paynow-amount-button"
+                                data-value="10"
+                            >
+                                $10
+                            </button>
+
+
+                            <button
+                                type="button"
+                                class="paynow-amount-button"
+                                data-value="20"
+                            >
+                                $20
+                            </button>
+
+
+                            <button
+                                type="button"
+                                class="paynow-amount-button"
+                                data-value="50"
+                            >
+                                $50
+                            </button>
+
+                        </div>
+
+
+
+                        <label
+                            class="paynow-custom-label"
+                            for="paynowCustomAmount"
+                        >
+                            Or enter another amount
+                        </label>
+
+
+                        <div class="paynow-input-wrap">
+
+                            <span>
+                                S$
+                            </span>
+
+
+                            <input
+                                type="number"
+                                id="paynowCustomAmount"
+                                min="0"
+                                step="0.01"
+                                value="0.00"
+                                inputmode="decimal"
+                            >
+
+                        </div>
+
+
+                        <div
+                            id="paynowError"
+                            class="paynow-error"
+                            aria-live="polite"
+                        ></div>
+
                     </div>
+
+
+
+                    <!-- BANK -->
+
+                    <div class="paynow-bank-row">
+
+                        <div>
+
+                            <div class="paynow-bank-name">
+                                Bank account
+                            </div>
+
+                            <div class="paynow-bank-sub">
+                                Demo account •••• 2486
+                            </div>
+
+                        </div>
+
+
+                        <div class="paynow-bank-chip">
+                            Selected
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- PAY -->
 
                     <button
                         type="button"
                         class="paynow-primary"
                         id="paynowButton"
+                        disabled
                     >
-                        PAY S$25.00
+                        PAY S$0.00
                     </button>
 
+
+
                     <div class="paynow-warning">
-                        <strong>Scam-awareness simulation:</strong>
-                        this page does not process a real PayNow transfer and should not be used to collect
-                        bank credentials, OTPs, Singpass details, or real payment information.
+
+                        <strong>
+                            Scam-awareness simulation:
+                        </strong>
+
+                        this page does not process a real
+                        PayNow transfer and should not be
+                        used to collect bank credentials,
+                        OTPs, Singpass details, or real
+                        payment information.
+
                     </div>
 
                 </div>
 
+
                 <div class="paynow-footer">
-                    Educational demo interface — not affiliated with PayNow, ABS or any bank.
+
+                    Educational demo interface —
+                    not affiliated with PayNow,
+                    ABS or any bank.
+
                 </div>
 
             </div>
@@ -884,137 +1192,143 @@
         </div>
 
 
-<!-- ====================================== -->
-<!-- CHAS SUBSIDY DETAILS -->
-<!-- ====================================== -->
 
-<div id="chas" class="tab-content">
-<div class="chas-payment-panel">
+        <!-- ====================================== -->
+        <!-- CHAS -->
+        <!-- ====================================== -->
 
-    <div class="chas-section-title">
-        CHAS Subsidy Details
-    </div>
-
-
-    <!-- NAME -->
-
-    <div class="form-group">
-
-        <h5>
-            NAME ON CHAS CARD
-        </h5>
-
-        <input
-            type="text"
-            id="chasName"
-            value=""
-            readonly
+        <div
+            id="chas"
+            class="tab-content"
         >
 
-    </div>
+            <div class="chas-payment-panel">
 
 
-    <!-- RANDOM DEMO CARD NUMBER -->
-
-    <div class="form-group">
-
-        <h5>
-            CHAS CARD NUMBER
-        </h5>
-
-        <input
-            type="text"
-            id="chasNumber"
-            readonly
-        >
-
-    </div>
+                <div class="chas-section-title">
+                    CHAS Subsidy Details
+                </div>
 
 
-    <!-- SUBSIDY REMAINING -->
+                <div class="form-group">
 
-    <div class="form-group">
+                    <h5>
+                        NAME ON CHAS CARD
+                    </h5>
 
-        <h5>
-            SUBSIDY LEFT TO CLAIM
-        </h5>
+                    <input
+                        type="text"
+                        id="chasName"
+                        value=""
+                        readonly
+                    >
 
-        <div class="chas-subsidy-box">
+                </div>
 
-            <div class="chas-subsidy-amount">
-                $300.00
+
+                <div class="form-group">
+
+                    <h5>
+                        CHAS CARD NUMBER
+                    </h5>
+
+                    <input
+                        type="text"
+                        id="chasNumber"
+                        readonly
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <h5>
+                        SUBSIDY LEFT TO CLAIM
+                    </h5>
+
+
+                    <div class="chas-subsidy-box">
+
+                        <div class="chas-subsidy-amount">
+                            $300.00
+                        </div>
+
+                        <div class="chas-subsidy-caption">
+                            Remaining annual subsidy limit
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="chas-info-box">
+
+                    <div class="chas-info-icon">
+                        i
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            No cash is stored on your CHAS card
+                        </strong>
+
+                        <p>
+                            CHAS subsidies are not cash balances
+                            and cannot be withdrawn.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="chas-info-box">
+
+                    <div class="chas-info-icon">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Track your subsidy limits
+                        </strong>
+
+                        <p>
+                            View your remaining annual subsidy
+                            limits and claim history through
+                            MyCHAS.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="chas-confirm-btn"
+                    id="chasButton"
+                >
+                    CLAIM CHAS SUBSIDY
+                </button>
+
             </div>
 
-            <div class="chas-subsidy-caption">
-                Remaining annual subsidy limit
-            </div>
-
         </div>
+
 
     </div>
-
-
-    <!-- INFORMATION -->
-
-    <div class="chas-info-box">
-
-        <div class="chas-info-icon">
-            i
-        </div>
-
-        <div>
-
-            <strong>
-                No cash is stored on your CHAS card
-            </strong>
-
-            <p>
-                CHAS subsidies are not cash balances
-                and cannot be withdrawn.
-            </p>
-
-        </div>
-
-    </div>
-
-
-    <!-- MYCHAS INFORMATION -->
-
-    <div class="chas-info-box">
-
-        <div class="chas-info-icon">
-            ✓
-        </div>
-
-        <div>
-
-            <strong>
-                Track your subsidy limits
-            </strong>
-
-            <p>
-                View your remaining annual subsidy
-                limits and claim history through
-                MyCHAS.
-            </p>
-
-        </div>
-
-    </div>
-
-
-    <button
-        type="button"
-        class="chas-confirm-btn"
-        id="chasButton"
-    >
-        CLAIM CHAS SUBSIDY
-    </button>
 
 </div>
-</div>
+
+
 
 <script>
+
     // ==========================================
     // PAYMENT TABS
     // ==========================================
@@ -1024,6 +1338,7 @@
             ".tab-button"
         );
 
+
     const tabContents =
         document.querySelectorAll(
             ".tab-content"
@@ -1031,13 +1346,18 @@
 
 
     tabButtons.forEach(
+
         function(button) {
 
             button.addEventListener(
+
                 "click",
+
                 function() {
 
+
                     tabButtons.forEach(
+
                         function(item) {
 
                             item.classList.remove(
@@ -1045,10 +1365,12 @@
                             );
 
                         }
+
                     );
 
 
                     tabContents.forEach(
+
                         function(content) {
 
                             content.classList.remove(
@@ -1056,6 +1378,7 @@
                             );
 
                         }
+
                     );
 
 
@@ -1070,234 +1393,711 @@
                         );
 
 
-                    document.getElementById(
-                        tabName
-                    ).classList.add(
-                        "active"
-                    );
+                    document
+                        .getElementById(
+                            tabName
+                        )
+                        .classList.add(
+                            "active"
+                        );
 
                 }
+
             );
 
         }
+
     );
 
 
 
     // ==========================================
     // NFC CARD DATABASE
-    //
-    // ORDER:
-    //
-    // 1. Card Number
-    // 2. Amount
-    // 3. Name
-    // 4. Expiry Month
-    // 5. Expiry Year
-    // 6. CVV
     // ==========================================
+
+    /*
+        Amanda Boh
+        NFC = 0064446838
+
+        Fat Seal
+        NFC = 0064559458
+    */
+
 
     const cards = {
 
+
         "0064446838": {
-            cardNumber: "0064446838",
-            amount: "300.00",
-            name: "Amanda Boh",
-            expiryMonth: "08",
-            expiryYear: "26",
-            cvv: "123"
+
+            cardNumber:
+                "0064446838",
+
+            amount:
+                "300.00",
+
+            name:
+                "Amanda Boh",
+
+            expiryMonth:
+                "08",
+
+            expiryYear:
+                "26",
+
+            cvv:
+                "123"
+
         },
 
+
         "0064559458": {
-            cardNumber: "0064559458",
-            amount: "6700.00",
-            name: "Fat Seal",
-            expiryMonth: "11",
-            expiryYear: "28",
-            cvv: "520"
+
+            cardNumber:
+                "0064559458",
+
+            amount:
+                "6700.00",
+
+            name:
+                "Fat Seal",
+
+            expiryMonth:
+                "11",
+
+            expiryYear:
+                "28",
+
+            cvv:
+                "520"
+
         }
 
     };
 
-    let activeCard = null;
 
-    let nfcInput = "";
+
+    let activeCard =
+        null;
+
+
+    let nfcInput =
+        "";
 
 
 
     // ==========================================
-    // FILL CREDIT CARD DETAILS
+    // PAYNOW ELEMENTS
+    //
+    // Defined before fillCard so the function
+    // can safely reset PayNow when NFC loads.
+    // ==========================================
+
+
+    const paynowAmountDisplay =
+        document.getElementById(
+            "paynowAmount"
+        );
+
+
+    const paynowCustomAmount =
+        document.getElementById(
+            "paynowCustomAmount"
+        );
+
+
+    const paynowButton =
+        document.getElementById(
+            "paynowButton"
+        );
+
+
+    const paynowError =
+        document.getElementById(
+            "paynowError"
+        );
+
+
+    const paynowAvailableBalance =
+        document.getElementById(
+            "paynowAvailableBalance"
+        );
+
+
+
+    // ==========================================
+    // GET PAYNOW BALANCE
+    // ==========================================
+
+    function getPayNowBalance() {
+
+        if (!activeCard) {
+
+            return 0;
+
+        }
+
+
+        return (
+            Number(
+                activeCard.amount
+            ) || 0
+        );
+
+    }
+
+
+
+    // ==========================================
+    // UPDATE PAYNOW AMOUNT
+    // ==========================================
+
+    function updatePayNowAmount(value) {
+
+
+        let amount =
+            parseFloat(
+                value
+            );
+
+
+        if (
+            isNaN(amount) ||
+            amount < 0
+        ) {
+
+            amount =
+                0;
+
+        }
+
+
+        const balance =
+            getPayNowBalance();
+
+
+
+        // Do not allow amount above card balance
+
+        if (
+            amount > balance
+        ) {
+
+
+            amount =
+                balance;
+
+
+            if (paynowError) {
+
+                paynowError.textContent =
+                    "Amount adjusted to the available " +
+                    "demo balance of S$" +
+                    balance.toFixed(2) +
+                    ".";
+
+            }
+
+
+        } else {
+
+
+            if (paynowError) {
+
+                paynowError.textContent =
+                    "";
+
+            }
+
+        }
+
+
+
+        // Round to 2 decimal places
+
+        amount =
+            Math.round(
+                (
+                    amount +
+                    Number.EPSILON
+                )
+                * 100
+            )
+            / 100;
+
+
+
+        // Update input
+
+        if (paynowCustomAmount) {
+
+            paynowCustomAmount.value =
+                amount.toFixed(2);
+
+        }
+
+
+
+        // Update large amount
+
+        if (paynowAmountDisplay) {
+
+            paynowAmountDisplay.textContent =
+                "$" +
+                amount.toFixed(2);
+
+        }
+
+
+
+        // Update PAY button
+
+        if (paynowButton) {
+
+            paynowButton.textContent =
+                "PAY S$" +
+                amount.toFixed(2);
+
+
+            paynowButton.disabled =
+                amount <= 0;
+
+        }
+
+
+
+        // Remove existing preset highlight
+
+        document
+            .querySelectorAll(
+                ".paynow-amount-button"
+            )
+            .forEach(
+
+                function(button) {
+
+                    button.classList.remove(
+                        "selected"
+                    );
+
+                }
+
+            );
+
+
+        return amount;
+
+    }
+
+
+
+    // ==========================================
+    // FILL CARD
     // ==========================================
 
     function fillCard(card) {
 
+
         if (!card) {
-            console.log("No matching card record.");
+
+            console.log(
+                "No matching card record."
+            );
+
             return;
+
         }
 
-        activeCard = card;
 
-        // Fill the Credit Card fields FIRST.
-        // This works even if browser storage is blocked.
-        document.getElementById("amount").value =
-            "$" + Number(card.amount).toFixed(2);
+        activeCard =
+            card;
 
-        document.getElementById("nameOnCard").value =
-            card.name;
 
-        document.getElementById("cardNumber").value =
-            card.cardNumber;
 
-        document.getElementById("expiryMonth").value =
-            card.expiryMonth;
+        // ======================================
+        // CREDIT CARD
+        // ======================================
 
-        document.getElementById("expiryYear").value =
-            card.expiryYear;
 
-        document.getElementById("cvv").value =
-            card.cvv;
+        document
+            .getElementById(
+                "amount"
+            )
+            .value =
+                "$" +
+                Number(
+                    card.amount
+                ).toFixed(2);
+
+
+        document
+            .getElementById(
+                "nameOnCard"
+            )
+            .value =
+                card.name;
+
+
+        document
+            .getElementById(
+                "cardNumber"
+            )
+            .value =
+                card.cardNumber;
+
+
+        document
+            .getElementById(
+                "expiryMonth"
+            )
+            .value =
+                card.expiryMonth;
+
+
+        document
+            .getElementById(
+                "expiryYear"
+            )
+            .value =
+                card.expiryYear;
+
+
+        document
+            .getElementById(
+                "cvv"
+            )
+            .value =
+                card.cvv;
+
+
 
         const creditStatus =
-            document.getElementById("creditStatus");
+            document.getElementById(
+                "creditStatus"
+            );
+
 
         creditStatus.textContent =
-            card.name + " recognised";
+            card.name +
+            " recognised";
 
-        creditStatus.classList.add("success");
 
-        // Optional storage only; a storage failure must never stop the page.
+        creditStatus.classList.add(
+            "success"
+        );
+
+
+
+        // ======================================
+        // SAVE CARD
+        // ======================================
+
+
         try {
+
+
             localStorage.setItem(
+
                 "selectedCard",
+
                 JSON.stringify({
-                    cardNumber: card.cardNumber,
-                    name: card.name,
-                    balance: Number(card.amount),
-                    amount: card.amount,
-                    expiry: card.expiryMonth + "/" + card.expiryYear,
-                    cvv: card.cvv
+
+                    cardNumber:
+                        card.cardNumber,
+
+                    name:
+                        card.name,
+
+                    balance:
+                        Number(
+                            card.amount
+                        ),
+
+                    amount:
+                        card.amount,
+
+                    expiry:
+                        card.expiryMonth +
+                        "/" +
+                        card.expiryYear,
+
+                    cvv:
+                        card.cvv
+
                 })
+
             );
+
+
         } catch (error) {
-            console.log("Browser storage unavailable.");
+
+
+            console.log(
+                "Browser storage unavailable."
+            );
+
+
         }
+
+
 
         const balance =
-            Number(card.amount) || 0;
+            Number(
+                card.amount
+            ) || 0;
 
+
+
+        // ======================================
         // CDC
+        // ======================================
+
+
         const cdcBalanceDisplay =
-            document.getElementById("cdcBalanceDisplay");
+            document.getElementById(
+                "cdcBalanceDisplay"
+            );
+
 
         const cdcRemainingBalance =
-            document.getElementById("cdcRemainingBalance");
+            document.getElementById(
+                "cdcRemainingBalance"
+            );
+
 
         const cdcAmountField =
-            document.getElementById("cdcAmount");
+            document.getElementById(
+                "cdcAmount"
+            );
+
 
         const cdcHousehold =
-            document.querySelector(".redeem-household");
+            document.querySelector(
+                ".redeem-household"
+            );
+
+
 
         if (cdcBalanceDisplay) {
+
             cdcBalanceDisplay.textContent =
-                "$" + balance.toFixed(2);
+                "$" +
+                balance.toFixed(2);
+
         }
+
 
         if (cdcRemainingBalance) {
+
             cdcRemainingBalance.textContent =
-                "$" + balance.toFixed(2);
+                "$" +
+                balance.toFixed(2);
+
         }
+
 
         if (cdcAmountField) {
-            cdcAmountField.max = balance;
-            cdcAmountField.value = "0";
+
+            cdcAmountField.max =
+                balance;
+
+
+            cdcAmountField.value =
+                "0";
+
         }
+
 
         if (cdcHousehold) {
+
             cdcHousehold.textContent =
-                card.name + " Household";
+                card.name +
+                " Household";
+
         }
 
-        // PayNow
-        const paynowAmount =
-            document.getElementById("paynowAmount");
 
-        const paynowButton =
-            document.getElementById("paynowButton");
 
-        if (paynowAmount) {
-            paynowAmount.textContent =
-                "$" + balance.toFixed(2);
+        // ======================================
+        // PAYNOW
+        // ======================================
+
+
+        if (paynowAvailableBalance) {
+
+            paynowAvailableBalance.textContent =
+                "$" +
+                balance.toFixed(2);
+
         }
 
-        if (paynowButton) {
-            paynowButton.textContent =
-                "PAY S$" + balance.toFixed(2);
+
+        if (paynowCustomAmount) {
+
+            paynowCustomAmount.max =
+                balance;
+
         }
 
+
+        // Reset PayNow each time NFC card changes
+
+        updatePayNowAmount(
+            0
+        );
+
+
+
+        // ======================================
         // CHAS
+        // ======================================
+
+
         const chasName =
-            document.getElementById("chasName");
+            document.getElementById(
+                "chasName"
+            );
+
 
         const chasSubsidy =
-            document.querySelector(".chas-subsidy-amount");
+            document.querySelector(
+                ".chas-subsidy-amount"
+            );
+
 
         if (chasName) {
+
             chasName.value =
                 card.name;
+
         }
+
 
         if (chasSubsidy) {
+
             chasSubsidy.textContent =
-                "$" + balance.toFixed(2);
+                "$" +
+                balance.toFixed(2);
+
         }
 
-        // Return to Credit Card tab after a card is loaded.
-        tabButtons.forEach(function(item) {
-            item.classList.remove("active");
-        });
 
-        tabContents.forEach(function(content) {
-            content.classList.remove("active");
-        });
+
+        // ======================================
+        // RETURN TO CREDIT CARD TAB
+        // ======================================
+
+
+        tabButtons.forEach(
+
+            function(item) {
+
+                item.classList.remove(
+                    "active"
+                );
+
+            }
+
+        );
+
+
+        tabContents.forEach(
+
+            function(content) {
+
+                content.classList.remove(
+                    "active"
+                );
+
+            }
+
+        );
+
 
         const creditTab =
-            document.querySelector('[data-tab="credit"]');
+            document.querySelector(
+                '[data-tab="credit"]'
+            );
+
 
         if (creditTab) {
-            creditTab.classList.add("active");
+
+            creditTab.classList.add(
+                "active"
+            );
+
         }
 
-        document.getElementById("credit")
-            .classList.add("active");
+
+        document
+            .getElementById(
+                "credit"
+            )
+            .classList.add(
+                "active"
+            );
+
+
 
         const loadedCardDebug =
-            document.getElementById("loadedCardDebug");
+            document.getElementById(
+                "loadedCardDebug"
+            );
+
 
         if (loadedCardDebug) {
+
             loadedCardDebug.textContent =
-                card.name + " • " + card.cardNumber;
+                card.name +
+                " • " +
+                card.cardNumber;
+
         }
+
     }
+
 
 
     // ==========================================
     // NFC READER
     // ==========================================
 
+
     document.addEventListener(
+
         "keydown",
+
         function(event) {
 
 
-            // Read numbers from NFC reader
+            // Don't capture numbers typed inside
+            // editable amount fields.
+
+            const tag =
+                event.target.tagName;
+
+
+            if (
+                tag === "INPUT" ||
+                tag === "TEXTAREA"
+            ) {
+
+                return;
+
+            }
+
+
+
+            // ======================================
+            // NUMBER FROM NFC
+            // ======================================
+
 
             if (
                 /^[0-9]$/.test(
                     event.key
                 )
             ) {
+
 
                 nfcInput +=
                     event.key;
@@ -1309,30 +2109,38 @@
                 );
 
 
-                // Immediately recognise card
 
                 if (
-                    cards[nfcInput]
+                    cards[
+                        nfcInput
+                    ]
                 ) {
 
+
                     fillCard(
-                        cards[nfcInput]
+                        cards[
+                            nfcInput
+                        ]
                     );
 
-                    nfcInput = "";
+
+                    nfcInput =
+                        "";
+
 
                     return;
 
                 }
 
 
-                // Reset if input too long
 
                 if (
-                    nfcInput.length > 10
+                    nfcInput.length >
+                    10
                 ) {
 
-                    nfcInput = "";
+                    nfcInput =
+                        "";
 
                 }
 
@@ -1340,85 +2148,111 @@
 
 
 
-            // Some readers send Enter
+            // ======================================
+            // ENTER FROM NFC
+            // ======================================
+
 
             if (
-                event.key === "Enter"
+                event.key ===
+                "Enter"
             ) {
+
 
                 event.preventDefault();
 
 
                 if (
-                    cards[nfcInput]
+                    cards[
+                        nfcInput
+                    ]
                 ) {
 
+
                     fillCard(
-                        cards[nfcInput]
+                        cards[
+                            nfcInput
+                        ]
                     );
 
                 }
 
 
-                nfcInput = "";
+                nfcInput =
+                    "";
 
             }
 
         }
+
     );
 
 
 
     // ==========================================
     // URL NFC SUPPORT
-    //
-    // Example:
-    //
-    // payment.html?card=0064446838
     // ==========================================
+
 
     const urlParams =
         new URLSearchParams(
             window.location.search
         );
 
+
     const urlCard =
-        (urlParams.get("card") || "")
-            .replace(/\D/g, "")
-            .trim();
+        (
+            urlParams.get(
+                "card"
+            ) || ""
+        )
+        .replace(
+            /\D/g,
+            ""
+        )
+        .trim();
 
-    const profile =
-        (urlParams.get("profile") || "")
-            .toLowerCase()
-            .trim();
 
-    console.log("Card received from index:", urlCard);
-    console.log("Profile received from index:", profile);
 
-    // Strict card/profile pairing prevents the two cards from ever
-    // borrowing each other's displayed card number or details.
+    console.log(
+        "Card received from NFC page:",
+        urlCard
+    );
+
+
+
+    // Amanda:
+    // 0064446838
+    //
+    // Fat Seal:
+    // 0064559458
+
+
     if (
-        profile === "fatseal" ||
-        urlCard === "0064559458"
+        cards[
+            urlCard
+        ]
     ) {
 
-        fillCard(
-            cards["0064559458"]
-        );
-
-    } else if (
-        profile === "amanda" ||
-        urlCard === "0064446838"
-    ) {
 
         fillCard(
-            cards["0064446838"]
+            cards[
+                urlCard
+            ]
         );
+
 
     } else {
 
-        document.getElementById("creditStatus").textContent =
-            "No valid card received. Please return to the NFC page and tap again.";
+
+        document
+            .getElementById(
+                "creditStatus"
+            )
+            .textContent =
+                "No valid card received. " +
+                "Please return to the NFC page " +
+                "and tap again.";
 
     }
 
@@ -1428,110 +2262,200 @@
     // CREDIT CARD SEND
     // ==========================================
 
-    document.getElementById(
-        "creditSend"
-    ).addEventListener(
-        "click",
-        function() {
 
-            const cardNumber =
-                document.getElementById(
-                    "cardNumber"
-                ).value;
+    document
+        .getElementById(
+            "creditSend"
+        )
+        .addEventListener(
+
+            "click",
+
+            function() {
 
 
-            if (
-                cardNumber === ""
-            ) {
+                const cardNumber =
+                    document
+                        .getElementById(
+                            "cardNumber"
+                        )
+                        .value;
 
-                alert(
-                    "Please tap your NFC card first."
-                );
 
-                return;
+
+                if (
+                    cardNumber ===
+                    ""
+                ) {
+
+
+                    alert(
+                        "Please tap your NFC card first."
+                    );
+
+
+                    return;
+
+                }
+
+
+
+                window.location.href =
+                    "successPage.html";
 
             }
 
+        );
 
-            window.location.href =
-                "successPage.html";
+
+
+    // ==========================================
+    // CDC
+    // ==========================================
+
+
+    function getCDCBalance() {
+
+
+        return activeCard
+
+            ? (
+                Number(
+                    activeCard.amount
+                ) || 0
+            )
+
+            : 300;
+
+    }
+
+
+
+    const cdcAmount =
+        document.getElementById(
+            "cdcAmount"
+        );
+
+
+    const cdcSelectedAmount =
+        document.getElementById(
+            "cdcSelectedAmount"
+        );
+
+
+    const cdcRemainingBalance =
+        document.getElementById(
+            "cdcRemainingBalance"
+        );
+
+
+    const cdcQrPanel =
+        document.getElementById(
+            "cdcQrPanel"
+        );
+
+
+    const cdcQrAmount =
+        document.getElementById(
+            "cdcQrAmount"
+        );
+
+
+
+    // ==========================================
+    // UPDATE CDC
+    // ==========================================
+
+
+    function updateCDCAmount(value) {
+
+
+        let amount =
+            parseFloat(
+                value
+            );
+
+
+        if (
+            isNaN(
+                amount
+            )
+        ) {
+
+            amount =
+                0;
 
         }
-    );
+
+
+        if (
+            amount < 0
+        ) {
+
+            amount =
+                0;
+
+        }
+
+
+        const CDC_BALANCE =
+            getCDCBalance();
+
+
+
+        if (
+            amount >
+            CDC_BALANCE
+        ) {
+
+            amount =
+                CDC_BALANCE;
+
+        }
+
+
+
+        cdcAmount.value =
+            amount.toFixed(2);
+
+
+        cdcSelectedAmount.textContent =
+            "$" +
+            amount.toFixed(2);
+
+
+        cdcRemainingBalance.textContent =
+            "$" +
+            (
+                CDC_BALANCE -
+                amount
+            ).toFixed(2);
+
+
+
+        document
+            .querySelectorAll(
+                ".redeem-amount-button"
+            )
+            .forEach(
+
+                function(button) {
+
+                    button.classList.remove(
+                        "selected"
+                    );
+
+                }
+
+            );
+
+    }
 
 
 
     // ==========================================
-    // CDC PAYMENT
+    // CDC PRESET BUTTONS
     // ==========================================
-// ==========================================
-// CDC VOUCHER DEMO
-// ==========================================
-
-function getCDCBalance() {
-    return activeCard
-        ? (Number(activeCard.amount) || 0)
-        : 300;
-}
-
-const cdcAmount =
-    document.getElementById("cdcAmount");
-
-const cdcSelectedAmount =
-    document.getElementById(
-        "cdcSelectedAmount"
-    );
-
-const cdcRemainingBalance =
-    document.getElementById(
-        "cdcRemainingBalance"
-    );
-
-const cdcQrPanel =
-    document.getElementById(
-        "cdcQrPanel"
-    );
-
-const cdcQrAmount =
-    document.getElementById(
-        "cdcQrAmount"
-    );
-
-
-// ==========================================
-// UPDATE CDC AMOUNT
-// ==========================================
-
-function updateCDCAmount(value) {
-
-    let amount =
-        parseFloat(value);
-
-    if (isNaN(amount)) {
-        amount = 0;
-    }
-
-    if (amount < 0) {
-        amount = 0;
-    }
-
-    const CDC_BALANCE = getCDCBalance();
-
-    if (amount > CDC_BALANCE) {
-        amount = CDC_BALANCE;
-    }
-
-    cdcAmount.value =
-        amount.toFixed(2);
-
-    cdcSelectedAmount.textContent =
-        "$" + amount.toFixed(2);
-
-    cdcRemainingBalance.textContent =
-        "$" +
-        (
-            CDC_BALANCE - amount
-        ).toFixed(2);
 
 
     document
@@ -1539,254 +2463,556 @@ function updateCDCAmount(value) {
             ".redeem-amount-button"
         )
         .forEach(
+
             function(button) {
 
-                button.classList.remove(
-                    "selected"
-                );
 
-            }
-        );
+                button.addEventListener(
 
-}
+                    "click",
+
+                    function() {
 
 
-// ==========================================
-// DENOMINATION BUTTONS
-// ==========================================
+                        const value =
+                            parseFloat(
+                                button.dataset.value
+                            );
 
-document
-    .querySelectorAll(
-        ".redeem-amount-button"
-    )
-    .forEach(
-        function(button) {
 
-            button.addEventListener(
-                "click",
-                function() {
-
-                    const value =
-                        parseFloat(
-                            button.dataset.value
+                        updateCDCAmount(
+                            value
                         );
 
-                    updateCDCAmount(
-                        value
+
+                        button.classList.add(
+                            "selected"
+                        );
+
+                    }
+
+                );
+
+            }
+
+        );
+
+
+
+    // ==========================================
+    // CDC CUSTOM AMOUNT
+    // ==========================================
+
+
+    cdcAmount.addEventListener(
+
+        "input",
+
+        function() {
+
+
+            updateCDCAmount(
+                cdcAmount.value
+            );
+
+        }
+
+    );
+
+
+
+    // ==========================================
+    // CDC QR
+    // ==========================================
+
+
+    document
+        .getElementById(
+            "cdcPay"
+        )
+        .addEventListener(
+
+            "click",
+
+            function() {
+
+
+                const amount =
+                    parseFloat(
+                        cdcAmount.value
                     );
 
-                    button.classList.add(
-                        "selected"
+
+
+                if (
+                    isNaN(
+                        amount
+                    ) ||
+                    amount <= 0
+                ) {
+
+
+                    alert(
+                        "Please select a voucher amount."
                     );
+
+
+                    return;
 
                 }
-            );
-
-        }
-    );
 
 
-// ==========================================
-// CUSTOM AMOUNT
-// ==========================================
 
-cdcAmount.addEventListener(
-    "input",
-    function() {
-
-        updateCDCAmount(
-            cdcAmount.value
-        );
-
-    }
-);
+                cdcQrAmount.textContent =
+                    "$" +
+                    amount.toFixed(2);
 
 
-// ==========================================
-// SHOW VOUCHER QR
-// ==========================================
-
-document
-    .getElementById(
-        "cdcPay"
-    )
-    .addEventListener(
-        "click",
-        function() {
-
-            const amount =
-                parseFloat(
-                    cdcAmount.value
+                cdcQrPanel.classList.add(
+                    "show"
                 );
 
-            if (
-                isNaN(amount) ||
-                amount <= 0
-            ) {
 
-                alert(
-                    "Please select a voucher amount."
-                );
+                cdcQrPanel.scrollIntoView({
 
-                return;
-            }
+                    behavior:
+                        "smooth",
 
-            cdcQrAmount.textContent =
-                "$" +
-                amount.toFixed(2);
+                    block:
+                        "center"
 
-            cdcQrPanel.classList.add(
-                "show"
-            );
-
-            cdcQrPanel.scrollIntoView({
-                behavior: "smooth",
-                block: "center"
-            });
-
-        }
-    );
-
-
-// ==========================================
-// SIMULATE MERCHANT SCAN
-// ==========================================
-
-document
-    .getElementById(
-        "cdcComplete"
-    )
-    .addEventListener(
-        "click",
-        function() {
-
-            window.location.href =
-                "successPage.html";
-
-        }
-    );
-
-
-
-    // ==========================================
-    // PAYNOW DEMO
-    // ==========================================
-
-    document.getElementById(
-        "paynowButton"
-    ).addEventListener(
-        "click",
-        function() {
-
-            window.location.href =
-                "successPage.html";
-
-        }
-    );
-
-
-// ==========================================
-// RANDOM DEMO CHAS CARD NUMBER
-// ==========================================
-
-function generateCHASCardNumber() {
-
-    let number = "";
-
-    for (let i = 0; i < 10; i++) {
-
-        number += Math.floor(
-            Math.random() * 10
-        );
-
-    }
-
-    return number;
-}
-
-
-// Generate a new demo number when page loads
-
-const chasNumberField =
-    document.getElementById("chasNumber");
-
-if (chasNumberField) {
-
-    chasNumberField.value =
-        generateCHASCardNumber();
-
-}
-    // ==========================================
-    // CHAS DEMO
-    // ==========================================
-
-    document.getElementById(
-        "chasButton"
-    ).addEventListener(
-        "click",
-        function() {
-
-            const chasNumber =
-                document.getElementById(
-                    "chasNumber"
-                ).value.trim();
-
-
-            if (
-                chasNumber === ""
-            ) {
-
-                alert(
-                    "Enter a demo CHAS card number."
-                );
-
-                return;
+                });
 
             }
 
-
-            alert(
-                "Demo CHAS card verified."
-            );
+        );
 
 
-            window.location.href =
-                "successPage.html";
+
+    document
+        .getElementById(
+            "cdcComplete"
+        )
+        .addEventListener(
+
+            "click",
+
+            function() {
+
+
+                window.location.href =
+                    "successPage.html";
+
+            }
+
+        );
+
+
+
+    // ==========================================
+    // PAYNOW PRESET AMOUNTS
+    // ==========================================
+
+
+    document
+        .querySelectorAll(
+            ".paynow-amount-button"
+        )
+        .forEach(
+
+            function(button) {
+
+
+                button.addEventListener(
+
+                    "click",
+
+                    function() {
+
+
+                        if (
+                            !activeCard
+                        ) {
+
+
+                            if (paynowError) {
+
+                                paynowError.textContent =
+                                    "Please tap an NFC card first.";
+
+                            }
+
+
+                            return;
+
+                        }
+
+
+
+                        const value =
+                            parseFloat(
+                                button.dataset.value
+                            );
+
+
+                        const selected =
+                            updatePayNowAmount(
+                                value
+                            );
+
+
+
+                        if (
+                            selected ===
+                            value
+                        ) {
+
+
+                            button.classList.add(
+                                "selected"
+                            );
+
+                        }
+
+                    }
+
+                );
+
+            }
+
+        );
+
+
+
+    // ==========================================
+    // PAYNOW CUSTOM AMOUNT
+    // ==========================================
+
+
+    if (
+        paynowCustomAmount
+    ) {
+
+
+        paynowCustomAmount.addEventListener(
+
+            "input",
+
+            function() {
+
+
+                if (
+                    !activeCard
+                ) {
+
+
+                    paynowError.textContent =
+                        "Please tap an NFC card first.";
+
+
+                    updatePayNowAmount(
+                        0
+                    );
+
+
+                    return;
+
+                }
+
+
+
+                updatePayNowAmount(
+                    paynowCustomAmount.value
+                );
+
+            }
+
+        );
+
+    }
+
+
+
+    // ==========================================
+    // PAYNOW BUTTON
+    // ==========================================
+
+
+    if (
+        paynowButton
+    ) {
+
+
+        paynowButton.disabled =
+            true;
+
+
+        paynowButton.addEventListener(
+
+            "click",
+
+            function() {
+
+
+                if (
+                    !activeCard
+                ) {
+
+
+                    paynowError.textContent =
+                        "Please tap an NFC card first.";
+
+
+                    return;
+
+                }
+
+
+
+                const amount =
+                    parseFloat(
+                        paynowCustomAmount.value
+                    );
+
+
+                const balance =
+                    getPayNowBalance();
+
+
+
+                if (
+                    isNaN(
+                        amount
+                    ) ||
+                    amount <= 0
+                ) {
+
+
+                    paynowError.textContent =
+                        "Please select or enter " +
+                        "an amount greater than S$0.00.";
+
+
+                    return;
+
+                }
+
+
+
+                if (
+                    amount >
+                    balance
+                ) {
+
+
+                    paynowError.textContent =
+                        "The payment amount cannot " +
+                        "exceed S$" +
+                        balance.toFixed(2) +
+                        ".";
+
+
+                    return;
+
+                }
+
+
+
+                // Save amount for success page
+
+                try {
+
+
+                    localStorage.setItem(
+
+                        "paynowPaymentAmount",
+
+                        amount.toFixed(2)
+
+                    );
+
+
+                } catch (error) {
+
+
+                    console.log(
+                        "Browser storage unavailable."
+                    );
+
+
+                }
+
+
+
+                window.location.href =
+                    "successPage.html";
+
+            }
+
+        );
+
+    }
+
+
+
+    // ==========================================
+    // RANDOM CHAS CARD NUMBER
+    // ==========================================
+
+
+    function generateCHASCardNumber() {
+
+
+        let number =
+            "";
+
+
+        for (
+            let i = 0;
+            i < 10;
+            i++
+        ) {
+
+
+            number +=
+                Math.floor(
+                    Math.random() *
+                    10
+                );
 
         }
-    );
+
+
+        return number;
+
+    }
+
+
+
+    const chasNumberField =
+        document.getElementById(
+            "chasNumber"
+        );
+
+
+    if (
+        chasNumberField
+    ) {
+
+
+        chasNumberField.value =
+            generateCHASCardNumber();
+
+    }
+
+
+
+    // ==========================================
+    // CHAS BUTTON
+    // ==========================================
+
+
+    document
+        .getElementById(
+            "chasButton"
+        )
+        .addEventListener(
+
+            "click",
+
+            function() {
+
+
+                const chasNumber =
+                    document
+                        .getElementById(
+                            "chasNumber"
+                        )
+                        .value
+                        .trim();
+
+
+
+                if (
+                    chasNumber ===
+                    ""
+                ) {
+
+
+                    alert(
+                        "Enter a demo CHAS card number."
+                    );
+
+
+                    return;
+
+                }
+
+
+
+                alert(
+                    "Demo CHAS card verified."
+                );
+
+
+                window.location.href =
+                    "successPage.html";
+
+            }
+
+        );
 
 
 </script>
+
+
 
 <script src="js/voice.js"></script>
 
-   
+
+
 <script>
 
     // ==========================================
-    // PAYMENT PAGE VOICE INSTRUCTIONS
+    // PAYMENT PAGE VOICE
     // ==========================================
 
-    window.addEventListener("load", function () {
 
-        setTimeout(function () {
+    window.addEventListener(
 
-            if (
-                typeof voiceSelectPayment === "function"
-            ) {
+        "load",
 
-                voiceSelectPayment();
+        function() {
 
-            }
 
-        }, 500);
+            setTimeout(
 
-    });
+                function() {
+
+
+                    if (
+                        typeof voiceSelectPayment ===
+                        "function"
+                    ) {
+
+
+                        voiceSelectPayment();
+
+                    }
+
+                },
+
+                500
+
+            );
+
+        }
+
+    );
 
 </script>
 
-    
+
 </body>
 
 </html>
